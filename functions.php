@@ -14,13 +14,11 @@ function theme_enqueue_styles()
 
 function show_data($val)
 {
-	ob_start();
 	?>
     <pre>
 	<?php print_r($val); ?>
 	</pre>
 	<?php
-	return ob_get_clean();
 }
 
 include_once 'inc/functions.php';
