@@ -24,3 +24,4 @@ function show_data($val)
 include_once 'inc/functions.php';
 include_once 'inc/lms_metaboxes.php';
 include_once 'inc/lms_settings/lms_wpcfto_ajax.php';
+include_once 'inc/lms_metaboxes_upload_video.php';
