@@ -432,3 +432,17 @@
     'size' => 6904999,
   ),
 )
+28.08.2021 15:28:43 - 209
+28.08.2021 15:28:43 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/4871074_Android-Mobile-Upload-no-audio-1.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 15:30:55 - 209
+28.08.2021 15:30:55 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/6574681_php5-vs-php7.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)

@@ -34,10 +34,9 @@ if (class_exists('STM_LMS_Manage_Course')):
 					require_once(ABSPATH . 'wp-admin/includes/media.php');
 
 					if (!empty($_FILES['lesson_video'])) {
-						$video = media_handle_upload('lesson_video', 0);
-
-
-						update_post_meta($post_id, 'lesson_video', $video);
+						self::front_save_custom_meta_data($post_id);
+						//$video = media_handle_upload('lesson_video', 0);
+						//update_post_meta($post_id, 'lesson_video', $video);
 					}
 					if (!empty($_FILES['image'])) {
 						$attachment_id = media_handle_upload('image', 0);
@@ -163,6 +162,68 @@ if (class_exists('STM_LMS_Manage_Course')):
 			wp_send_json('Saved');
 
 		}
+
+		public static function front_save_custom_meta_data($id)
+		{
+
+			// Make sure the file array isn't empty
+			if (!empty($_FILES['lesson_video']['name'])) {
+
+				// Setup the array of supported file types. In this case, it's just PDF.
+				$supported_types = array(
+					'video/x-flv',
+					'video/mp4',
+					'application/x-mpegURL',
+					'video/MP2T',
+					'video/3gpp',
+					'video/quicktime',
+					'video/x-msvideo',
+					'video/x-ms-wmv'
+				);
+				// Get the file type of the upload
+				$arr_file_type = wp_check_filetype(basename($_FILES['lesson_video']['name']));
+
+				$uploaded_type = $arr_file_type['type'];
+
+				// Check if the type is supported. If not, throw an error.
+				if (in_array($uploaded_type, $supported_types)) {
+
+					// Use the WordPress API to upload the file
+					$upload = wp_upload_bits($_FILES['lesson_video']['name'], null, file_get_contents($_FILES['lesson_video']['tmp_name']));
+					$file_path = $upload['file'];
+					$LmsUploadField = new LmsUploadField;
+					$moved_file_path = $LmsUploadField->move_file($file_path);
+					if ($moved_file_path) {
+						$upload = [
+							'file' => $moved_file_path,
+							'url' => '\\',
+							'type' => $upload['type'],
+							'error' => false
+						];
+					} else {
+						$upload = [
+							'error' => true
+						];
+					}
+
+					stm_put_log('file_u', __LINE__);
+					stm_put_log('file_u', $upload);
+
+					if (isset($upload['error']) && $upload['error'] != 0) {
+						//add_action('admin_notices', [$this, 'filbr_invalid_id_error']);
+						//$this->filbr_invalid_id_error();
+					} else {
+						add_post_meta($id, 'wp_custom_attachment', $upload);
+						update_post_meta($id, 'wp_custom_attachment', $upload);
+					} // end if/else
+
+				} else {
+					//$this->filbr_invalid_id_error();
+				} // end if/else
+
+			} // end if
+
+		} // end save_custom_meta_data
 	}
 
 	STM_LMS_Manage_Course_Child::init();
