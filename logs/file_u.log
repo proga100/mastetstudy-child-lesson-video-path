@@ -1,0 +1,434 @@
+28.08.2021 08:27:42 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => '6112c572bd5ca.pdf',
+    'type' => 'application/pdf',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpBD5C.tmp',
+    'error' => 0,
+    'size' => 885338,
+  ),
+)
+28.08.2021 08:27:42 - 59
+28.08.2021 08:27:42 - array (
+  'ext' => 'pdf',
+  'type' => 'application/pdf',
+)
+28.08.2021 08:27:42 - 76
+28.08.2021 08:27:42 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/6112c572bd5ca.pdf',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/6112c572bd5ca.pdf',
+  'type' => 'application/pdf',
+  'error' => false,
+)
+28.08.2021 09:19:14 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpDCC8.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 09:19:14 - array (
+  'ext' => 'mp4',
+  'type' => 'video/mp4',
+)
+28.08.2021 09:19:14 - 81
+28.08.2021 09:19:14 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 09:45:01 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php7F72.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 09:45:29 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpEB8A.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 09:52:00 - 54
+28.08.2021 09:52:00 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpE044.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 09:52:00 - 83
+28.08.2021 09:52:00 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload-3.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload-3.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 09:54:52 - 54
+28.08.2021 09:54:52 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php813E.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 09:54:52 - 83
+28.08.2021 09:54:52 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload-no-audio.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload-no-audio.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 09:56:43 - 54
+28.08.2021 09:56:43 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php3614.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 09:56:43 - 83
+28.08.2021 09:56:43 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload-no-audio-1.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload-no-audio-1.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 09:57:59 - 54
+28.08.2021 09:57:59 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php5CE2.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 10:03:50 - 54
+28.08.2021 10:03:50 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpB432.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 10:03:50 - 115
+28.08.2021 10:03:50 - 'e:\\open538\\domains\\localhost\\zafar\\video_hide\\upload'
+28.08.2021 10:03:50 - 117
+28.08.2021 10:03:50 - array (
+  'dirname' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08',
+  'basename' => 'Android-Mobile-Upload-5.mp4',
+  'extension' => 'mp4',
+  'filename' => 'Android-Mobile-Upload-5',
+)
+28.08.2021 10:03:50 - 83
+28.08.2021 10:03:50 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload-5.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload-5.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 10:06:40 - 54
+28.08.2021 10:06:40 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php524E.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 10:06:40 - 115
+28.08.2021 10:06:40 - 'e:\\open538\\domains\\localhost\\zafar\\video_hide\\upload'
+28.08.2021 10:06:40 - 117
+28.08.2021 10:06:40 - array (
+  'dirname' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08',
+  'basename' => 'Android-Mobile-Upload-5.mp4',
+  'extension' => 'mp4',
+  'filename' => 'Android-Mobile-Upload-5',
+)
+28.08.2021 10:06:40 - 83
+28.08.2021 10:06:40 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload-5.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload-5.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 10:08:13 - 54
+28.08.2021 10:08:13 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpB857.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 10:08:13 - 115
+28.08.2021 10:08:13 - 'e:\\open538\\domains\\localhost\\zafar\\video_hide\\upload'
+28.08.2021 10:08:13 - 117
+28.08.2021 10:08:13 - array (
+  'dirname' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08',
+  'basename' => 'Android-Mobile-Upload-no-audio.mp4',
+  'extension' => 'mp4',
+  'filename' => 'Android-Mobile-Upload-no-audio',
+)
+28.08.2021 10:08:13 - 83
+28.08.2021 10:08:13 - array (
+  'file' => 'E:\\open538\\domains\\localhost\\zafar\\video_hide\\video/wp-content/uploads/2021/08/Android-Mobile-Upload-no-audio.mp4',
+  'url' => 'http://video-hide.local/video/wp-content/uploads/2021/08/Android-Mobile-Upload-no-audio.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 10:16:39 - 54
+28.08.2021 10:16:39 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php74D0.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 10:16:39 - 96
+28.08.2021 10:16:39 - array (
+  'file' => 'e:\\open538\\domains\\localhost\\zafar\\video_hide\\upload/8060426_Android-Mobile-Upload.mp4',
+  'url' => 'e:\\open538\\domains\\localhost\\zafar\\video_hide\\upload/8060426_Android-Mobile-Upload.mp4',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 10:52:22 - 53
+28.08.2021 10:52:22 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => '',
+    'type' => '',
+    'tmp_name' => '',
+    'error' => 4,
+    'size' => 0,
+  ),
+)
+28.08.2021 10:52:53 - 53
+28.08.2021 10:52:53 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpA0D2.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 10:52:53 - 95
+28.08.2021 10:52:53 - array (
+  'file' => '/1829778_Android-Mobile-Upload-no-audio.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 10:54:10 - 53
+28.08.2021 10:54:10 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpCE47.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 10:55:37 - 53
+28.08.2021 10:55:37 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php2136.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 10:55:58 - 53
+28.08.2021 10:55:58 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php7513.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 10:55:58 - 95
+28.08.2021 10:55:58 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/5546385_Android-Mobile-Upload-no-audio.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 13:49:34 - 68
+28.08.2021 13:49:34 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php5D80.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 13:49:34 - 110
+28.08.2021 13:49:34 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/3052559_Android-Mobile-Upload.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 13:55:54 - 73
+28.08.2021 13:55:54 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php2B19.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 13:55:54 - 115
+28.08.2021 13:55:54 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/4068259_Android-Mobile-Upload-no-audio.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 13:59:29 - 73
+28.08.2021 13:59:29 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php7A55.tmp',
+    'error' => 0,
+    'size' => 29268645,
+  ),
+)
+28.08.2021 13:59:30 - 115
+28.08.2021 13:59:30 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/8112044_Android-Mobile-Upload.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 14:00:42 - 73
+28.08.2021 14:00:42 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Certificate (53).pdf',
+    'type' => 'application/pdf',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php9B08.tmp',
+    'error' => 0,
+    'size' => 533434,
+  ),
+)
+28.08.2021 14:07:25 - 73
+28.08.2021 14:07:25 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Certificate (53).pdf',
+    'type' => 'application/pdf',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpBAC9.tmp',
+    'error' => 0,
+    'size' => 533434,
+  ),
+)
+28.08.2021 14:07:55 - 73
+28.08.2021 14:07:55 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => '6112c572bd5ca.pdf',
+    'type' => 'application/pdf',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php350B.tmp',
+    'error' => 0,
+    'size' => 885338,
+  ),
+)
+28.08.2021 14:09:31 - 73
+28.08.2021 14:09:31 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'droidkit-en-mac.dmg',
+    'type' => 'application/octet-stream',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\phpA65F.tmp',
+    'error' => 0,
+    'size' => 6904999,
+  ),
+)
+28.08.2021 14:17:06 - 75
+28.08.2021 14:17:06 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'cart_137167818_1.csv',
+    'type' => 'application/vnd.ms-excel',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php9CC9.tmp',
+    'error' => 0,
+    'size' => 88,
+  ),
+)
+28.08.2021 14:17:43 - 75
+28.08.2021 14:17:43 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'Android Mobile Upload no audio.mp4',
+    'type' => 'video/mp4',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php28AE.tmp',
+    'error' => 0,
+    'size' => 27091412,
+  ),
+)
+28.08.2021 14:17:43 - 117
+28.08.2021 14:17:43 - array (
+  'file' => 'e:/open538/domains/localhost/zafar/video_hide/upload/1180939_Android-Mobile-Upload-no-audio.mp4',
+  'url' => '\\',
+  'type' => 'video/mp4',
+  'error' => false,
+)
+28.08.2021 14:19:56 - 76
+28.08.2021 14:19:56 - array (
+  'wp_custom_attachment' => 
+  array (
+    'name' => 'droidkit-en-mac.dmg',
+    'type' => 'application/octet-stream',
+    'tmp_name' => 'E:\\open538\\userdata\\php_upload\\php342F.tmp',
+    'error' => 0,
+    'size' => 6904999,
+  ),
+)
