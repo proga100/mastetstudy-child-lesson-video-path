@@ -1,0 +1,171 @@
+/* Theme override (start classes with: ----- body.itstars ----- ) */
+
+body.itstars .header_6 .header_main_menu_wrapper {
+    margin-top: 28px !important;
+}
+
+body.itstars .header_6 .magic_line {
+    bottom: -5px;
+}
+
+
+body.itstars .stm_lms_courses__single.style_2 .stm_lms_courses__single--title h5 {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+body.itstars .stm_lms_courses__single.style_2 .stm_lms_courses__single--terms .stm_lms_courses__single--term {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+body.itstars .start-course {
+    padding-top: 33px;
+    padding-bottom: 30px;
+}
+
+/* Theme override */
+
+.tech__stm_lms_lesson_header {
+    padding: 10px 0;
+}
+
+.tech__stm_lms_lesson_header__row {
+    display: flex;
+    align-items: center;
+}
+
+.tech__stm_lms_lesson_header .stm_lms_lesson_header__right {
+    justify-content: flex-end;
+}
+
+.tech__stm_lms_lesson_header .stm_lms_lesson_header__right .stm_lms_wishlist_button {
+    display: none !important;
+}
+
+.tech__course-price {
+    margin-top: 30px;
+}
+
+.tech__course-price strong {
+    font-size: 30px;
+}
+
+.tech__course-price span {
+    font-size: 20px;
+    color: gray;
+    text-decoration: line-through;
+}
+
+.tech__livetime-block img {
+    width: 28px;
+}
+
+.courses_filters__switcher {
+    display: none !important;
+}
+
+.tech__stm-lms-lessons {
+    padding-top: 0 !important;
+}
+
+.tech__stm-lms-lessons video {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.tech__curriculum {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+}
+
+.tech__curriculum .stm-curriculum__title {
+    margin: 0 0 20px 0;
+}
+
+.stm_lms_lesson_header__left .stm-lms-curriculum-trigger {
+    display: none !important;
+}
+
+.tech__coming-soon-badge {
+    position: absolute;
+    top: calc(50% - 26px);
+    left: 50%;
+    transform: translateX(-50%);
+    transition: none;
+    padding: 15px 20px;
+    font-size: 20px;
+    color: #ffffff;
+    white-space: nowrap;
+    background-color: rgb(0 0 0 / 35%);
+    border-radius: 10px;
+}
+
+.tech__course-single-excerpt p {
+    height: 3em;
+    overflow: hidden;
+    line-height: 1.5em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.tech__course-single-rating-price {
+    margin-bottom: 20px;
+}
+
+.tech__course-single-rating-price .stm_lms_courses__single--price {
+    display: flex;
+    align-items: end;
+}
+
+.tech__course-single-rating-price .stm_lms_courses__single--price span {
+    font-size: 16px;
+    margin: 0 10px -2px 0;
+}
+
+.tech__course-single-rating-price .stm_lms_courses__single--price strong {
+    font-size: 20px;
+	white-space: nowrap;
+}
+
+.tech__course-single-rating {
+    margin-bottom: 20px;
+}
+
+/* Video lesson page background changes */
+html.stm_lms_type_video body {
+	color: #273044;
+}
+
+html.stm_lms_type_video body {
+ 	background: none; 
+}
+
+html.stm_lms_type_video body .stm_lms_lesson_header {
+    border-bottom: 1px solid #ddd;
+}
+
+html.stm_lms_type_video body .stm_lms_lesson_header__right a {
+	color: #00c691;
+	opacity: 1;
+}
+
+html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_lesson_header__center a {
+    color: #273044;
+}
+
+html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_lesson_header__center a:hover {
+    color: #042d89;
+}
+
+html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_account_dropdown .dropdown button {
+	background-color: #f0f4fa;
+	border: 1px solid #f0f4fa;
+}
+
+html.stm_lms_type_video body .stm_lms_account_dropdown .dropdown button i {
+	color: #385bce !important;
+}

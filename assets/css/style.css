@@ -10703,12 +10703,12 @@ h6 {
       .steps .step-waved-line {
         display: none; } }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .section-about-col-1 {
     flex: 0 0 44%;
     max-width: 44%; } }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .section-about-col-2 {
     flex: 0 0 56%;
     max-width: 56%; } }
@@ -10745,8 +10745,7 @@ h6 {
 .follow-pages {
   display: flex;
   align-items: center;
-  min-height: 124px;
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 30px;
   border: 1px solid #e9f1f5;
   box-shadow: 0 10px 25px rgba(38, 11, 92, 0.08);
@@ -10755,24 +10754,9 @@ h6 {
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px; }
-  @media (max-width: 575.98px) {
-    .follow-pages {
-      flex-direction: column;
-      padding: 15px; } }
-  .follow-pages strong {
-    width: 100%;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.5; }
-    @media (min-width: 576px) {
-      .follow-pages strong {
-        max-width: 100px;
-        margin-right: 15px; } }
-    @media (max-width: 575.98px) {
-      .follow-pages strong {
-        margin-bottom: 10px; } }
   .follow-pages ul {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
     margin: 0;
@@ -10780,27 +10764,15 @@ h6 {
     list-style: none; }
     @media (max-width: 575.98px) {
       .follow-pages ul {
-        justify-content: flex-start; } }
-    .follow-pages ul li:not(:last-child) {
-      margin-right: 14px; }
-    .follow-pages ul li a {
-      display: block;
-      width: 76px;
-      height: 76px; }
-      @media (max-width: 1199.98px) {
-        .follow-pages ul li a {
-          width: 55px;
-          height: 55px; } }
-      @media (max-width: 767.98px) {
-        .follow-pages ul li a {
-          width: 50px;
-          height: 50px; } }
-      @media (max-width: 360px) {
-        .follow-pages ul li a {
-          width: 40px;
-          height: 40px; } }
-      .follow-pages ul li a img {
-        width: 100%; }
+        justify-content: center; } }
+    .follow-pages ul li {
+      margin: 5px; }
+      .follow-pages ul li a {
+        display: block;
+        width: 40px;
+        height: 40px; }
+        .follow-pages ul li a img {
+          width: 100%; }
 
 .courses {
   padding-bottom: 36px;

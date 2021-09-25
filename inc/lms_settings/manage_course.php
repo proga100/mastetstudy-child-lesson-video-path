@@ -1,11 +1,13 @@
 <?php
 
 if (class_exists('STM_LMS_Manage_Course')):
+
 	class STM_LMS_Manage_Course_Child
 	{
 		public static function init()
 		{
 			remove_action('wp_ajax_stm_lms_pro_save_lesson', 'STM_LMS_Manage_Course::save_lesson');
+			remove_all_actions('wp_ajax_stm_lms_pro_save_lesson');
 			add_action('wp_ajax_stm_lms_pro_save_lesson', 'STM_LMS_Manage_Course_child::save_lesson');
 		}
 

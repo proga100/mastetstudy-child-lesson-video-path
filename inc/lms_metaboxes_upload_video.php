@@ -4,7 +4,7 @@ class LmsUploadField
 {
 	function __construct()
 	{
-		//add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
+		add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
 		add_action('save_post', [$this, 'save_custom_meta_data']);
 		add_action('post_edit_form_tag', [$this, 'update_edit_form']);
 		add_action('admin_footer', [$this, 'wpse_5102_clear_errors']);
@@ -16,6 +16,7 @@ class LmsUploadField
 	{
 
 		// Define the custom attachment for posts
+        /*
 		add_meta_box(
 			'wp_custom_attachment',
 			'Hidden Video',
@@ -23,6 +24,7 @@ class LmsUploadField
 			'stm-lessons',
 			'normal'
 		);
+        */
 
 	}
 
@@ -32,12 +34,12 @@ class LmsUploadField
 		$img = get_post_meta(get_the_ID(), 'wp_custom_attachment', true);
 		?>
         <div class="file_up">
-            <b><?php echo $img['file']; ?></b>
+            <b><?php if (!empty($img['file'])) echo $img['file']; ?></b>
         </div>
         <p class="description">
             Upload Hidden Video
         </p>
-        <input type="file" id="wp_custom_attachment" name="wp_custom_attachment" value="" size="25"/>
+        <input type="file" id="wp_custom_attachment" name="wp_custom_attachment" value="<?php if (!empty($img['file'])) echo $img['file']; ?>" size="25"/>
 		<?php
 	} // end wp_custom_attachment
 
@@ -52,10 +54,9 @@ class LmsUploadField
                 <label class="wpcfto-field-aside__label"> Upload Hidden Video</label>
             </div>
             <div class="wpcfto-field-content">
-                <input type="file" id="wp_custom_attachment" name="wp_custom_attachment"
-                       value="<?php echo $img['file']; ?>" size="25"/>
+                <input type="file" id="wp_custom_attachment" name="wp_custom_attachment" value="<?php if (!empty($img['file'])) echo $img['file']; ?>" size="25"/>
             </div>
-            <div><?php echo $img['file']; ?>&nbsp;</div>
+            <div><?php if (!empty($img['file'])) echo $img['file']; ?>&nbsp;</div>
         </div>
         <div>&nbsp;</div>
 		<?php
@@ -63,21 +64,23 @@ class LmsUploadField
 
 	function save_custom_meta_data($id)
 	{
+
+stm_put_log('file_u', __LINE__);
 		$_POST['wp_custom_attachment_nonce'] = (!empty($_POST['wp_custom_attachment_nonce'])) ? $_POST['wp_custom_attachment_nonce'] : '';
 		/* --- security verification --- */
 		if (!wp_verify_nonce($_POST['wp_custom_attachment_nonce'], plugin_basename(__FILE__))) {
 			return $id;
 		} // end if
-
+stm_put_log('file_u', __LINE__);
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return $id;
 		} // end if
 
-
+stm_put_log('file_u', __LINE__);
 
 		// Make sure the file array isn't empty
 		if (!empty($_FILES['wp_custom_attachment']['name'])) {
-
+stm_put_log('file_u', __LINE__);
 			// Setup the array of supported file types. In this case, it's just PDF.
 			$supported_types = array(
 				'video/x-flv',
@@ -89,14 +92,15 @@ class LmsUploadField
 				'video/x-msvideo',
 				'video/x-ms-wmv'
 			);
+			stm_put_log('file_u', __LINE__);
 			// Get the file type of the upload
 			$arr_file_type = wp_check_filetype(basename($_FILES['wp_custom_attachment']['name']));
-
+stm_put_log('file_u', __LINE__);
 			$uploaded_type = $arr_file_type['type'];
 
 			// Check if the type is supported. If not, throw an error.
 			if (in_array($uploaded_type, $supported_types)) {
-
+stm_put_log('file_u', __LINE__);
 				// Use the WordPress API to upload the file
 				$upload = wp_upload_bits($_FILES['wp_custom_attachment']['name'], null, file_get_contents($_FILES['wp_custom_attachment']['tmp_name']));
 				$file_path = $upload['file'];
@@ -113,7 +117,7 @@ class LmsUploadField
 						'error' => true
 					];
 				}
-
+stm_put_log('file_u', __LINE__);
 				stm_put_log('file_u', __LINE__);
 				stm_put_log('file_u', $upload);
 

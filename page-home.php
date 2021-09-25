@@ -44,15 +44,16 @@
 	                </div>
 	                <div class="buttons">
 	                	<?php if ( !is_user_logged_in() ) : ?>
-		                    <a href="<?php echo get_site_url() . '/user-account'; ?>" class="btn btn-primary btn-sm text-uppercase">Log In</a>
+		                    <a href="<?php echo get_site_url() . '/user-account'; ?>" class="btn btn-primary btn-sm text-uppercase">Kirish</a>
 		                <?php else: ?>
 		                	<div class="dropdown">
 		                        <button class="btn btn-primary btn-sm text-uppercase dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                            <span class="icon icon-user mr-2"></span>Log In
+		                            <span class="icon icon-user mr-2"></span>
+	                                <?php $user_info = wp_get_current_user(); echo $user_info->display_name; ?>
 		                        </button>
 		                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		                            <a class="dropdown-item" href="<?php echo get_site_url() . '/user-account'; ?>">Account</a>
-		                            <a class="dropdown-item text-danger" href="<?php echo wp_logout_url(home_url()); ?>">Logout</a>
+		                            <a class="dropdown-item" href="<?php echo get_site_url() . '/user-account'; ?>">Mening Profilim</a>
+		                            <a class="dropdown-item text-danger" href="<?php echo wp_logout_url(home_url()); ?>">Chiqish</a>
 		                        </div>
 		                    </div>
 			            <?php endif; ?>
@@ -318,7 +319,7 @@
     <div class="anchor" id="about"></div>
     <section class="section section-about bg-white pt-6">
         <div class="container">
-            <div class="row align-items-end">
+            <div class="row align-items-center">
                 <div class="col-lg-6 section-about-col-1">
 		            <?php if ( $section_about_title ) : ?>
 		                <div class="title justify-content-start text-left mb-2">
@@ -338,6 +339,21 @@
 	                        <span><?php echo $section_about_blockquote['author']; ?></span>
 	                    </div>
 		            <?php endif; ?>
+
+		            <?php $pages = get_field('about_pages'); ?>
+		        	<div class="follow-pages">
+		        		<ul>
+		        			<?php for ($i=1; $i <= 10; $i++) : ?>
+		        				<?php if ($pages['icon_' . $i] && $pages['link_' . $i]) : ?>
+		            				<li>
+		            					<a href="<?php echo $pages['link_' . $i]; ?>" target="_blank">
+			            					<img src="<?php echo $pages['icon_' . $i]; ?>" alt="">
+			            				</a>
+			            			</li>
+			            		<?php endif; ?>
+		        			<?php endfor; ?>
+		        		</ul>
+		        	</div>
                 </div>
                 <div class="col-lg-6 section-about-col-2">
 		            <?php if ( $section_about_image ) : ?>
@@ -347,45 +363,6 @@
 		            <?php endif; ?>
                 </div>
             </div>
-
-            <?php
-            	$profiles = get_field('about_profiles');
-		    	$pages = get_field('about_pages');
-            ?>
-            <div class="row">
-                <div class="col-lg-6">
-                	<div class="follow-pages">
-                		<strong>Check my freelance profiles:</strong>
-                		<ul>
-                			<?php for ($i=1; $i < 6; $i++) : ?>
-                				<?php if ($profiles['icon_' . $i] && $profiles['link_' . $i]) : ?>
-		            				<li>
-		            					<a href="<?php echo $profiles['link_' . $i]; ?>" target="_blank">
-			            					<img src="<?php echo $profiles['icon_' . $i]; ?>" alt="">
-			            				</a>
-			            			</li>
-			            		<?php endif; ?>
-	            			<?php endfor; ?>
-                		</ul>
-                	</div>
-                </div>
-                <div class="col-lg-6">
-                	<div class="follow-pages">
-                		<strong>Follow me on:</strong>
-                		<ul>
-                			<?php for ($i=1; $i < 6; $i++) : ?>
-                				<?php if ($pages['icon_' . $i] && $pages['link_' . $i]) : ?>
-		            				<li>
-		            					<a href="<?php echo $pages['link_' . $i]; ?>" target="_blank">
-			            					<img src="<?php echo $pages['icon_' . $i]; ?>" alt="">
-			            				</a>
-			            			</li>
-			            		<?php endif; ?>
-	            			<?php endfor; ?>
-                		</ul>
-                	</div>
-                </div>
-	        </div>
 
         </div>
     </section>
