@@ -31,17 +31,16 @@ class LMS_ClickUz
 
 		add_action('plugins_loaded', array($this, 'init'));
 
-		add_filter("plugin_action_links_{$this->plugin}", array($this, 'settings_link'));
-
 		$this->install();
 	}
 
 	public function init()
 	{
 		if (class_exists('WC_Payment_Gateway')) {
-			require_once 'include/class-wc-gateway-clickuz.php';
-			require_once 'include/class-wc-gateway-clickuz-handlers.php';
-			new WC_ClickAPI();
+			require_once 'include/class-lms-gateway-clickuz.php';
+			require_once 'include/class-lms-gateway-clickuz-handlers.php';
+			new LMS_Gateway_Clickuz();
+			new LMS_ClickAPI();
 		}
 	}
 
@@ -77,21 +76,6 @@ class LMS_ClickUz
                     `status` NVARCHAR(32),
                     PRIMARY KEY (`ID`)
                 ) $collate; ");
-	}
-
-	public function settings_link($links)
-	{
-		$settings_link = '<a href="admin.php?page=wc-settings&tab=checkout&section=clickuz">' . __('Settings') . '</a>';
-
-		array_push($links, $settings_link);
-
-		return $links;
-	}
-
-	public function add_gateway($methods)
-	{
-		$methods[] = 'WC_Gateway_Clickuz';
-		return $methods;
 	}
 
 }

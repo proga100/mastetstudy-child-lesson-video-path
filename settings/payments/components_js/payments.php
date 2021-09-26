@@ -99,8 +99,7 @@
                                     placeholder: '<?php esc_html_e('Obtain and set Secret Key from the Merchant Cabinet', 'masterstudy-child'); ?>'
                                 },
                             },
-
-                            currency_code: {
+                                                       currency_code: {
                                 type: 'select',
                                 source: 'codes',
                                 value: 'UZS',
@@ -112,9 +111,9 @@
                             },
                             description_details: {
                                 type: 'textarea',
-                                placeholder: '<?php echo __( 'Service parameters: \n Url addesses for changing to set on Merchant cabinet', 'clickuz' ) . '\n  ' .
-                         __( 'Prepare url', 'clickuz' ) .': ' . site_url('click-api/prepare') . '\n  ' .
-                         __( 'Complete url', 'clickuz' ) .': ' . site_url('click-api/complete') ?>'
+                                placeholder: '<?php echo __('Service parameters: \n Url addesses for changing to set on Merchant cabinet', 'clickuz') . '\n  ' .
+									__('Prepare url', 'clickuz') . ': ' . site_url('click-api/prepare') . '\n  ' .
+									__('Complete url', 'clickuz') . ': ' . site_url('click-api/complete') ?>'
                             },
                         },
                     },
@@ -236,6 +235,10 @@
                     modes: {
                         '<?php esc_html_e('Sandbox', 'wp-custom-fields-theme-options'); ?>': 'sandbox',
                         '<?php esc_html_e('Live', 'wp-custom-fields-theme-options'); ?>': 'live',
+                    },
+                    yes_no: {
+                        '<?php esc_html_e('Yes', 'masterstudy-child'); ?>': 'yes',
+                        '<?php esc_html_e('No', 'masterstudy-child'); ?>': 'no',
                     }
                 }
             }

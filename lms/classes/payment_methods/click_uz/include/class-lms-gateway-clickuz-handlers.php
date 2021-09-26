@@ -6,7 +6,7 @@
  * Date: 28.05.2018
  * Time: 16:45
  */
-class WC_ClickAPI {
+class LMS_ClickAPI {
 
 	private $secret;
 
@@ -17,7 +17,7 @@ class WC_ClickAPI {
 	function __construct( ) {
 		global $wpdb;
 
-		$this->table = $wpdb->prefix . 'wc_click_transactions';
+		$this->table = $wpdb->prefix . 'lms_click_transactions';
 
 		// Add query vars.
 		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );

@@ -195,7 +195,7 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			'cart_total_name' => $cart_total['item_name'],
 			'user_email' => $user['email']
 		];
-		$form = apply_filters('get_payme_form', $data);
+		$form = apply_filters('get_click_form', $data);
 		$r['form_html'] = $form;
 		$r['message'] = esc_html__("Tolovga otish", 'masterstudy-child');
 		return $r;
