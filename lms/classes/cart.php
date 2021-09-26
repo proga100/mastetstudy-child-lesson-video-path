@@ -191,12 +191,12 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 	{
 		$data = [
 			'cart_total' => $cart_total['total'],
-			'invoice' => $invoice,
+			'invoiceww' => $invoice,
 			'cart_total_name' => $cart_total['item_name'],
 			'user_email' => $user['email'],
 			'phone'=> $user['phone']
 		];
-		$form = apply_filters('get_click_form', $data);
+		$form = apply_filters('get_click_form',  $cart_total['total'],$invoice ,$cart_total['item_name'],  $user['email'], $user['phone']);
 		$r['form_html'] = $form;
 		$r['message'] = esc_html__("Tolovga otish", 'masterstudy-child');
 		return $r;

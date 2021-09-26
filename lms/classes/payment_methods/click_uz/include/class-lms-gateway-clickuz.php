@@ -51,7 +51,7 @@ class LMS_Gateway_Clickuz
 		$this->debug = ($payment_methods['click']['fields']['debug'] == 'yes') ? $payment_methods['click']['fields']['debug'] : 'no';
 
 		self::$log_enabled = true;
-		add_filter('get_click_form', [$this, 'get_click_form']);
+		add_filter('get_click_form', [$this, 'get_click_form'],10,5);
 	}
 
 	/**
@@ -118,15 +118,9 @@ class LMS_Gateway_Clickuz
 		return $order && $order->get_transaction_id();
 	}
 
-	public function get_click_form($data)
+	public function get_click_form($cart_total,$invoice,$cart_total_name, $userEmail,$userPhone )
 	{
-		return $this->generate_form($data);
-	}
-
-	public function generate_form($data)
-	{
-		$order_number = $data['invoice'];
-		$payment_methods = STM_LMS_Options::get_option('payment_methods');
+	$payment_methods = STM_LMS_Options::get_option('payment_methods');
 
 		$this->testmode = ($payment_methods['click']['fields']['testmode'] == 'yes') ? $payment_methods['click']['fields']['testmode'] : 'no';
 		$this->debug = ($payment_methods['click']['fields']['debug'] == 'yes') ? $payment_methods['click']['fields']['debug'] : 'no';
@@ -135,11 +129,11 @@ class LMS_Gateway_Clickuz
 		$merchantID = $payment_methods['click']['fields']['merchant_id'] ;
 		$merchantUserID = $payment_methods['click']['fields']['merchant_user_id']  ;
 		$merchantServiceID = $payment_methods['click']['fields']['merchant_service_id'] ;
-		$transID = $data['invoice'];
-		$transAmount = number_format($data['cart_total'], 0, '.', '');
+
+		$transID = $invoice;
+		$transAmount = number_format((int)$cart_total, 0, '.', '');
 		$transNote = '';
-		$userPhone = preg_replace("/[^0-9,.]/", "", $data['phone']);
-		$userEmail = $data['user_email'];
+		$userPhone = preg_replace("/[^0-9,.]/", "",$userPhone );
 		$signTime = date("Y-m-d h:i:s");
 		$signString = md5($signTime . $secret . $merchantServiceID . $transID . $transAmount);
 		//$returnURL = add_query_arg(array('click-return' => WC()->customer->get_id()), $order->get_view_order_url());
