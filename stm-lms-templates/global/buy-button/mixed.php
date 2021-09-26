@@ -140,10 +140,13 @@ if (!$is_affiliate):
 				if (!empty($payment_methods)) :
 
 					$payment_method_names = STM_LMS_Cart::payment_methods();
-
+					?>
+                    <div class="stm_lms_form_html"></div>
+					<?php
 					foreach ($payment_methods as $payment_method_code => $payment_method):
 						if (!empty($payment_method['enabled'])):
 							?>
+
                             <div data-payment-method="<?php echo $payment_method_code ?>"
                                  class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro" <?php if (!$dropdown_enabled) echo implode(' ', apply_filters('stm_lms_buy_button_auth', $attributes, $course_id)); ?>>
                                 <div class="container">

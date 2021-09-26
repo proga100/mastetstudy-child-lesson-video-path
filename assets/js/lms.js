@@ -69,7 +69,6 @@
         $('[data-buy-course]').on('click', function (e) {
             var item_id = $(this).attr('data-buy-course');
             let payment_method = $(this).attr('data-payment-method');
-            console.log(payment_method);
             if (typeof item_id === 'undefined') {
                 window.location = $(this).attr('href');
                 return false;
@@ -92,8 +91,10 @@
                     var data = data['responseJSON'];
                     $(this).removeClass('loading');
                     $(this).find('span').text(data['text']);
-
-                    if (data['cart_url']) {
+                    if (data['form_html']) {
+                        $('.stm_lms_form_html').html(data['form_html']);
+                        $('#stm_lms_form_html_processing').submit();
+                    } else if (data['cart_url']) {
                         if (data['redirect']) window.location = data['cart_url'];
                         $(this).attr('href', data['cart_url']).removeAttr('data-buy-course');
                     }

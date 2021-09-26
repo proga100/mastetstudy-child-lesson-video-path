@@ -30,7 +30,8 @@ include_once 'inc/lms_settings/lms_wpcfto_ajax.php';
 include_once 'inc/lms_metaboxes_upload_video.php';
 include_once 'inc/lms_settings/manage_course.php';
 include_once 'lms/classes/cart.php';
-
+include_once 'lms/classes/payment_methods/payme/payme.php';
+include_once 'lms/classes/payment_methods/click_uz/lms-clickuz-gateway.php';
 add_filter( 'body_class','itstars_body_classes' );
 function itstars_body_classes( $classes ) {
     $classes[] = 'itstars';
