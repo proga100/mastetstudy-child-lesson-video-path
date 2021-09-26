@@ -32,16 +32,15 @@ class LMS_ClickUz
 		add_action('plugins_loaded', array($this, 'init'));
 
 		$this->install();
+		$this->init();
 	}
 
 	public function init()
 	{
-		if (class_exists('WC_Payment_Gateway')) {
-			require_once 'include/class-lms-gateway-clickuz.php';
-			require_once 'include/class-lms-gateway-clickuz-handlers.php';
-			new LMS_Gateway_Clickuz();
-			new LMS_ClickAPI();
-		}
+		require_once 'include/class-lms-gateway-clickuz.php';
+		require_once 'include/class-lms-gateway-clickuz-handlers.php';
+		new LMS_Gateway_Clickuz();
+		new LMS_ClickAPI();
 	}
 
 	public function install()

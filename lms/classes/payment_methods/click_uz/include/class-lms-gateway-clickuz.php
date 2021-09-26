@@ -38,8 +38,8 @@ class LMS_Gateway_Clickuz
 		$this->supports = array('products',);
 
 		// Load the settings.
-		$this->init_form_fields();
-		$this->init_settings();
+		//$this->init_form_fields();
+		//$this->init_settings();
 
 		// Define user set variables.
 		$this->title = is_admin() ? 'CLICK' : 'Click <img src="' . CLICK_LOGO . '" alt="Click" style="width: auto; height: 30px;" />';
@@ -120,28 +120,32 @@ class LMS_Gateway_Clickuz
 
 	public function get_click_form($data)
 	{
-		echo $this->generate_form($data);
-
+		return $this->generate_form($data);
 	}
 
 	public function generate_form($data)
 	{
-		$order_number = $order->get_order_number();
-		$secret = $this->get_option('secret_key');
-		$merchantID = $this->get_option('merchant_id');
-		$merchantUserID = $this->get_option('merchant_user_id');
-		$merchantServiceID = $this->get_option('merchant_service_id');
-		$transID = $order_id != $order_number ? $order_number . CLICK_DELIMITER . $order_id : $order_id;
-		$transAmount = number_format($order->get_total(), 0, '.', '');
+		$order_number = $data['invoice'];
+		$payment_methods = STM_LMS_Options::get_option('payment_methods');
+
+		$this->testmode = ($payment_methods['click']['fields']['testmode'] == 'yes') ? $payment_methods['click']['fields']['testmode'] : 'no';
+		$this->debug = ($payment_methods['click']['fields']['debug'] == 'yes') ? $payment_methods['click']['fields']['debug'] : 'no';
+
+		$secret =  $payment_methods['click']['fields']['secret_key'] ;
+		$merchantID = $payment_methods['click']['fields']['merchant_id'] ;
+		$merchantUserID = $payment_methods['click']['fields']['merchant_user_id']  ;
+		$merchantServiceID = $payment_methods['click']['fields']['merchant_service_id'] ;
+		$transID = $data['invoice'];
+		$transAmount = number_format($data['cart_total'], 0, '.', '');
 		$transNote = '';
-		$userPhone = preg_replace("/[^0-9,.]/", "", $order->get_billing_phone());
-		$userEmail = $order->get_billing_email();
+		$userPhone = preg_replace("/[^0-9,.]/", "", $data['phone']);
+		$userEmail = $data['user_email'];
 		$signTime = date("Y-m-d h:i:s");
 		$signString = md5($signTime . $secret . $merchantServiceID . $transID . $transAmount);
-		$returnURL = add_query_arg(array('click-return' => WC()->customer->get_id()), $order->get_view_order_url());
+		//$returnURL = add_query_arg(array('click-return' => WC()->customer->get_id()), $order->get_view_order_url());
 		ob_start();
 		?>
-        <form action="https://my.click.uz/pay/" id=”click_form” method="post" target="_blank">
+        <form id="stm_lms_form_html_processing"  action="https://my.click.uz/pay/" id=”click_form” method="post">
             <input type="hidden" name="MERCHANT_TRANS_AMOUNT" value="<?php echo $transAmount; ?>" class=”click_input”
                    id=”click_amount_field”/>
             <input type="hidden" name="MERCHANT_ID" value="<?php echo $merchantID; ?>"/>
@@ -154,10 +158,10 @@ class LMS_Gateway_Clickuz
             <input type="hidden" name="SIGN_TIME" value="<?php echo $signTime; ?>"/>
             <input type="hidden" name="SIGN_STRING" value="<?php echo $signString; ?>"/>
             <input type="hidden" name="RETURN_URL" value="<?php echo $returnURL; ?>"/>
-            <button class="click_logo"><i></i><?php _e('Оплатить') ?></button>
-            <a class="button cancel" href="/checkout/">Вернуться к оформлению заказа</a>
         </form>
 		<?php
 		return ob_get_clean();
 	}
 }
+
+new LMS_Gateway_Clickuz;

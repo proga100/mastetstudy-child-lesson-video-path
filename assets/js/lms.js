@@ -90,7 +90,9 @@
                 complete: function complete(data) {
                     var data = data['responseJSON'];
                     $(this).removeClass('loading');
-                    $(this).find('span').text(data['text']);
+
+                    let btext = data['text'];
+                    $(this).find('span').text(btext);
                     if (data['form_html']) {
                         $('.stm_lms_form_html').html(data['form_html']);
                         $('#stm_lms_form_html_processing').submit();

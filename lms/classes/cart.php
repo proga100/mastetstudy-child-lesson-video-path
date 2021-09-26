@@ -193,7 +193,8 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			'cart_total' => $cart_total['total'],
 			'invoice' => $invoice,
 			'cart_total_name' => $cart_total['item_name'],
-			'user_email' => $user['email']
+			'user_email' => $user['email'],
+			'phone'=> $user['phone']
 		];
 		$form = apply_filters('get_click_form', $data);
 		$r['form_html'] = $form;
