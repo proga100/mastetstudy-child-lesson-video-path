@@ -83,7 +83,7 @@
                     action: 'stm_lms_add_to_cart',
                     nonce: stm_lms_nonces['stm_lms_add_to_cart'],
                     item_id: item_id,
-                    payment_method: payment_method
+                    payment_code: payment_method
                 },
                 beforeSend: function beforeSend() {
                     $(this).addClass('loading');
