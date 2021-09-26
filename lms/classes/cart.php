@@ -40,10 +40,10 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 		$r = self::_add_to_cart($item_id, $user_id);
 		$payment_method = (!empty($_REQUEST['payment_code'])) ? sanitize_text_field($_REQUEST['payment_code']) : false;
 		if ($payment_method) {
-			self::payment_processing($payment_method);
+			$r = self::payment_processing($payment_method);
 		}
-
-		$r['text'] = __('To\'lovga o\'tish', 'masterstudy-child');
+		$r['redirect'] = true;
+		//$r['text'] = __('To\'lovga o\'tish', 'masterstudy-child');
 		//	print_r($r);
 		wp_send_json($r);
 	}
@@ -62,11 +62,11 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 		);
 
 		if (empty($payment_code)) {
-			wp_send_json(array(
+			$r = array(
 				'status' => 'error',
-				'message' => esc_html__('Please, select payment method', 'masterstudy-lms-learning-management-system')
-			));
-			die;
+				'message' => esc_html__('Tolov turini tanlang', 'masterstudy-lms-learning-management-system')
+			);
+			return $r;
 		}
 
 		$cart_items = stm_lms_get_cart_items($user_id, apply_filters('stm_lms_cart_items_fields', array('item_id', 'price')));
@@ -90,11 +90,12 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 		} else if ($payment_code == 'stripe') {
 			$r = self::stripe_payment($cart_total, $invoice, $user_id);
 		} else {
-			$r['message'] = esc_html__('Order created, redirecting', 'masterstudy-lms-learning-management-system');
+			$r['message'] = esc_html__('Buyurtma Yaratildi', 'masterstudy-lms-learning-management-system');
 			$r['url'] = STM_LMS_User::user_page_url($user_id);
 		}
-		wp_send_json(apply_filters('stm_lms_purchase_done', $r));
-		die;
+		$r['cart_url'] = $r['url'];
+		$r['text'] = $r['message'];
+		return $r;
 	}
 
 	public static function paypal_payment($cart_total, $invoice, $user_id, $user)
@@ -107,7 +108,7 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			$user['email']
 		);
 		$r['url'] = $paypal->generate_payment_url();
-		$r['message'] = esc_html__('Order created, redirecting to PayPal', 'masterstudy-lms-learning-management-system');
+		$r['message'] = esc_html__("Tolovga otish", 'masterstudy-child');
 		return $r;
 	}
 
@@ -144,7 +145,7 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			$req = json_decode($req, true);
 
 			/*Check if paid*/
-			$r['message'] = esc_html__('Order created. Payment not completed.', 'masterstudy-lms-learning-management-system');
+			$r['message'] = esc_html__('Tolovga otish', 'masterstudy-lms-learning-management-system');
 			if (!empty($req['paid']) and !empty($req['amount']) and $req['amount'] == $cart_total['total'] * $increment) {
 				update_post_meta($invoice, 'status', 'completed');
 				STM_LMS_Order::accept_order($user_id, $invoice);
@@ -158,11 +159,10 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			$r['url'] = STM_LMS_User::user_page_url($user_id);
 			$r['order'] = $req;
 		} else {
-			wp_send_json(array(
+			$r = array(
 				'status' => 'error',
 				'message' => esc_html__('Please, select payment method', 'masterstudy-lms-learning-management-system')
-			));
-			die;
+			);
 		}
 		return $r;
 	}

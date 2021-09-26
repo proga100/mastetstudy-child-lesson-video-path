@@ -134,27 +134,29 @@ if (!$is_affiliate):
                 <?php */
 
 
-                ?>
-                <?php
-                $payment_methods = STM_LMS_Options::get_option('payment_methods');
+				?>
+				<?php
+				$payment_methods = STM_LMS_Options::get_option('payment_methods');
 				if (!empty($payment_methods)) :
 
 					$payment_method_names = STM_LMS_Cart::payment_methods();
 
 					foreach ($payment_methods as $payment_method_code => $payment_method):
-						?>
-                        <div data-payment-method="<?php echo $payment_method_code ?>"
-                             class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro" <?php if (!$dropdown_enabled) echo implode(' ', apply_filters('stm_lms_buy_button_auth', $attributes, $course_id)); ?>>
-                            <div class="container">
-                                <div class="form-group">
-                                    <div class="btn btn-default <?php echo $payment_method_code ?>-payment">
-                                        <span><?php echo $payment_method_names[$payment_method_code] ?></span>
+						if (!empty($payment_method['enabled'])):
+							?>
+                            <div data-payment-method="<?php echo $payment_method_code ?>"
+                                 class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro" <?php if (!$dropdown_enabled) echo implode(' ', apply_filters('stm_lms_buy_button_auth', $attributes, $course_id)); ?>>
+                                <div class="container">
+                                    <div class="form-group">
+                                        <div class="btn btn-default <?php echo $payment_method_code ?>-payment">
+                                            <span><?php echo $payment_method_names[$payment_method_code] ?></span>
+                                        </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
-                        </div>
-					<?php
+						<?php
+						endif;
 					endforeach;
 				endif; ?>
 				<?php if (!empty($price) or !empty($sale_price)): ?>
