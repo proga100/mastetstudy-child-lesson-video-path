@@ -89,16 +89,16 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			$r = self::paypal_payment($cart_total, $invoice, $user_id, $user);
 		} else if ($payment_code == 'stripe') {
 			$r = self::stripe_payment($cart_total, $invoice, $user_id);
-		}else
-		if ($payment_code == 'payme') {
-			$r = self::payme_payment($cart_total, $invoice, $user_id, $user);
-		}else
-		if ($payment_code == 'click') {
-			$r = self::click_payment($cart_total, $invoice, $user_id, $user);
-		} else {
-			$r['message'] = esc_html__('Buyurtma Yaratildi', 'masterstudy-lms-learning-management-system');
-			$r['url'] = STM_LMS_User::user_page_url($user_id);
-		}
+		} else
+			if ($payment_code == 'payme') {
+				$r = self::payme_payment($cart_total, $invoice, $user_id, $user);
+			} else
+				if ($payment_code == 'click') {
+					$r = self::click_payment($cart_total, $invoice, $user_id, $user);
+				} else {
+					$r['message'] = esc_html__('Buyurtma Yaratildi', 'masterstudy-lms-learning-management-system');
+					$r['url'] = STM_LMS_User::user_page_url($user_id);
+				}
 		$r['cart_url'] = $r['url'];
 		$r['text'] = $r['message'];
 		return $r;
@@ -189,14 +189,14 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 
 	public static function click_payment($cart_total, $invoice, $user_id, $user)
 	{
-		$paypal = new STM_LMS_PayPal(
-			$cart_total['total'],
-			$invoice,
-			$cart_total['item_name'],
-			$invoice,
-			$user['email']
-		);
-		$r['url'] = $paypal->generate_payment_url();
+		$data = [
+			'cart_total' => $cart_total['total'],
+			'invoice' => $invoice,
+			'cart_total_name' => $cart_total['item_name'],
+			'user_email' => $user['email']
+		];
+		$form = apply_filters('get_payme_form', $data);
+		$r['form_html'] = $form;
 		$r['message'] = esc_html__("Tolovga otish", 'masterstudy-child');
 		return $r;
 	}
