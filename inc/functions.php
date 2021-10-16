@@ -22,3 +22,14 @@ function add_init_lms()
 }
 
 add_action('wp_enqueue_scripts', 'add_init_lms', 11);
+$data = $payload = json_decode(file_get_contents('php://input'), true);
+//stm_put_log('all_request', $data);
+
+
+function load_modal_oferta($modal, $params = [])
+{
+	$modal = 'modals/' . $modal;
+
+	echo STM_LMS_Templates::load_lms_template($modal, $params);
+
+}

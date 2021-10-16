@@ -1,9 +1,12 @@
 <?php
 
 // Register nav menu
-register_nav_menus(array(
-	'landing_menu' => 'Landing page menu',
-));
+register_nav_menus(
+    array(
+        'landing_menu' 	 => 'Landing page menu',
+        'landing_footer' => 'Landing page footer menu',
+    )
+);
 
 add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
 function theme_enqueue_styles()

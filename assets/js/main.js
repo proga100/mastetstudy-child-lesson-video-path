@@ -1,14 +1,12 @@
 (function($) {
 
-    // Fixed header class
-    $(window).scroll(function() {    
-        var scroll = $(window).scrollTop();
-    
-        if (scroll >= 1) {
-            $('.header').addClass('sticky');
-        } else {
-            $('.header').removeClass('sticky');
-        }
+    // Animated button
+    $(window).on("scroll", function(){
+        $('.shimmer-animation').each(function() {
+            if( $(window).scrollTop() + $(window).height() - 68 >= $(this).offset().top ) {
+                $(this).addClass('animated');
+            }
+        });
     });
 
     // Mobile menu
@@ -24,43 +22,62 @@
     // Testimonials slider
     $('#testimonials_slider').owlCarousel({
         loop: true,
-        autoplay: false,
-        autoplaySpeed: 1000,
-        items: 1,
-        center: true,
-        margin: 30,
         nav: true,
-        dots: false,
+        dots: true,
         navContainer: '#testimonials_slider_nav',
-        
         responsive:{
             0:{
-                autoWidth: false,
-                touchDrag  : true,
-                mouseDrag  : true,
-                stagePadding: 15,
+                items: 1,
+                margin: 40,
             },
             576:{
-                autoWidth: true,
-                touchDrag  : false,
-                mouseDrag  : false,
+                items: 1,
+                margin: 40,
             },
             768:{
-                autoWidth: true,
-                touchDrag  : false,
-                mouseDrag  : false,
+                items: 1,
+                margin: 0,
             },
             992:{
-                autoWidth: true,
-                touchDrag  : false,
-                mouseDrag  : false,
-            }
+                items: 2,
+                margin: 0,
+            },
+        }
+    })
+
+    // Videos slider
+    $('#videos_slider').owlCarousel({
+        loop: true,
+        nav: true,
+        dots: true,
+        navContainer: '#videos_slider_nav',
+        responsive:{
+            0:{
+                items: 1,
+                margin: 40,
+            },
+            576:{
+                items: 1,
+                margin: 40,
+            },
+            768:{
+                items: 1,
+                margin: 40,
+            },
+            992:{
+                items: 2,
+                margin: 40,
+            },
+            1200:{
+                items: 2,
+                margin: 52,
+            },
         }
     })
 
     // Video inside bootstrap modal
     $(document).ready(function() {
-        $('#youtubeVideo_1').on('hidden.bs.modal', function() {
+        $('#youtubeVideo').on('hidden.bs.modal', function() {
             var $this = $(this).find('iframe'),
             tempSrc = $this.attr('src');
             $this.attr('src', "");

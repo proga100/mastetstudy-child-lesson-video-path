@@ -1,5 +1,5 @@
-<?php /* Template Name: Page Home (Custom) */ ?>
-
+<?php /* Template Name: Page Home (Landing) */ ?>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,643 +8,752 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>IT Stars</title>
     <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . '/assets/css/style.css'; ?>">
+    <script>
+        var TxtType = function(el, toRotate, period) {
+            this.toRotate = toRotate;
+            this.el = el;
+            this.loopNum = 0;
+            this.period = parseInt(period, 10) || 2000;
+            this.txt = '';
+            this.tick();
+            this.isDeleting = false;
+        };
 
-    <!-- Font Raleway -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">    
+        TxtType.prototype.tick = function() {
+            var i = this.loopNum % this.toRotate.length;
+            var fullTxt = this.toRotate[i];
 
-    <!-- Font Caveat -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+            if (this.isDeleting) {
+                this.txt = fullTxt.substring(0, this.txt.length - 1);
+            } else {
+                this.txt = fullTxt.substring(0, this.txt.length + 1);
+            }
+
+            this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+            var that = this;
+            var delta = 100 - Math.random() * 100;
+
+            if (this.isDeleting) { delta /= 2; }
+
+            if (!this.isDeleting && this.txt === fullTxt) {
+                delta = this.period;
+                this.isDeleting = true;
+            } else if (this.isDeleting && this.txt === '') {
+                this.isDeleting = false;
+                this.loopNum++;
+                delta = 500;
+            }
+
+            setTimeout(function() {
+                that.tick();
+            }, delta);
+        };
+
+        window.onload = function() {
+            var elements = document.getElementsByClassName('typewrite');
+            for (var i=0; i<elements.length; i++) {
+                var toRotate = elements[i].getAttribute('data-type');
+                var period = elements[i].getAttribute('data-period');
+                if (toRotate) {
+                    new TxtType(elements[i], JSON.parse(toRotate), period);
+                }
+            }
+            // INJECT CSS
+            // var css = document.createElement("style");
+            // css.type = "text/css";
+            // css.innerHTML = ".typewrite > .wrap { border-right: 2px solid #2EC097}";
+            // document.body.appendChild(css);
+        };
+    </script>
 </head>
 <body>
 
 <!-- Header -->
-<?php if (get_field('logo')) : ?>
-	<header class="header">
-	    <div class="container">
-	        <div class="header__inner">
-		        <a href="index.html" class="logo">
-		            <img src="<?php the_field('logo'); ?>" alt="IT Stars">
-		        </a>
-	            <div class="header__right">
-	                <div class="menu">
-	                    <?php
-	                        wp_nav_menu([
-	                            'menu'            => 'landing_menu',
-	                            'theme_location'  => 'landing_menu',
-	                            'container'       => false,
-	                            'container_id'    => '',
-	                            'container_class' => '',
-	                            'menu_id'         => false,
-	                            'menu_class'      => '',
-	                            'depth'           => 2,
-	                        ]);
-	                    ?>
-	                </div>
-	                <div class="buttons">
-	                	<?php if ( !is_user_logged_in() ) : ?>
-		                    <a href="<?php echo get_site_url() . '/user-account'; ?>" class="btn btn-primary btn-sm text-uppercase">Kirish</a>
-		                <?php else: ?>
-		                	<div class="dropdown">
-		                        <button class="btn btn-primary btn-sm text-uppercase dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                            <span class="icon icon-user mr-2"></span>
-	                                <?php $user_info = wp_get_current_user(); echo $user_info->display_name; ?>
-		                        </button>
-		                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		                            <a class="dropdown-item" href="<?php echo get_site_url() . '/user-account'; ?>">Mening Profilim</a>
-		                            <a class="dropdown-item text-danger" href="<?php echo wp_logout_url(home_url()); ?>">Chiqish</a>
-		                        </div>
-		                    </div>
-			            <?php endif; ?>
-			            <a href="javascript:;" class="btn btn-primary btn-sm mobile-menu__toggle">
-	                        <span></span>
-	                        <span></span>
-	                        <span></span>
-	                    </a>
-	                </div>
-	            </div>
-		    </div>
-		</div>
-	</header>
-<?php endif; ?>
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <a href="<?php bloginfo('url'); ?>" class="logo">
+		        <img src="<?php the_field('logo'); ?>" alt="IT Stars">
+            </a>
+            <div class="header__right">
+                <div class="menu">
+                    <?php
+                        wp_nav_menu([
+                            'menu'            => 'landing_menu',
+                            'theme_location'  => 'landing_menu',
+                            'container'       => false,
+                            'menu_id'         => false,
+                            'menu_class'      => '',
+                            'depth'           => 1,
+                        ]);
+                    ?>
+                </div>
+                <div class="buttons">
+	            	<?php if ( !is_user_logged_in() ) : ?>
+	                    <a href="<?php echo get_site_url() . '/user-account'; ?>" class="btn btn-purple btn-sm">Kirish</a>
+	                <?php else: ?>
+	                	<div class="dropdown">
+	                        <button class="btn btn-purple btn-sm px-4 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                            <span class="icon icon-user"></span>
+	                        </button>
+                        	<div class="shadowy-triangle"></div>
+	                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+	                            <a class="dropdown-item" href="<?php echo get_site_url() . '/user-account'; ?>">Mening Profilim</a>
+	                            <a class="dropdown-item text-danger" href="<?php echo wp_logout_url(home_url()); ?>">Chiqish</a>
+	                        </div>
+	                    </div>
+		            <?php endif; ?>
+                    <a href="javascript:;" class="btn btn-purple btn-sm mobile-menu__toggle">
+                        <i class="icon icon-bars"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
 <!-- Main -->
 <main class="main">
 
     <!-- Section - Intro -->
-    <?php
-    	$section_intro = get_field('intro');
-    ?>
-    <div class="anchor" id="intro"></div>
-    <section class="section section-intro" <?php echo $section_intro['background_image'] ? 'style="background-image: url(' . $section_intro['background_image'] . ');"' : ''; ?>>
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <?php if ( $section_intro['title'] ) : ?>
-	                    <div class="title">
-	                        <h1><?php echo $section_intro['title']; ?></h1>
-	                        <p><?php echo $section_intro['description']; ?></p>
-	                    </div>
-	                <?php endif; ?>
-	                <?php
-	                	$intro_button = $section_intro['button'];
-	                	if ( $intro_button ) : 
-	                		$intro_button_url = $intro_button['url'];
-	                		$intro_button_title = $intro_button['title'];
-	                ?>
-	                    <div class="text-center text-lg-left">
-	                        <a href="<?php echo $intro_button_url; ?>" class="btn btn-primary btn-lg">
-	                        	<?php echo $intro_button_title; ?>
-	                        </a>
-	                    </div>
-	                <?php endif; ?>
+    <?php $section_intro = get_field('intro'); ?>
+    <?php $advice_modal = get_field('advice_modal'); ?>
+    <section class="section section-intro">
+        <div class="container section__container">
+            <div class="row align-items-end">
+                <div class="col section__col-1">
+                    <div class="title">
+                        <h1><?php echo $section_intro['title']; ?></h1>
+                        <?php
+                            $intro_subtitles = array();
+                            for ($i=1; $i <= 5 ; $i++) {
+                                $subtitle_number = 'subtitle_' . $i;
+                                $subtitle = $section_intro['subtitles'][$subtitle_number];
+
+                                if ($subtitle != '') {
+                                    $subtitle = array_push($intro_subtitles, $subtitle);
+                                }
+                            }
+                        ?>
+                        <?php if ( !empty($intro_subtitles) ): ?>
+                            <h2 class="typewrite-wrapper">
+                                <div class="typewrite" data-period="4000" data-type='<?php echo json_encode($intro_subtitles); ?>'>
+                                    <span class="wrap"></span>
+                                </div>
+                            </h2>
+                        <?php endif ?>
+                        <p><?php echo $section_intro['description']; ?></p>
+                    </div>
+                    <div class="text-center text-lg-left">
+                        <?php if ( is_user_logged_in() ) : ?>
+                            <a href="/courses" class="btn btn-purple px-5 mr-2 shimmer-animation animated">Boshlash</a>
+                        <?php else: ?>
+                            <?php $intro_button = $section_intro['button'];
+                                if ( $intro_button ) : 
+                                    $intro_button_url = $intro_button['url'];
+                                    $intro_button_title = $intro_button['title'];
+                            ?>
+                                <a href="<?php echo $intro_button_url; ?>" class="btn btn-purple px-5 mr-2 shimmer-animation animated">
+                                    <?php echo $intro_button_title; ?>
+                                </a>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php $advice_modal_button = $advice_modal['advice_button'];
+                            if ( $advice_modal_button ) : 
+                                $advice_modal_button_url = $advice_modal_button['url'];
+                                $advice_modal_button_title = $advice_modal_button['title'];
+                        ?>
+                            <a href="javascript:;" class="btn btn-primary px-5" data-toggle="modal" data-target="<?php echo $advice_modal_button_url; ?>">
+                                <?php echo $advice_modal_button_title; ?>
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <div class="col-lg-6 mt-10 mt-lg-0">
-                    <a href="https://www.youtube.com/channel/UC4N6F-esaSIo8fnHtF3fq3A" target="_blank" class="video">
-                        <i class="icon icon-youtube"></i>
-                        <?php if ( $section_intro['image'] ) : ?>
-		                    <div class="text-center">
-		                        <img src="<?php echo $section_intro['image']; ?>" class="section__image" alt="">
-		                    </div>
-		                <?php endif; ?>
-                        <div class="video__caption">
-                            <p>Frilanser bo'lib ishlash uchun nimalar kerak?</p>
-                        </div>
-                    </a>
+                <div class="col section__col-2">
+                    <img src="<?php echo $section_intro['image']; ?>" class="section__image" alt="">
                 </div>
             </div>
         </div>
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
     </section>
 
-    <!-- Section - What Is Freelancing -->
-    <?php
-    	$section_what = get_field('what');
-    ?>
+    <!-- Section - What -->
     <div class="anchor" id="what"></div>
-    <section class="section section-what pb-7">
-        <div class="container">
-        	<?php if ( $section_what['title'] ) : ?>
-	            <div class="title title--center">
-                    <h2><?php echo $section_what['title']; ?></h2>
-                    <p><?php echo $section_what['description']; ?></p>
-	            </div>
-	        <?php endif; ?>
-            <div class="freelancing">
-            	<?php for ($i=1; $i < 5; $i++) : ?>
-            		<?php if ( $section_what['steps']['title_' . $i] ) : ?>
-	            		<div class="freelancing__item freelancing__item-<?php echo $i; ?>">
+    <?php $section_what = get_field('what'); ?>
+    <section class="section section-what">
+        <div class="container section__container">
+            <div class="title title--center">
+                <h2><?php echo $section_what['title']; ?></h2>
+                <p><?php echo $section_what['description']; ?></p>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-xl-6 section__col-1">
+                    <div class="section__col-inner">
+                        <?php echo $section_what['content']; ?>
+                        <?php if ( is_user_logged_in() ) : ?>
+                            <a href="/courses" class="btn btn-purple shimmer-animation">Boshlash</a>
+                        <?php else: ?>
+    		                <?php $button = $section_what['button'];
+    		                	if ( $button ) : 
+    		                		$button_url = $button['url'];
+    		                		$button_title = $button['title'];
+    		                ?>
+    	                        <a href="<?php echo $button_url; ?>" class="btn btn-purple shimmer-animation">
+    	                        	<?php echo $button_title; ?>
+    	                        </a>
+    		                <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-xl-6 section__col-2">
+                    <img src="<?php echo $section_what['image']; ?>" class="section__image" alt="">
+                    <div class="shape-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-							<?php if ( $section_what['steps']['icon_' . $i] ) : ?>
-							    <div class="freelancing__item-image">
-							        <img src="<?php echo $section_what['steps']['icon_' . $i] ?>" alt="">
-							    </div>
-							<?php endif; ?>
-	            			
-		                    <div>
-		                        <strong><?php echo $section_what['steps']['title_' . $i]; ?></strong>
-		                        <p><?php echo $section_what['steps']['description_' . $i]; ?></p>
-		                    </div>
-		                </div>
-		            <?php endif; ?>
-            	<?php endfor; ?>
-                <?php if ( $section_what['image'] ) : ?>
-	                <div class="freelancing__center">
-	                	<img src="<?php echo $section_what['image']; ?>">
-	                </div>
+    <!-- Section - Mission -->
+    <div class="anchor" id="mission"></div>
+    <?php $section_mission = get_field('mission'); ?>
+    <div class="section section-mission">
+        <div class="container section__container">
+            <div class="title title--center">
+                <h2><?php echo $section_mission['title']; ?></h2>
+                <p><?php echo $section_mission['description']; ?></p>
+            </div>
+            <div class="row mission__row">
+                <div class="col-sm-6 col-lg-4 mission__col-1">
+                    <div class="mission__item">
+                    	<?php echo $section_mission['mission_1']['icon']; ?>
+                        <strong><?php echo $section_mission['mission_1']['title']; ?></strong>
+                        <p><?php echo $section_mission['mission_1']['description']; ?></p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mission__col-2">
+                    <div class="mission__item">
+                    	<?php echo $section_mission['mission_2']['icon']; ?>
+                        <strong><?php echo $section_mission['mission_2']['title']; ?></strong>
+                        <p><?php echo $section_mission['mission_2']['description']; ?></p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 mission__col-3">
+                    <div class="mission__item">
+                    	<?php echo $section_mission['mission_3']['icon']; ?>
+                        <strong><?php echo $section_mission['mission_3']['title']; ?></strong>
+                        <p><?php echo $section_mission['mission_3']['description']; ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mission__line">
+            <div class="container">
+                <div class="row mission__row">
+                    <div class="col-lg-4 mission__col"><span></span></div>
+                    <div class="col-lg-4 mission__col"><span></span></div>
+                    <div class="col-lg-4 mission__col"><span></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="shape-4"></div>
+        <div class="shape-5"></div>
+    </div>
+
+    <!-- Section - Who -->
+    <?php $section_who = get_field('who'); ?>
+    <section class="section section-who">
+        <div class="container section__container">
+            <div class="title title--center">
+                <h2><?php echo $section_who['title']; ?></h2>
+                <p><?php echo $section_who['description']; ?></p>
+            </div>
+            <div class="checklist">
+                <ul>
+                	<li><?php echo $section_who['items']['item_1']; ?></li>
+                	<li><?php echo $section_who['items']['item_2']; ?></li>
+                	<li><?php echo $section_who['items']['item_3']; ?></li>
+                	<li><?php echo $section_who['items']['item_4']; ?></li>
+                	<li><?php echo $section_who['items']['item_5']; ?></li>
+                	<li><?php echo $section_who['items']['item_6']; ?></li>
+                	<li><?php echo $section_who['items']['item_7']; ?></li>
+                	<li><?php echo $section_who['items']['item_8']; ?></li>
+                </ul>
+            </div>
+            <?php if ( is_user_logged_in() ) : ?>
+                <div class="text-center">
+                    <a href="/courses" class="btn btn-purple shimmer-animation">Boshlash</a>
+                </div>
+            <?php else: ?>
+                <?php $button = $section_who['button'];
+                	if ( $button ) : 
+                		$button_url = $button['url'];
+                		$button_title = $button['title'];
+                ?>
+    	            <div class="text-center">
+    	                <a href="<?php echo $button_url; ?>" class="btn btn-purple shimmer-animation"><?php echo $button_title; ?></a>
+    	            </div>
                 <?php endif; ?>
-            </div>
-            <?php
-            	$what_button = $section_what['button'];
-            	if ( $what_button ) : 
-            		$what_button_url = $what_button['url'];
-            		$what_button_title = $what_button['title'];
-            ?>
-                <div class="text-center mt-10">
-                    <a href="<?php echo $what_button_url; ?>" class="btn btn-primary btn-lg">
-                    	<?php echo $what_button_title; ?>
-                    </a>
-                </div>
             <?php endif; ?>
+        </div>
+        <div class="shape-6"></div>
+        <div class="shape-7"></div>
+    </section>
+
+    <!-- Section - Services -->
+    <div class="anchor" id="services"></div>
+    <?php $section_services = get_field('services'); ?>
+    <section class="section section-services">
+        <div class="container">
+            <div class="title title--center">
+                <h2><?php echo $section_services['title']; ?></h2>
+                <p><?php echo $section_services['description']; ?></p>
+            </div>
+            <div class="row services__row">
+                <div class="col-md-6 col-lg-4 services__col-1">
+                    <div class="services__item">
+                        <img src="<?php echo $section_services['service_1']['image']; ?>" alt="">
+                        <strong><?php echo $section_services['service_1']['title']; ?></strong>
+                        <p><?php echo $section_services['service_1']['description']; ?></p>
+			            <?php $button = $section_services['service_1']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 services__col-2">
+                    <div class="services__item">
+                        <img src="<?php echo $section_services['service_2']['image']; ?>" alt="">
+                        <strong><?php echo $section_services['service_2']['title']; ?></strong>
+                        <p><?php echo $section_services['service_2']['description']; ?></p>
+			            <?php $button = $section_services['service_2']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 services__col-3">
+                    <div class="services__item">
+                        <img src="<?php echo $section_services['service_3']['image']; ?>" alt="">
+                        <strong><?php echo $section_services['service_3']['title']; ?></strong>
+                        <p><?php echo $section_services['service_3']['description']; ?></p>
+			            <?php $button = $section_services['service_3']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="sections-gradient-1">
-        <div class="position-relative">
-
-            <!-- Section - Who Can Be Freelancer -->
-            <?php
-            	$section_who = get_field('who');
-            ?>
-            <div class="anchor" id="who"></div>
-            <section class="section section-who pb-0">
-                <div class="container">
-                    <div class="row align-items-end">
-                        <div class="col-lg-6 order-lg-2">
-				        	<?php if ( $section_who['title'] ) : ?>
-					            <div class="title">
-				                    <h2><?php echo $section_who['title']; ?></h2>
-				                    <p><?php echo $section_who['description']; ?></p>
-					            </div>
-					        <?php endif; ?>
-                            <div class="checklist mb-4">
-                                <ul>
-                                	<?php for ($i=1; $i < 17; $i++) : ?>
-	                                	<?php if ( $section_who['list_items']['item_' . $i] ) : ?>
-		                                    <li><?php echo $section_who['list_items']['item_' . $i]; ?></li>
-		                                <?php endif; ?>
-		                            <?php endfor; ?>
-                                </ul>
-                            </div>
-				            <?php
-				            	$who_button = $section_who['button'];
-				            	if ( $who_button ) : 
-				            		$who_button_url = $who_button['url'];
-				            		$who_button_title = $who_button['title'];
-				            ?>
-			                    <a href="<?php echo $who_button_url; ?>" class="btn btn-primary">
-			                    	<?php echo $who_button_title; ?>
-			                    </a>
-			                <?php endif; ?>
+    <!-- Section - About -->
+    <?php $section_about = get_field('about'); ?>
+    <section class="section section-about">
+        <div class="container section__container">
+            <div class="title title--center">
+                <h2><?php echo $section_about['title']; ?></h2>
+                <p><?php echo $section_about['description']; ?></p>
+            </div>
+            <div class="row align-items-end">
+                <div class="col-xl-5 section__col">
+                    <div class="about">
+                        <div class="about__item">
+                            <h3><?php echo $section_about['rows']['about_row_1']['title']; ?></h3>
+                            <p><?php echo $section_about['rows']['about_row_1']['description']; ?></p>
                         </div>
-                        <div class="col-lg-6  mt-10 mt-lg-0 order-lg-1">
-			                <?php if ( $section_who['image'] ) : ?>
-	                            <div class="text-center">
-				                	<img src="<?php echo $section_who['image']; ?>" class="section__image">
-				                </div>
-			                <?php endif; ?>
+                        <div class="about__item">
+                            <div class="about__item-title">
+                                <img src="<?php echo $section_about['rows']['about_row_2']['image']; ?>" alt="">
+                                <h5><?php echo $section_about['rows']['about_row_2']['title']; ?></h5>
+                            </div>
+                            <p><?php echo $section_about['rows']['about_row_2']['description']; ?></p>
+                        </div>
+                        <div class="about__item">
+                            <div class="about__item-title">
+                                <img src="<?php echo $section_about['rows']['about_row_3']['image']; ?>" alt="">
+                                <h5><?php echo $section_about['rows']['about_row_3']['title']; ?></h5>
+                            </div>
+                            <p><?php echo $section_about['rows']['about_row_3']['description']; ?></p>
                         </div>
                     </div>
-                    <hr>
+                    <?php if ( is_user_logged_in() ) : ?>
+                        <div class="text-center text-lg-left">
+                            <a href="/courses" class="btn btn-purple btn-lg">Boshlash</a>
+                        </div>
+                    <?php else: ?>
+    		            <?php $button = $section_about['rows']['button'];
+    		            	if ( $button ) : 
+    		            		$button_url = $button['url'];
+    		            		$button_title = $button['title'];
+    		            ?>
+    		                <a href="<?php echo $button_url; ?>" class="btn btn-purple shimmer-animation"><?php echo $button_title; ?></a>
+    		            <?php endif; ?>
+                    <?php endif; ?>
                 </div>
-            </section>
+                <div class="col-xl-7 section__col">
+                    <div class="d-flex justify-content-end">
+                        <img src="<?php echo $section_about['image']; ?>" class="section__image" alt="">
+                    </div>
+                    <div class="follow-pages">
+                        <ul>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['upwork']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['upwork_logo']; ?>" alt="Upwork">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['toptal']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['toptal_logo']; ?>" alt="Toptal">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['techcells']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['techcells_logo']; ?>" alt="Techcells">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['youtube']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['youtube_logo']; ?>" alt="Youtube">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['facebook']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['facebook_logo']; ?>" alt="Facebook">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['telegram']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['telegram_logo']; ?>" alt="Telegram">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['instagram']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['instagram_logo']; ?>" alt="Instagram">
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="<?php echo $section_about['pages']['tiktok']; ?>" target="_blank">
+                            		<img src="<?php echo $section_about['pages']['tiktok_logo']; ?>" alt="Tiktok">
+                            	</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shape-8"></div>
+    </section>
 
-            <!-- Section - Platforms -->
-            <?php
-            	$section_platforms_title = get_field('section_platforms_title');
-            	$platforms = get_field('platforms');
-            ?>
-            <div class="anchor" id="platforms"></div>
-            <section class="section pb-9">
-                <div class="container">
-		        	<?php if ( $section_platforms_title ) : ?>
-			            <div class="title title--center">
-		                    <h2><?php echo $section_platforms_title; ?></h2>
-			            </div>
-			        <?php endif; ?>
-                    <div class="platforms">
-                        <div class="row row-min justify-content-center">
-                        	<?php for ($i=1; $i < 6; $i++) : ?>
-                        		<?php if ( $platforms['icon_' . $i] && $platforms['link_' . $i]['title'] ) : 
-                        			$platform_link = $platforms['link_' . $i];
-			                		$platform_link_url = $platform_link['url'];
-			                		$platform_link_title = $platform_link['title'];
-			                		$platform_link_target = $platform_link['target'] ? $platform_link['target'] : '_self';
-                        		?>
-		                            <div class="col col-platform">
-		                                <div class="platform">
-		                                    <a href="<?php echo $platform_link_url; ?>" class="platform__icon" target="<?php echo esc_attr( $platform_link_target ); ?>">
-		                                        <img src="<?php echo $platforms['icon_' . $i]; ?>" alt="<?php echo $platform_link_title; ?>">
-		                                        <div style="color: <?php echo $platforms['color_' . $i] ? $platforms['color_' . $i] : '#000'; ?>">
-		                                            <span><?php echo $platform_link_title; ?></span>
-		                                            <small style="background-color: <?php echo $platforms['color_' . $i] ? $platforms['color_' . $i] : '#000'; ?>"></small>
-		                                        </div>
-		                                    </a>
-		                                    <div class="platform__caption">
-		                                        <strong>Best for:</strong>
-		                                        <ul>
-		                                        	<?php for ($j=1; $j < 7; $j++) : if ( $platforms['best_for_items_' . $i]['item_' . $j] ) : ?>
-			                                            <li><?php echo $platforms['best_for_items_' . $i]['item_' . $j]; ?></li>
-			                                        <?php endif; endfor; ?>
-		                                        </ul>
+    <!-- Section - courses -->
+    <?php $section_courses = get_field('courses'); ?>
+    <div class="anchor" id="courses"></div>
+    <section class="section section-courses">
+        <div class="container">
+            <div class="title title--center">
+                <h2><?php echo $section_courses['title']; ?></h2>
+                <p><?php echo $section_courses['description']; ?></p>
+            </div>
+            <div class="row courses__row">
+                <div class="col-md-6 col-lg-4 col-xl-3 courses__col-1">
+                    <div class="courses__item">
+                        <img src="<?php echo $section_courses['course_1']['image']; ?>" alt="">
+                        <strong><?php echo $section_courses['course_1']['title']; ?></strong>
+                        <p><?php echo $section_courses['course_1']['description']; ?></p>
+			            <?php $button = $section_courses['course_1']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-3 courses__col-2">
+                    <div class="courses__item">
+                        <img src="<?php echo $section_courses['course_2']['image']; ?>" alt="">
+                        <strong><?php echo $section_courses['course_2']['title']; ?></strong>
+                        <p><?php echo $section_courses['course_2']['description']; ?></p>
+			            <?php $button = $section_courses['course_2']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-3 courses__col-3">
+                    <div class="courses__item">
+                        <img src="<?php echo $section_courses['course_3']['image']; ?>" alt="">
+                        <strong><?php echo $section_courses['course_3']['title']; ?></strong>
+                        <p><?php echo $section_courses['course_3']['description']; ?></p>
+			            <?php $button = $section_courses['course_3']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-3 courses__col-4">
+                    <div class="courses__item">
+                        <img src="<?php echo $section_courses['course_4']['image']; ?>" alt="">
+                        <strong><?php echo $section_courses['course_4']['title']; ?></strong>
+                        <p><?php echo $section_courses['course_4']['description']; ?></p>
+			            <?php $button = $section_courses['course_4']['button'];
+			            	if ( $button ) : 
+			            		$button_url = $button['url'];
+			            		$button_title = $button['title'];
+			            ?>
+			                <a href="<?php echo $button_url; ?>" class="btn btn-purple btn-sm shimmer-animation"><?php echo $button_title; ?></a>
+			            <?php else: ?>
+	                        <a href="#" class="btn btn-purple btn-sm disabled">Tez kunda</a>
+			            <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section - Testimonials -->
+    <?php
+    	$section_testimonials = get_field('testimonials');
+    	$testimonials = new WP_Query(
+    		array(
+		        'post_type'		 => 'tech_testimonials',
+		        'post_status'	 => 'publish',
+		        'posts_per_page' => -1,
+			)
+	    );
+    ?>
+    <section class="section section-testimonials">
+        <div class="container section__container">
+            <div class="title title--center">
+                <h2><?php echo $section_testimonials['title']; ?></h2>
+                <p><?php echo $section_testimonials['description']; ?></p>
+            </div>
+            <div class="testimonials">
+                <div id="testimonials_slider" class="owl-carousel">
+                    <?php if ( $testimonials->have_posts() ) : ?>
+					    <?php while ( $testimonials->have_posts() ) : $testimonials->the_post(); ?>
+					    	<?php 
+						    	$testimonial_id = get_the_ID();
+					    		$customer = get_field('customer', $testimonial_id);
+					    	?>
+		                    <div class="item">
+		                        <div class="testimonial">
+		                            <?php the_content(); ?>
+		                            <div class="testimonial__footer">
+		                                <div class="testimonial__author">
+		                                    <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+		                                    <div>
+		                                        <strong><?php the_title(); ?></strong>
+		                                        <span><?php echo $customer['profession']; ?></span>
 		                                    </div>
 		                                </div>
+		                                <div class="testimonial__logo">
+		                                    <a href="<?php echo $customer['url']; ?>" target="_blank"><img src="<?php echo $customer['logo']; ?>" alt=""></a>
+		                                </div>
 		                            </div>
-		                        <?php endif; ?>
-	                        <?php endfor; ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </div>
-
-    <!-- Section - How Do You Learn -->
-    <?php
-    	$section_how_title = get_field('section_how_title');
-    	$section_how_description = get_field('section_how_description');
-    	$section_how_items = get_field('how_items');
-	?>
-	<div class="anchor" id="how"></div>
-    <section class="section section-how bg-white pb-0">
-        <div class="container">
-            <?php if ( $section_how_title ) : ?>
-                <div class="title title--center">
-                    <h2><?php echo $section_how_title; ?></h2>
-                    <p><?php echo $section_how_description; ?></p>
-                </div>
-            <?php endif; ?>
-            <div class="steps">
-                <div class="row justify-content-center">
-                	<?php for ($i=1; $i < 4; $i++) : ?>
-                		<?php if ( $section_how_items['title_' . $i] && $section_how_items['image_' . $i] ) : ?>
-		                    <div class="col-md-6 col-lg-4">
-		                        <div class="step">
-		                            <div class="step__number"><?php echo $i; ?></div>
-		                            <img src="<?php echo $section_how_items['image_' . $i] ?>" alt="<?php echo $section_how_items['title_' . $i]; ?>">
-		                            <?php if ( $section_how_items['title_' . $i] ) : ?>
-				                        <strong><?php echo $section_how_items['title_' . $i]; ?></strong>
-				                    <?php endif; ?>
-			                        <?php if ( $section_how_items['description_' . $i] ) : ?>
-				                        <p><?php echo $section_how_items['description_' . $i]; ?></p>
-				                    <?php endif; ?>
 		                        </div>
 		                    </div>
-		                <?php endif; ?>
-	                <?php endfor; ?>
+					    <?php endwhile; ?>
+					    <?php wp_reset_postdata(); ?>
+					<?php else : ?>
+					    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+					<?php endif; ?>
                 </div>
-                <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/waved-line.png'; ?>" class="step-waved-line" alt="Waved line">
+                <div id="testimonials_slider_nav" class="owl-nav"></div>
             </div>
         </div>
+        <div class="shape-9"></div>
     </section>
 
-    <!-- Section - About Zafarbek Ibrohimov -->
+    <!-- Section - Videos -->
     <?php
-    	$section_about_title = get_field('section_about_title');
-    	$section_about_description = get_field('section_about_description');
-    	$section_about_blockquote = get_field('section_about_blockquote');
-    	$section_about_image = get_field('section_about_image');
-    ?>
-    <div class="anchor" id="about"></div>
-    <section class="section section-about bg-white pt-6">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 section-about-col-1">
-		            <?php if ( $section_about_title ) : ?>
-		                <div class="title justify-content-start text-left mb-2">
-		                    <h2><?php echo $section_about_title; ?></h2>
-		                </div>
-		            <?php endif; ?>
-		            <?php if ( $section_about_title ) : ?>
-	                    <div class="mb-6">
-	                        <p><?php echo $section_about_description; ?></p>
-	                    </div>
-		            <?php endif; ?>
-		            <?php if ( $section_about_blockquote['text'] ) : ?>
-	                    <div class="blockquote pr-xl-12">
-	                        <blockquote>
-	                            <p><?php echo $section_about_blockquote['text']; ?></p>
-	                        </blockquote>
-	                        <span><?php echo $section_about_blockquote['author']; ?></span>
-	                    </div>
-		            <?php endif; ?>
-
-		            <?php $pages = get_field('about_pages'); ?>
-		        	<div class="follow-pages">
-		        		<ul>
-		        			<?php for ($i=1; $i <= 10; $i++) : ?>
-		        				<?php if ($pages['icon_' . $i] && $pages['link_' . $i]) : ?>
-		            				<li>
-		            					<a href="<?php echo $pages['link_' . $i]; ?>" target="_blank">
-			            					<img src="<?php echo $pages['icon_' . $i]; ?>" alt="">
-			            				</a>
-			            			</li>
-			            		<?php endif; ?>
-		        			<?php endfor; ?>
-		        		</ul>
-		        	</div>
-                </div>
-                <div class="col-lg-6 section-about-col-2">
-		            <?php if ( $section_about_image ) : ?>
-	                    <div class="text-center">
-	                        <img src="<?php echo $section_about_image; ?>" class="section__image" alt="">
-	                    </div>
-		            <?php endif; ?>
-                </div>
+    	$section_videos = get_field('videos');
+    	$videos = new WP_Query(
+    		array(
+		        'post_type'		 => 'tech_videos',
+		        'post_status'	 => 'publish',
+		        'posts_per_page' => -1,
+			)
+	    );
+	?>
+    <section class="section section-videos">
+        <div class="container section__container">
+            <div class="title title--center">
+                <h2><?php echo $section_videos['title']; ?></h2>
+                <p><?php echo $section_videos['description']; ?></p>
             </div>
-
+            <div class="videos">
+                <div id="videos_slider" class="owl-carousel">
+                    <?php if ( $videos->have_posts() ) : ?>
+					    <?php $i = 0; while ( $videos->have_posts() ) : $videos->the_post(); ?>
+		                    <div class="item">
+		                    	<a href="javascript:;" class="video" data-toggle="modal" data-target="#youtubeVideo-<?php echo $i; ?>">
+		                            <div class="video__icon">
+		                                <div><i class="icon icon-play-o"></i></div>
+		                            </div>
+		                            <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+		                            <div class="video__overlay"></div>
+		                        </a>
+		                    </div>
+					    <?php $i++; endwhile; ?>
+					    <?php wp_reset_postdata(); ?>
+					<?php else : ?>
+					    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+					<?php endif; ?>
+                </div>
+                <div id="videos_slider_nav" class="owl-nav"></div>
+            </div>
         </div>
+        <div class="shape-10"></div>
     </section>
 
-    <div class="sections-gradient-2">
-        <div class="position-relative">
-
-            <!-- Section - Courses -->
-            <?php
-            	$section_courses_title = get_field('section_courses_title');
-            	$courses = get_field('courses');
-            ?>
-            <div class="anchor" id="courses"></div>
-            <section class="section section-courses pb-0">
-                <div class="container">
-                	<?php if ( $section_courses_title ) : ?>
-	                    <div class="title title--center">
-	                        <h2><?php echo $section_courses_title; ?></h2>
-	                    </div>
-                	<?php endif; ?>
-                    <div class="courses">
-                        <div class="row row-min justify-content-center">
-                        	<?php for ($i=1; $i < 6; $i++) : ?>
-	                        	<?php // if ( $courses['title_' . $i] && $courses['icon_' . $i] ) : ?>
-		                            <div class="col col-course">
-		                                <div class="course">
-		                                    <div class="course__icon">
-		                                        <img src="<?php echo $courses['icon_' . $i] ?>" alt="<?php echo $courses['title_' . $i] ?>">
-		                                    </div>
-		                                    <strong><?php echo $courses['title_' . $i] ?></strong>
-		                                    <?php if ( $courses['button_' . $i] ) : 
-		                                    	$course_link_url = $courses['button_' . $i]['url'];
-		                                    	$course_link_title = $courses['button_' . $i]['title'];
-		                                    ?>
-		                                    	<a href="<?php echo $course_link_url; ?>" class="btn btn-primary"><?php echo $course_link_title; ?></a>
-			                                <?php else : ?>
-			                                    <div class="btn-course-disabled">Coming Soon <span class="icon icon-arrow-right"></span></div>
-			                                <?php endif; ?>
-		                                </div>
-		                            </div>
-		                        <?php // endif; ?>
-		                    <?php endfor; ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section - Testimonials -->
-            <?php
-            	$section_testimonials_title = get_field('section_testimonials_title');
-            	$section_testimonials_description = get_field('section_testimonials_description');
-        	    $testimonials = new WP_Query( array(
-			        'post_type'		 => 'home_testimonials',
-			        'post_status'	 => 'publish',
-			        'posts_per_page' => -1,
-				) );
-            ?>
-            <div class="anchor" id="testimonials"></div>
-            <section class="section section-testimonials pb-2">
-                <div class="container">
-		            <?php if ( $section_testimonials_title ) : ?>
-		                <div class="title title--center">
-		                    <h2><?php echo $section_testimonials_title; ?></h2>
-		                    <p><?php echo $section_testimonials_description; ?></p>
-		                </div>
-		            <?php endif; ?>
-                </div>
-                <div class="testimonials">
-                    <div id="testimonials_slider" class="owl-carousel">
-                        <?php if ( $testimonials->have_posts() ) : ?>
-						    <?php while ( $testimonials->have_posts() ) : $testimonials->the_post(); ?>
-					            <div class="item">
-		                            <div class="testimonial">
-		                                <div class="testimonial__left">
-		                                    <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
-		                                    <span>-<?php the_title(); ?></span>
-		                                </div>
-		                                <div class="testimonial__right">
-		                                    <abbr>
-		                                    	<?php
-			                                    	$testimonials_content = get_the_content();
-													$testimonials_content_stripped = strip_tags($testimonials_content, '<p>');
-													echo '<p>' . $testimonials_content_stripped . '<span class="icon icon-quote"></span></p>';
-		                                    	?>
-		                                    </abbr>
-		                                    <ul>
-		                                    	<?php for ($i=1; $i < 4; $i++) : ?>
-			                                    	<?php if ( get_field('client_from')['logo_' . $i] ) : ?>
-				                                        <li><img src="<?php echo get_field('client_from')['logo_' . $i]; ?>" alt=""></li>
-				                                    <?php endif; ?>
-				                                <?php endfor; ?>
-		                                    </ul>
-		                                </div>
-		                            </div>
-		                        </div>
-						    <?php endwhile; ?>
-						    <?php wp_reset_postdata(); ?>
-						<?php else : ?>
-						    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
-						<?php endif; ?>
-                    </div>
-                    <div id="testimonials_slider_nav" class="owl-nav"></div>
-                    <div class="container">
-                        <hr>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section - Videos -->
-		    <?php
-		    	$section_videos_title = get_field('section_videos_title');
-		    	$section_videos_description = get_field('section_videos_description');
-		    	$videos = get_field('videos');
-		    ?>
-		    <div class="anchor" id="video_courses"></div>
-            <section class="section section-video-courses pb-11">
-                <div class="container">
-		            <?php if ( $section_videos_title ) : ?>
-		                <div class="title title--center">
-		                    <h2><?php echo $section_videos_title; ?></h2>
-		                    <p><?php echo $section_videos_description; ?></p>
-		                </div>
-		            <?php endif; ?>
-                    <div class="video-courses">
-                        <div class="row">
-                        	<?php if ( $videos['url_1'] ) : ?>
-	                            <div class="col-12">
-	                                <a href="javascript:;" class="video" data-toggle="modal" data-target="#youtubeVideo_1">
-	                                    <i class="icon icon-youtube"></i>
-	                                    <img src="<?php echo $videos['image_1']; ?>" alt="<?php echo $videos['title_1']; ?>">
-	                                    <div class="video__caption">
-	                                        <p><?php echo $videos['title_1']; ?></p>
-	                                    </div>
-	                                </a>
-	                            </div>
-	                        <?php endif; ?>
-                        	<?php if ( $videos['url_2'] ) : ?>
-	                            <div class="col-md-6">
-	                                <a href="javascript:;" class="video video--min" data-toggle="modal" data-target="#youtubeVideo_2">
-	                                    <i class="icon icon-youtube"></i>
-	                                    <img src="<?php echo $videos['image_2']; ?>" alt="<?php echo $videos['title_2']; ?>">
-	                                    <div class="video__caption">
-	                                        <p><?php echo $videos['title_2']; ?></p>
-	                                    </div>
-	                                </a>
-	                            </div>
-	                        <?php endif; ?>
-                        	<?php if ( $videos['url_3'] ) : ?>
-	                            <div class="col-md-6">
-	                                <a href="javascript:;" class="video video--min" data-toggle="modal" data-target="#youtubeVideo_3">
-	                                    <i class="icon icon-youtube"></i>
-	                                    <img src="<?php echo $videos['image_3']; ?>" alt="<?php echo $videos['title_3']; ?>">
-	                                    <div class="video__caption">
-	                                        <p><?php echo $videos['title_3']; ?></p>
-	                                    </div>
-	                                </a>
-	                            </div>
-	                        <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </div>
-
-    <!-- Section - Call To Action -->
-    <?php
-    	$section_cta_bg_image = get_field('background_image');
-    	$section_cta_title = get_field('section_cta_title');
-    	$section_cta_description = get_field('section_cta_description');
-    	$section_cta_background_image = get_field('section_cta_background_image');
-    ?>
-    <div class="anchor" id="calltoaction"></div>
-    <section class="section section-calltoaction" <?php echo $section_cta_bg_image ? 'style="background-image: url(' . $section_cta_bg_image . ');"' : ''; ?>>
-        <div class="container">
-            <?php if ( $section_cta_title ) : ?>
-                <div class="title title--center">
-                    <h2><?php echo $section_cta_title; ?></h2>
-                    <p><?php echo $section_cta_description; ?></p>
-                </div>
-            <?php endif; ?>
-            <?php if ( get_field('section_cta_button') ) : ?>
-	            <div class="text-center">
-	                <a href="<?php echo  get_field('section_cta_button')['url']; ?>" class="btn btn-primary">
-	                	<?php echo  get_field('section_cta_button')['title']; ?>
-	                </a>
-	            </div>
-	        <?php endif; ?>
-        </div>
-    </section>
 </main>
 
 <!-- Footer -->
+<?php
+	$footer = get_field('footer');
+?>
 <footer class="footer">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-3">
-            	<?php if (get_field('logo')) : ?>
-					<div class="footer__logo">
-			            <img src="<?php the_field('logo'); ?>" alt="IT Stars">
-					</div>
-				<?php endif; ?>
+        <div class="footer__top">
+            <div class="footer__menu">
+                <?php
+                    wp_nav_menu([
+                        'menu'            => 'landing_footer',
+                        'theme_location'  => 'landing_footer',
+                        'container'       => false,
+                        'menu_id'         => false,
+                        'menu_class'      => '',
+                        'depth'           => 1,
+                    ]);
+                ?>
             </div>
-            <div class="col-lg-6">
-            	<?php if ( get_field('copyright') ) : ?>
-	                <div class="footer__copyright">
-	                    <p><?php the_field('copyright') ?></p>
-	                </div>
-	            <?php endif; ?>
+            <div class="footer__logo">
+                <a href="<?php bloginfo('url'); ?>">
+                    <img src="<?php echo $footer['logo'] ?>" alt="">
+                </a>
             </div>
-            <div class="col-lg-3">
-                <div class="footer__socials">
-                    <ul>
-                    	<?php for ($i=1; $i < 7; $i++) : ?>
-		                	<?php $social_link = get_field('socials')['link_' . $i]; if ( $social_link ) : ?>
-		                		<?php
-			                		$social_link_url = $social_link['url'];
-			                		$social_link_title = $social_link['title'];
-			                		$social_link_target = $social_link['target'] ? $social_link['target'] : '_self';
-		                		?>
-		                        <li>
-		                        	<a href="<?php echo $social_link_url; ?>" target="<?php echo esc_attr( $social_link_target ); ?>" class="<?php echo $social_link_title; ?>">
-			                        	<span class="icon icon-<?php echo $social_link_title; ?>"></span>
-			                        </a>
-			                    </li>
-		                    <?php endif; ?>
-		                <?php endfor; ?>
-                    </ul>
-                </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="footer__socials">
+                <ul>
+                    <li>
+                        <a href="<?php echo $footer['socials']['facebook']; ?>" target="_blank">
+                            <i class="icon icon-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $footer['socials']['tiktok']; ?>" target="_blank">
+                            <i class="icon icon-tiktok"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $footer['socials']['instagram']; ?>" target="_blank">
+                            <i class="icon icon-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $footer['socials']['youtube']; ?>" target="_blank">
+                            <i class="icon icon-youtube"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $footer['socials']['telegram']; ?>" target="_blank">
+                            <i class="icon icon-telegram"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer__copyright">
+                <p><?php echo $footer['copyright']; ?></p>
             </div>
         </div>
     </div>
 </footer>
 
-<!-- Video modals -->
-<?php if ( $videos['url_1'] ) : ?>
-	<div class="modal fade modal-style-1" id="youtubeVideo_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	    <div class="modal-dialog modal-dialog-centered modal-lg">
-	        <div class="modal-content">
-	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                <span class="icon icon-remove"></span>
-	            </button>
-	            <div class="modal-body p-0 d-flex">
-	                <iframe width="100%" height="450" src="<?php echo $videos['url_1']; ?>" frameborder="0" allowfullscreen></iframe>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-<?php endif; ?>
-<?php if ( $videos['url_2'] ) : ?>
-	<div class="modal fade modal-style-1" id="youtubeVideo_2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	    <div class="modal-dialog modal-dialog-centered modal-lg">
-	        <div class="modal-content">
-	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                <span class="icon icon-remove"></span>
-	            </button>
-	            <div class="modal-body p-0 d-flex">
-	                <iframe width="100%" height="450" src="<?php echo $videos['url_2']; ?>" frameborder="0" allowfullscreen></iframe>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-<?php endif; ?>
-<?php if ( $videos['url_3'] ) : ?>
-	<div class="modal fade modal-style-1" id="youtubeVideo_3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	    <div class="modal-dialog modal-dialog-centered modal-lg">
-	        <div class="modal-content">
-	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                <span class="icon icon-remove"></span>
-	            </button>
-	            <div class="modal-body p-0 d-flex">
-	                <iframe width="100%" height="450" src="<?php echo $videos['url_3']; ?>" frameborder="0" allowfullscreen></iframe>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+<!-- Video modal -->
+<?php if ( $videos->have_posts() ) : ?>
+    <?php $i = 0; while ( $videos->have_posts() ) : $videos->the_post(); ?>
+    	<?php 
+	    	$video_id = get_the_ID();
+    		$video_url = get_field('video_url', $video_id);
+    	?>
+		<div class="modal fade modal-style-1" id="youtubeVideo-<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-dialog-centered modal-lg">
+		        <div class="modal-content">
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                <span class="icon icon-remove"></span>
+		            </button>
+		            <div class="modal-body p-0 d-flex">
+		                <iframe width="100%" height="450" src="<?php echo $video_url; ?>" frameborder="0" allowfullscreen></iframe>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+    <?php $i++; endwhile; ?>
+    <?php wp_reset_postdata(); ?>
 <?php endif; ?>
 
+<!-- Advice modal -->
+<div class="modal fade modal-style-1" id="advice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="icon icon-remove"></span>
+            </button>
+            <div class="modal-body p-10">
+                <div class="text-center">
+                    <h3><?php echo $advice_modal['title'] ?></h3>
+                    <p><?php echo $advice_modal['description'] ?></p>
+                    <?php $telegram_modal_button = $advice_modal['telegram_button'];
+                        if ( $telegram_modal_button ) : 
+                            $telegram_modal_button_url = $telegram_modal_button['url'];
+                            $telegram_modal_button_title = $telegram_modal_button['title'];
+                    ?>
+                        <a href="<?php echo $telegram_modal_button_url; ?>" target="_blank" class="btn btn-primary">
+                            <i class="icon icon-telegram fs-30 mr-4" style="vertical-align: -6px;"></i><?php echo $telegram_modal_button_title; ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//code-eu1.jivosite.com/widget/j6UFoCypKn" async></script>
+    
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/jquery.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/bootstrap.bundle.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/owl.carousel.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/main.js'; ?>"></script>
+
 </body>
 </html>

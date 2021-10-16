@@ -54,7 +54,7 @@ return array(
         'title'       => __( 'Service parameters', 'clickuz' ),
         'type'        => 'title',
         'description' => __( 'Url addesses for changing to set on Merchant cabinet', 'clickuz' ) . '<br/><br/>' .
-                         __( 'Prepare url', 'clickuz' ) .': ' . site_url('click-api/prepare') . '<br/><br/>' .
-                         __( 'Complete url', 'clickuz' ) .': ' . site_url('click-api/complete'),
+                         __( 'Prepare url', 'clickuz' ) .': ' . site_url() . '/?payment_processing=click<br/><br/>' .
+                         __( 'Complete url', 'clickuz' ) .': ' . site_url().'/?payment_complete=click',
     ),
 );

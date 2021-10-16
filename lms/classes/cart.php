@@ -36,7 +36,7 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 		$item_id = intval($_GET['item_id']);
 		$user = STM_LMS_User::get_current_user();
 		$user_id = $user['id'];
-
+ 		stm_lms_get_delete_cart_items($user_id);
 		$r = self::_add_to_cart($item_id, $user_id);
 		$payment_method = (!empty($_REQUEST['payment_code'])) ? sanitize_text_field($_REQUEST['payment_code']) : false;
 		if ($payment_method) {
@@ -194,11 +194,55 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			'invoiceww' => $invoice,
 			'cart_total_name' => $cart_total['item_name'],
 			'user_email' => $user['email'],
-			'phone'=> $user['phone']
+			'phone' => $user['phone']
 		];
-		$form = apply_filters('get_click_form',  $cart_total['total'],$invoice ,$cart_total['item_name'],  $user['email'], $user['phone']);
+
+		$form = apply_filters('get_click_form', $cart_total['total'], $invoice, $cart_total['item_name'], $user['email'], $user['phone']);
 		$r['form_html'] = $form;
 		$r['message'] = esc_html__("Tolovga otish", 'masterstudy-child');
 		return $r;
 	}
+
+	public static function stm_lms_order_created($order)
+	{
+
+		$user_id = $order['post_author'];
+		$courses = $order['items'];
+		foreach ($courses as $course) {
+			if (get_post_type($course['item_id']) === 'stm-courses') {
+				if (empty($course['enterprise_id'])) {
+					STM_LMS_Course::add_user_course($course['item_id'], $user_id, 0, 0);
+					STM_LMS_Course::add_student($course['item_id']);
+				}
+			}
+		}
+
+	}
+
+	public static function stm_get_order($order_id)
+	{
+		$post = get_post($order_id);
+		$order = null;
+		$order_info = array(
+			'user_id',
+			'items',
+			'date',
+			'status',
+			'payment_code',
+			'order_key',
+			'_order_total',
+			'_order_currency',
+			'_is_paid'
+		);
+		if ($post->post_type == 'stm-orders') {
+			$order = (array)$post;
+			foreach ($order_info as $meta_key) {
+				$order[$meta_key] = get_post_meta($order_id, $meta_key, true);
+			}
+		}
+
+		return $order;
+	}
+
+
 }

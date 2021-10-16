@@ -43,6 +43,15 @@ body.itstars .start-course {
     display: none !important;
 }
 
+.stm_lms_account_dropdown .lnr.lnr-user {
+    font-size: 20px;
+	vertical-align: -3px;
+}
+
+.stm_lms_account_dropdown .login_name {
+	display: none !important;
+}
+
 .tech__course-price {
     margin-top: 30px;
 }

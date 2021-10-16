@@ -42,10 +42,34 @@ class STM_LMS_PAYME
 		$this->merchant_id = $payment_methods['payme']['fields']['merchant_id'];
 		$this->merchant_key = $payment_methods['payme']['fields']['merchant_key'];
 		$this->checkout_url = $payment_methods['payme']['fields']['checkout_url'];
-
+		$this->return_url = $payment_methods['payme']['fields']['return_url'];
 		add_filter('get_payme_form', [$this, 'get_payme_form']);
 		//	add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
 		//add_action('woocommerce_api_wc_' . $this->id, [$this, 'callback']);
+		//$this->callback();
+		//add_action('rest_api_init', [$this, 'stm_mra_register_routes']);
+		if (!empty($_REQUEST['payment_processing'])) {
+			if ($_REQUEST['payment_processing'] == 'payme') $this->callback();
+		}
+	}
+
+
+	public function stm_mra_register_routes()
+	{
+		$routesArr = array(
+			array(// App payme
+				'route' => '/payme-api/',
+				'args' => array(
+					'methods' => 'GET',
+					'callback' => [$this, 'callback'],
+					'permission_callback' => '__return_true'
+				)
+			)
+		);
+
+		foreach ($routesArr as $k => $routeSettings) {
+			register_rest_route('payments/v1', $routeSettings['route'], $routeSettings['args']);
+		}
 	}
 
 	function showMessage($content)
@@ -113,8 +137,14 @@ class STM_LMS_PAYME
 
 		$label_pay = __('Pay', 'payme');
 		$label_cancel = __('Cancel payment and return back', 'payme');
+		$order = $this->stm_get_order($order_id);
+		$courses = $order['items'];
+		foreach ($courses as $course) {
+			if (get_post_type($course['item_id']) === 'stm-courses') {
+				$callbackUrl = get_permalink($course['item_id']);;
+			}
+		}
 
-		$callbackUrl = $this->return_url . '&order_id=' . $order_id;
 		$order_key = $order_id;
 
 		$form = <<<FORM
@@ -122,9 +152,10 @@ class STM_LMS_PAYME
 <input type="hidden" name="account[order_id]" value="$order_id">
 <input type="hidden" name="amount" value="$sum">
 <input type="hidden" name="merchant" value="{$this->merchant_id}">
-<input type="hidden" name="callback" value="https://kiddis.uz/checkout/order-received/$order_id/?key=$order_key">
-<input type="hidden" name="lang" value="$lang">
-<input type="hidden" name="description" value="$description">
+<input type="hidden" name="callback" value="{$callbackUrl}">
+<input type="hidden" name="lang" value="uz">
+<input type="hidden" name="description" value="Tolov">
+<input type="hidden" name="currency" value="860">
 </form>
 FORM;
 //<a class="button cancel" href="{$order->get_cancel_order_url()}">$label_cancel</a>
@@ -277,7 +308,7 @@ TABLE;
 	{
 		// Parse payload
 		$payload = json_decode(file_get_contents('php://input'), true);
-
+		stm_put_log('paymepayload', $payload);
 		if (json_last_error() !== JSON_ERROR_NONE) { // handle Parse error
 			$this->respond($this->error_invalid_json());
 		}
@@ -326,11 +357,39 @@ TABLE;
 	 */
 	private function get_order(array $payload)
 	{
-		try {
-			return new WC_Order($payload['params']['account']['order_id']);
-		} catch (Exception $ex) {
+		$order_id = $payload['params']['account']['order_id'];
+
+		if ($this->stm_get_order($order_id)) {
+			$order = (array)$this->stm_get_order($order_id);
+		} else {
 			$this->respond($this->error_order_id($payload));
 		}
+
+		return $order;
+	}
+
+	function stm_get_order($order_id)
+	{
+		$post = get_post($order_id);
+		$order = null;
+		$order_info = array(
+			'user_id',
+			'items',
+			'date',
+			'status',
+			'payment_code',
+			'order_key',
+			'_order_total',
+			'_order_currency',
+		);
+		if ($post->post_type == 'stm-orders') {
+			$order = (array)$post;
+			foreach ($order_info as $meta_key) {
+				$order[$meta_key] = get_post_meta($order_id, $meta_key, true);
+			}
+		}
+
+		return $order;
 	}
 
 	/**
@@ -345,7 +404,7 @@ TABLE;
 		try {
 			$prepared_sql = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_value = '%s' AND meta_key = '_payme_transaction_id'", $payload['params']['id']);
 			$order_id = $wpdb->get_var($prepared_sql);
-			return new WC_Order($order_id);
+			return $this->stm_get_order($order_id);
 		} catch (Exception $ex) {
 			$this->respond($this->error_transaction($payload));
 		}
@@ -375,9 +434,9 @@ TABLE;
 	 * @param WC_Order $order order
 	 * @return float create time as timestamp
 	 */
-	private function get_create_time(WC_Order $order)
+	private function get_create_time($order)
 	{
-		return (double)get_post_meta($order->get_id(), '_payme_create_time', true);
+		return (double)get_post_meta($order['ID'], '_payme_create_time', true);
 	}
 
 	/**
@@ -385,9 +444,9 @@ TABLE;
 	 * @param WC_Order $order order
 	 * @return float perform time as timestamp
 	 */
-	private function get_perform_time(WC_Order $order)
+	private function get_perform_time($order)
 	{
-		return (double)get_post_meta($order->get_id(), '_payme_perform_time', true);
+		return (double)get_post_meta($order['ID'], '_payme_perform_time', true);
 	}
 
 	/**
@@ -395,9 +454,9 @@ TABLE;
 	 * @param WC_Order $order order
 	 * @return float cancel time as timestamp
 	 */
-	private function get_cancel_time(WC_Order $order)
+	private function get_cancel_time($order)
 	{
-		return (double)get_post_meta($order->get_id(), '_payme_cancel_time', true);
+		return (double)get_post_meta($order['ID'], '_payme_cancel_time', true);
 	}
 
 	/**
@@ -405,14 +464,14 @@ TABLE;
 	 * @param WC_Order $order order
 	 * @return string saved transaction id
 	 */
-	private function get_transaction_id(WC_Order $order)
+	private function get_transaction_id($order)
 	{
-		return (string)get_post_meta($order->get_id(), '_payme_transaction_id', true);
+		return (string)get_post_meta($order['ID'], '_payme_transaction_id', true);
 	}
 
-	private function get_cencel_reason(WC_Order $order)
+	private function get_cencel_reason($order)
 	{
-		$b_v = (int)get_post_meta($order->get_id(), '_cancel_reason', true);
+		$b_v = (int)get_post_meta($order['ID'], '_cancel_reason', true);
 
 		if ($b_v) return $b_v;
 		else return null;
@@ -421,7 +480,7 @@ TABLE;
 	private function CheckPerformTransaction($payload)
 	{
 		$order = $this->get_order($payload);
-		$amount = $this->amount_to_coin($order->get_total());
+		$amount = $this->amount_to_coin($order['_order_total']);
 
 		if ($amount != $payload['params']['amount']) {
 			$response = $this->error_amount($payload);
@@ -441,7 +500,7 @@ TABLE;
 	private function CreateTransaction($payload)
 	{
 		$order = $this->get_order($payload);
-		$amount = $this->amount_to_coin($order->get_total());
+		$amount = $this->amount_to_coin($order['_order_total']);
 
 		if ($amount != $payload['params']['amount']) {
 			$response = $this->error_amount($payload);
@@ -450,34 +509,33 @@ TABLE;
 			$transaction_id = $payload['params']['id'];
 			$saved_transaction_id = $this->get_transaction_id($order);
 
-			if ($order->get_status() == "pending") { // handle new transaction
+			if ($order['status'] == "pending") { // handle new transaction
 				// Save time and transaction id
-				add_post_meta($order->get_id(), '_payme_create_time', $create_time, true);
-				add_post_meta($order->get_id(), '_payme_transaction_id', $transaction_id, true);
+				add_post_meta($order['ID'], '_payme_create_time', $create_time, true);
+				add_post_meta($order['ID'], '_payme_transaction_id', $transaction_id, true);
 
 				// Change order's status to Processing
-				$order->update_status('processing');
-
+				update_post_meta($order['ID'], 'status', 'processing');
 				$response = [
 					"id" => $payload['id'],
 					"result" => [
 						"create_time" => /*$create_time*/
 							$this->get_create_time($order),
-						"transaction" => "000" . $order->get_id(),
+						"transaction" => "000" . $order['ID'],
 						"state" => 1
 					]
 				];
-			} elseif ($order->get_status() == "processing" && $transaction_id == $saved_transaction_id) { // handle existing transaction
+			} elseif ($order['status'] == "processing" && $transaction_id == $saved_transaction_id) { // handle existing transaction
 				$response = [
 					"id" => $payload['id'],
 					"result" => [
 						"create_time" => /*$create_time*/
 							$this->get_create_time($order),
-						"transaction" => "000" . $order->get_id(),
+						"transaction" => "000" . $order['ID'],
 						"state" => 1
 					]
 				];
-			} elseif ($order->get_status() == "processing" && $transaction_id !== $saved_transaction_id) { // handle new transaction with the same order
+			} elseif ($order['status'] == "processing" && $transaction_id !== $saved_transaction_id) { // handle new transaction with the same order
 				$response = $this->error_has_another_transaction($payload);
 			} else {
 				$response = $this->error_unknown($payload);
@@ -492,42 +550,43 @@ TABLE;
 		$perform_time = $this->current_timestamp();
 		$order = $this->get_order_by_transaction($payload);
 
-		if ($order->get_status() == "processing") { // handle new Perform request
+		STM_Custom_LMS_Cart::stm_lms_order_created($order);
+
+		if ($order['status'] == "processing") { // handle new Perform request
 			// Save perform time
-			add_post_meta($order->get_id(), '_payme_perform_time', $perform_time, true);
+			add_post_meta($order['ID'], '_payme_perform_time', $perform_time, true);
 
 			$response = [
 				"id" => $payload['id'],
 				"result" => [
-					"transaction" => "000" . $order->get_id(),
+					"transaction" => "000" . $order['ID'],
 					"perform_time" => $this->get_perform_time($order),
 					"state" => 2
 				]
 			];
 
 			// Mark order as completed
-			// $order->update_status('completed');
-			$order->payment_complete($payload['params']['id']);
-
-		} elseif ($order->get_status() == "processing") { // handle existing Perform request
+			update_post_meta($order['ID'], 'status', 'completed');
+			STM_Custom_LMS_Cart::stm_lms_order_created($order);
+		} elseif ($order['status'] == "processing") { // handle existing Perform request
 			$response = [
 				"id" => $payload['id'],
 				"result" => [
-					"transaction" => "000" . $order->get_id(),
+					"transaction" => "000" . $order['ID'],
 					"perform_time" => $this->get_perform_time($order),
 					"state" => 2
 				]
 			];
-		} elseif ($order->get_status() == "completed") { // handle existing Perform request
+		} elseif ($order['status'] == "completed") { // handle existing Perform request
 			$response = [
 				"id" => $payload['id'],
 				"result" => [
-					"transaction" => "000" . $order->get_id(),
+					"transaction" => "000" . $order['ID'],
 					"perform_time" => $this->get_perform_time($order),
 					"state" => 2
 				]
 			];
-		} elseif ($order->get_status() == "cancelled" || $order->get_status() == "refunded") { // handle cancelled order
+		} elseif ($order['status'] == "cancelled" || $order['status'] == "refunded") { // handle cancelled order
 			$response = $this->error_cancelled_transaction($payload);
 		} else {
 			$response = $this->error_unknown($payload);
@@ -550,7 +609,7 @@ TABLE;
 				"create_time" => $this->get_create_time($order),
 				"perform_time" => (is_null($this->get_perform_time($order)) ? 0 : $this->get_perform_time($order)),
 				"cancel_time" => (is_null($this->get_cancel_time($order)) ? 0 : $this->get_cancel_time($order)),
-				"transaction" => "000" . $order->get_id(),
+				"transaction" => "000" . $order['ID'],
 				"state" => null,
 				"reason" => (is_null($this->get_cencel_reason($order)) ? null : $this->get_cencel_reason($order))
 			],
@@ -559,7 +618,7 @@ TABLE;
 
 		if ($transaction_id == $saved_transaction_id) {
 
-			switch ($order->get_status()) {
+			switch ($order['status']) {
 
 				case 'processing':
 					$response['result']['state'] = 1;
@@ -599,37 +658,37 @@ TABLE;
 			$response = [
 				"id" => $payload['id'],
 				"result" => [
-					"transaction" => "000" . $order->get_id(),
+					"transaction" => "000" . $order['ID'],
 					"cancel_time" => $cancel_time,
 					"state" => null
 				]
 			];
 
-			switch ($order->get_status()) {
+			switch ($order['status']) {
 				case 'pending':
-					add_post_meta($order->get_id(), '_payme_cancel_time', $cancel_time, true); // Save cancel time
-					$order->update_status('cancelled'); // Change status to Cancelled
+					add_post_meta($order['ID'], '_payme_cancel_time', $cancel_time, true); // Save cancel time
+					update_post_meta($order['ID'], 'status', 'cancelled'); // Change status to Cancelled
 					$response['result']['state'] = -1;
 
-					if (update_post_meta($order->get_id(), '_cancel_reason', $payload['params']['reason'])) {
-						add_post_meta($order->get_id(), '_cancel_reason', $payload['params']['reason'], true);
+					if (update_post_meta($order['ID'], '_cancel_reason', $payload['params']['reason'])) {
+						add_post_meta($order['ID'], '_cancel_reason', $payload['params']['reason'], true);
 					}
 					break;
 				case 'processing':
-					add_post_meta($order->get_id(), '_payme_cancel_time', $cancel_time, true); // Save cancel time
-					$order->update_status('cancelled'); // Change status to Cancelled
+					add_post_meta($order['ID'], '_payme_cancel_time', $cancel_time, true); // Save cancel time
+					update_post_meta($order['ID'], 'status', 'cancelled'); // Change status to Cancelled
 					$response['result']['state'] = -1;
-					if (update_post_meta($order->get_id(), '_cancel_reason', $payload['params']['reason'])) {
-						add_post_meta($order->get_id(), '_cancel_reason', $payload['params']['reason'], true);
+					if (update_post_meta($order['ID'], '_cancel_reason', $payload['params']['reason'])) {
+						add_post_meta($order['ID'], '_cancel_reason', $payload['params']['reason'], true);
 					}
 					break;
 
 				case 'completed':
-					add_post_meta($order->get_id(), '_payme_cancel_time', $cancel_time, true); // Save cancel time
-					$order->update_status('refunded'); // Change status to Refunded
+					add_post_meta($order['ID'], '_payme_cancel_time', $cancel_time, true); // Save cancel time
+					update_post_meta($order['ID'], 'status', 'refunded'); // Change status to Refunded
 					$response['result']['state'] = -2;
-					if (update_post_meta($order->get_id(), '_cancel_reason', $payload['params']['reason'])) {
-						add_post_meta($order->get_id(), '_cancel_reason', $payload['params']['reason'], true);
+					if (update_post_meta($order['ID'], '_cancel_reason', $payload['params']['reason'])) {
+						add_post_meta($order['ID'], '_cancel_reason', $payload['params']['reason'], true);
 					}
 					break;
 
@@ -920,7 +979,7 @@ function stm_lms_payme_success_parse_request(&$wp)
 
 		if ($wp->query_vars['payme_success'] == 1) {
 
-			if ($order->get_status() == "pending") {
+			if ($order['status'] == "pending") {
 				/*
 				$a->msg['title']   =  __('Payment not paid', 'payme');
 				$a->msg['message'] =  __('An error occurred during payment. Try again or contact your administrator.', 'payme');
@@ -931,7 +990,7 @@ function stm_lms_payme_success_parse_request(&$wp)
 				$a->msg['title'] = __('Payment successfully paid', 'payme');
 				$a->msg['message'] = __('Thank you for your purchase!', 'payme');
 				$a->msg['class'] = 'woocommerce_message woocommerce_message_info';
-				WC()->cart->empty_cart();
+				//	WC()->cart->empty_cart();
 			}
 
 		} else {

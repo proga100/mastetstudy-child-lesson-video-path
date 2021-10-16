@@ -14,11 +14,11 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-define('CLICK_VERSION', '1.0.4');
+define('CLICK_VERSION1', '1.0.4');
 
-define('CLICK_LOGO', plugin_dir_url(__FILE__) . 'click-logo.png');
+define('CLICK_LOGO1', plugin_dir_url(__FILE__) . 'click-logo.png');
 
-define('CLICK_DELIMITER', '|');
+define('CLICK_DELIMITER1', '|');
 
 class LMS_ClickUz
 {
@@ -39,8 +39,8 @@ class LMS_ClickUz
 	{
 		require_once 'include/class-lms-gateway-clickuz.php';
 		require_once 'include/class-lms-gateway-clickuz-handlers.php';
-		new LMS_Gateway_Clickuz();
-		new LMS_ClickAPI();
+		new STM_LMS_Gateway_Clickuz();
+		new STM_LMS_ClickAPI();
 	}
 
 	public function install()

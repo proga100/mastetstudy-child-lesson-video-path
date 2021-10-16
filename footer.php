@@ -1,72 +1,135 @@
-	<?php $data_page_id = 8313; ?>
+		<?php $home_page_id = 8313; ?>
 
-    <!-- Section - Call To Action -->
-    <?php
-    	$section_cta_bg_image = get_field('background_image', $data_page_id);
-    	$section_cta_title = get_field('section_cta_title', $data_page_id);
-    	$section_cta_description = get_field('section_cta_description', $data_page_id);
-    	$section_cta_background_image = get_field('section_cta_background_image', $data_page_id);
-    ?>
-    <section class="section section-calltoaction" <?php echo $section_cta_bg_image ? 'style="background-image: url(' . $section_cta_bg_image . ');"' : ''; ?>>
-        <div class="container">
-            <?php if ( $section_cta_title ) : ?>
-                <div class="title title--center">
-                    <h2><?php echo $section_cta_title; ?></h2>
-                    <p><?php echo $section_cta_description; ?></p>
-                </div>
-            <?php endif; ?>
-            <?php if ( get_field('section_cta_button', $data_page_id) ) : ?>
-	            <div class="text-center">
-	                <a href="<?php echo  get_field('section_cta_button', $data_page_id)['url']; ?>" class="btn btn-primary">
-	                	<?php echo  get_field('section_cta_button', $data_page_id)['title']; ?>
-	                </a>
-	            </div>
-	        <?php endif; ?>
-        </div>
-    </section>
+		<!-- Footer -->
+		<?php
+			$footer = get_field('footer', $home_page_id);
+		?>
 
-	<!-- Footer -->
-	<footer class="footer">
-	    <div class="container">
-	        <div class="row align-items-center">
-	            <div class="col-lg-3">
-	            	<?php if (get_field('logo', $data_page_id)) : ?>
-						<div class="footer__logo">
-				            <img src="<?php the_field('logo', $data_page_id); ?>" alt="IT Stars">
-						</div>
-					<?php endif; ?>
-	            </div>
-	            <div class="col-lg-6">
-	            	<?php if ( get_field('copyright', $data_page_id) ) : ?>
-		                <div class="footer__copyright">
-		                    <p><?php the_field('copyright', $data_page_id) ?></p>
-		                </div>
-		            <?php endif; ?>
-	            </div>
-	            <div class="col-lg-3">
-	                <div class="footer__socials">
-	                    <ul>
-	                    	<?php for ($i=1; $i < 7; $i++) : ?>
-			                	<?php $social_link = get_field('socials', $data_page_id)['link_' . $i]; if ( $social_link ) : ?>
-			                		<?php
-				                		$social_link_url = $social_link['url'];
-				                		$social_link_title = $social_link['title'];
-				                		$social_link_target = $social_link['target'] ? $social_link['target'] : '_self';
-			                		?>
-			                        <li>
-			                        	<a href="<?php echo $social_link_url; ?>" target="<?php echo esc_attr( $social_link_target ); ?>" class="<?php echo $social_link_title; ?>">
-				                        	<span class="icon icon-<?php echo $social_link_title; ?>"></span>
-				                        </a>
-				                    </li>
-			                    <?php endif; ?>
-			                <?php endfor; ?>
-	                    </ul>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</footer>
+
+     <?php
+     $user_id = get_current_user_id();
+     $oferta =(get_user_meta( $user_id, 'oferta', true ))?get_user_meta( $user_id, 'oferta', true): false ;
+     if ( $oferta != true) {
+		 load_modal_oferta('oferta');
+	 }
+     ?>
+		<footer class="tech__footer">
+		    <div class="container">
+		        <div class="tech__footer__top">
+		            <div class="tech__footer__menu">
+		                <?php
+		                    wp_nav_menu([
+		                        'menu'            => 'landing_footer',
+		                        'theme_location'  => 'landing_footer',
+		                        'container'       => false,
+		                        'menu_id'         => false,
+		                        'menu_class'      => '',
+		                        'depth'           => 1,
+		                    ]);
+		                ?>
+		            </div>
+		            <div class="tech__footer__logo">
+		                <a href="<?php bloginfo('url'); ?>">
+		                    <img src="<?php echo $footer['logo'] ?>" alt="">
+		                </a>
+		            </div>
+		        </div>
+		        <div class="tech__footer__bottom">
+		            <div class="tech__footer__socials">
+		                <ul>
+		                    <li>
+		                        <a href="<?php echo $footer['socials']['facebook']; ?>" target="_blank">
+		                            <i class="tech__icon tech__icon-facebook"></i>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="<?php echo $footer['socials']['tiktok']; ?>" target="_blank">
+		                            <i class="tech__icon tech__icon-tiktok"></i>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="<?php echo $footer['socials']['instagram']; ?>" target="_blank">
+		                            <i class="tech__icon tech__icon-instagram"></i>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="<?php echo $footer['socials']['youtube']; ?>" target="_blank">
+		                            <i class="tech__icon tech__icon-youtube"></i>
+		                        </a>
+		                    </li>
+		                    <li>
+		                        <a href="<?php echo $footer['socials']['telegram']; ?>" target="_blank">
+		                            <i class="tech__icon tech__icon-telegram"></i>
+		                        </a>
+		                    </li>
+		                </ul>
+		            </div>
+		            <div class="tech__footer__copyright">
+		                <p><?php echo $footer['copyright']; ?></p>
+		            </div>
+		        </div>
+		    </div>
+		</footer>
+
+		<style>
+			.tech__footer{padding:100px 0 80px 0;background-color:#241E28;}
+			@media (max-width:991.98px){.tech__footer{padding:50px 0;}}
+			.tech__footer__top{display:flex;justify-content:space-between;margin-bottom:50px;}
+			@media (max-width:991.98px){.tech__footer__top{flex-direction:column-reverse;align-items:center;margin-bottom:20px;}}
+			.tech__footer__bottom{display:flex;align-items:flex-end;justify-content:space-between;}
+			@media (max-width:991.98px){.tech__footer__bottom{flex-direction:column;align-items:center;}}
+			.tech__footer__menu{display:flex;}
+			.tech__footer__menu ul{margin:0;padding:0;list-style:none;column-count:3;column-gap:40px;}
+			@media (max-width:1199.98px){.tech__footer__menu ul{column-gap:20px;}}
+			@media (max-width:767.98px){.tech__footer__menu ul{column-count:1;column-gap:0;text-align:center;}}
+			.tech__footer__menu ul li{min-width:220px;margin-bottom:25px;}
+			@media (max-width:1199.98px){.tech__footer__menu ul li{min-width:180px;}}
+			.tech__footer__menu ul li a{color:#FFF;transition:all 0.2s ease-in-out;font-size: 1.25rem;line-height: 1.5;}
+			@media (prefers-reduced-motion:reduce){.tech__footer__menu ul li a{transition:none;}}
+			.tech__footer__menu ul li a:hover{color:#2EC097;text-decoration:none;}
+			@media (max-width:991.98px){.tech__footer__logo{display:none;}}
+			.tech__footer__logo img{width:190px;}
+			@media (max-width:991.98px){.tech__footer__socials{margin-bottom:40px;}}
+			.tech__footer__socials ul{display:flex;margin:0;padding:0;list-style:none;}
+			.tech__footer__socials ul li:not(:last-child){margin-right:40px;}
+			.tech__footer__socials ul li{margin-bottom:0;}
+			@media (max-width:575.98px){.tech__footer__socials ul li:not(:last-child){margin-right:30px;}}
+			.tech__footer__socials ul li a{display:block;font-size:30px;color:#FFF;transition:all 0.2s ease-in-out;}
+			@media (prefers-reduced-motion:reduce){.tech__footer__socials ul li a{transition:none;}}
+			.tech__footer__socials ul li a:hover{color:#2EC097;text-decoration:none;}
+			@media (max-width:991.98px){.tech__footer__copyright{text-align:center;}}
+			.tech__footer__copyright p{margin-bottom:0;color:rgba(255, 255, 255, 0.5);font-size: 1.25rem;line-height: 1.5;}
+
+			/* Icons */
+			@font-face {
+			  font-family: 'icomoon';
+			  src: url("../fonts/Icons/icomoon.eot?f8kjpq");
+			  src: url("../fonts/Icons/icomoon.eot?f8kjpq#iefix") format("embedded-opentype"), url("../fonts/Icons/icomoon.ttf?f8kjpq") format("truetype"), url("../fonts/Icons/icomoon.woff?f8kjpq") format("woff"), url("../fonts/Icons/icomoon.svg?f8kjpq#icomoon") format("svg");
+			  font-weight: normal;
+			  font-style: normal;
+			  font-display: block;
+			}
+			[class^="tech__icon-"], [class*=" tech__icon-"] {
+			  /* use !important to prevent issues with browser extensions that change fonts */
+			  font-family: 'icomoon' !important;
+			  speak: never;
+			  font-style: normal;
+			  font-weight: normal;
+			  font-variant: normal;
+			  text-transform: none;
+			  line-height: 1;
+			  /* Better Font Rendering =========== */
+			  -webkit-font-smoothing: antialiased;
+			  -moz-osx-font-smoothing: grayscale;
+			}
+			.tech__icon-facebook:before {content: "\e900";}
+			.tech__icon-tiktok:before {content: "\e901";}
+			.tech__icon-instagram:before {content: "\e902";}
+			.tech__icon-youtube:before {content: "\e903";}
+			.tech__icon-telegram:before {content: "\e904";}
+		</style>
 
 	<?php wp_footer(); ?>
+
 	</body>
 </html>
