@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-lg-10">
                                 <h4>Savol Matni</h4>
-                                <select name="savol_1">
+                                <select class="sel_savol" name="savol_1">
                                     <option value="Xa">Xa</option>
                                     <option value="Yoq">Yoq</option>
                                 </select>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-lg-10">
                                 <h4>Savol Matni</h4>
-                                <select name="savol_2">
+                                <select name="savol_2" class="sel_savol" >
                                     <option value="Xa">Xa</option>
                                     <option value="Yoq">Yoq</option>
                                 </select>

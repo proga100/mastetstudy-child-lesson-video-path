@@ -15,18 +15,23 @@ if (!empty($lesson_video)) {
 	$type = explode('.', $uploaded_video);
 	$type = strtolower(end($type));
 }
+if (!empty($lesson_video_url)) {
+	$uploaded_video = wp_get_attachment_url($lesson_video);
+	$type = explode('.', $uploaded_video);
+	$type = strtolower(end($type));
+}
 
-if (!empty($lesson_video_poster) and !empty($lesson_video_url)): ?>
-    <div class="stm_lms_video stm_lms_video__iframe"
-         style="background: url('<?php echo esc_url(stm_lms_get_image_url($lesson_video_poster, 'full')); ?>');">
-        <i class="stm_lms_play"></i>
-        <iframe data-src="<?php echo esc_url($lesson_video_url); ?>" allowfullscreen webkitallowfullscreen
-                mozallowfullscreen></iframe>
-    </div>
+if (!empty($lesson_video_url)): ?>
+
+    <video
+            controls
+            controlsList="nodownload" width="576" height="720"
+            src="<?php echo esc_attr($lesson_video_url); ?>">
+    </video>
 <?php endif;
 
-if (!empty($uploaded_video) && empty($wp_custom_attachment)):
-    ?>
+if (empty($lesson_video_url) && !empty($uploaded_video) && empty($wp_custom_attachment)):
+	?>
     <video
             controls
             controlsList="nodownload" width="576" height="720"
@@ -39,9 +44,5 @@ if (!empty($wp_custom_attachment)):
 	$uploaded_video = $wp_custom_attachment['file'];
 	$type = $wp_custom_attachment['type'];
 	?>
-    <video
-            controls
-            controlsList="nodownload" width="576" height="720"
-            src="<?php echo esc_attr($uploaded_video); ?>"  >
-    </video>
+
 <?php endif; ?>

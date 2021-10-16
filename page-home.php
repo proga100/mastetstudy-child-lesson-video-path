@@ -1,5 +1,10 @@
-<?php /* Template Name: Page Home (Landing) */ ?>
-    
+<?php /* Template Name: Page Home (Landing) */
+stm_lms_wp_head();
+
+stm_lms_nonces();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -747,13 +752,19 @@
         </div>
     </div>
 </div>
-
+<a href="#"
+   class="btn btn-default"
+   data-target=".stm-lms-modal-oferta"
+   data-lms-modal="oferta">
+    <span><?php esc_html_e('A\'zo bo\'lish', 'masterstudy-lms-learning-management-system-pro'); ?></span>
+</a>
 <script src="//code-eu1.jivosite.com/widget/j6UFoCypKn" async></script>
     
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/jquery.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/bootstrap.bundle.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/owl.carousel.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/main.js'; ?>"></script>
-
+<script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/lms.js'; ?>"></script>
+<script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/lms-oferta.js'; ?>"></script>
 </body>
 </html>

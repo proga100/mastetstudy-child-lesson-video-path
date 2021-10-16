@@ -31,7 +31,7 @@ function load_modal_oferta($modal = 'oferta', $params = [])
 	$user_id = get_current_user_id();
 	$oferta = (get_user_meta($user_id, 'accept', true)) ? get_user_meta($user_id, 'accept', true) : false;
 
-	if ($user_id) {
+	if ($user_id && $oferta !='yes')  {
 		wp_enqueue_script('script-modal-oferta', get_stylesheet_directory_uri() . '/assets/js/lms-oferta.js', array('jquery'), time(), true);
 	}
 }
@@ -59,16 +59,24 @@ function stm_lms_offerta()
 
 	$user_id = (get_current_user_id()) ? get_current_user_id() : null;
 	$accept = ($_REQUEST['accept']) ? sanitize_text_field($_REQUEST['accept']) : null;
-	$selected_javoblar = ($_REQUEST['selected_javoblar']) ? json_decode($_REQUEST['selected_javoblar']) : null;
-	print_r ($selected_javoblar);
+	$selected_javoblar = ($_REQUEST['selected_javoblar']) ? $_REQUEST['selected_javoblar'] : null;
+
 	update_user_meta($user_id, 'accept', $accept);
 	$user_info = get_user_meta($user_id);
-	foreach ($selected_javoblar as $key=>$javoblar) {
-		echo $key;
-		echo $javoblar;
+	foreach ($selected_javoblar as $key => $javoblar) {
 		update_user_meta($user_id, $key, $javoblar);
 	}
-	wp_send_json(['userid' => $user_id, 'userinfo' => $user_info, 'post' => $_POST]);
+	$redirect_url = '';
+	if ($accept == 'no') {
+		wp_logout();
+		$redirect_url = site_url();
+	}
+	wp_send_json([
+		'userid' => $user_id,
+		'userinfo' => $user_info,
+		'redirect_url' => $redirect_url,
+		'accept'=> $accept
+	]);
 }
 
 add_action('wp_ajax_stm_lms_offerta', 'stm_lms_offerta');
