@@ -1,17 +1,56 @@
-<div class="modal fade stm-lms-modal-oferta" tabindex="-1" role="dialog" aria-labelledby="stm-lms-modal-register">
+<div class="modal fade stm-lms-modal-oferta" tabindex="-1" data-keyboard="false" data-backdrop="static" role="dialog"
+     aria-labelledby="stm-lms-modal-oferta">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="">
-                        <a href="#stm-lms-login-modal" data-toggle="tab"><?php esc_html_e('Loginrrr', 'masterstudy-lms-learning-management-system'); ?></a>
-                    </li>
-                    <li role="presentation" class="active">
-                        <a href="#stm-lms-register" data-toggle="tab"><?php esc_html_e('Registerrr', 'masterstudy-lms-learning-management-system'); ?></a>
-                    </li>
-                </ul>
-				<?php STM_LMS_Templates::show_lms_template('account/v1/login', array('form_position' => '-modal')); ?>
-				<?php STM_LMS_Templates::show_lms_template('account/v1/register'); ?>
+            <div class="modal-body bg-secondary">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-12"><h3> Onlayn Oferta (Shatnoma)</h3></div>
+
+                    </div>
+                      <div class="row">
+                            <div class="col-lg-10">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                                eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
+                            </div>
+                            <div class="col-lg-10">
+                                <h4>Savol Matni</h4>
+                                <select name="savol_1">
+                                    <option value="Xa">Xa</option>
+                                    <option value="Yoq">Yoq</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-10">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                                eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
+                            </div>
+                            <div class="col-lg-10">
+                                <h4>Savol Matni</h4>
+                                <select name="savol_2">
+                                    <option value="Xa">Xa</option>
+                                    <option value="Yoq">Yoq</option>
+                                </select>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer bg-secondary">
+                <button type="button" id="rad" class="btn btn-danger offerta-accept" data-accept="no" data-dismiss="modal" data-userid="5">Rad Etish</button>
+                <button type="button" id="tasdiqlash" class="btn btn-success offerta-accept" data-accept="yes" data-dismiss="modal" data-userid="5">Tasdiqlash</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -19,5 +58,5 @@
 
 <script>
     //stm_lms_login(false);
-    //stm_lms_register(false);
+
 </script>

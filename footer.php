@@ -6,13 +6,14 @@
 		?>
 
 
-     <?php
-     $user_id = get_current_user_id();
-     $oferta =(get_user_meta( $user_id, 'oferta', true ))?get_user_meta( $user_id, 'oferta', true): false ;
-     if ( $oferta != true) {
-		 load_modal_oferta('oferta');
-	 }
-     ?>
+<a href="#"
+   class="btn btn-default stm-lms-modal-oferta-button"
+   data-target=".stm-lms-modal-oferta"
+   data-lms-modal="oferta"> teeee
+
+</a>
+
+
 		<footer class="tech__footer">
 		    <div class="container">
 		        <div class="tech__footer__top">
@@ -132,4 +133,5 @@
 	<?php wp_footer(); ?>
 
 	</body>
+
 </html>

@@ -41,9 +41,9 @@
                     dataType: 'json',
                     context: this,
                     data: {
-                        action: 'stm_lms_load_modal',
+                        action: 'load_oferta_ajax',
                         modal: modal,
-                        nonce: stm_lms_nonces['load_modal'],
+                        nonce: stm_lms_nonces['stm_lms_add_to_cart'],
                         params: params
                     },
                     beforeSend: function beforeSend() {

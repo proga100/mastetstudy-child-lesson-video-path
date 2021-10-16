@@ -24,12 +24,73 @@ function add_init_lms()
 add_action('wp_enqueue_scripts', 'add_init_lms', 11);
 $data = $payload = json_decode(file_get_contents('php://input'), true);
 //stm_put_log('all_request', $data);
+add_action('init', 'load_modal_oferta');
 
-
-function load_modal_oferta($modal, $params = [])
+function load_modal_oferta($modal = 'oferta', $params = [])
 {
-	$modal = 'modals/' . $modal;
+	$user_id = get_current_user_id();
+	$oferta = (get_user_meta($user_id, 'accept', true)) ? get_user_meta($user_id, 'accept', true) : false;
 
-	echo STM_LMS_Templates::load_lms_template($modal, $params);
+	if ($user_id) {
+		wp_enqueue_script('script-modal-oferta', get_stylesheet_directory_uri() . '/assets/js/lms-oferta.js', array('jquery'), time(), true);
+	}
+}
+
+add_filter('manage_users_columns', 'pippin_add_user_id_column');
+function pippin_add_user_id_column($columns)
+{
+	$columns['user_id'] = 'User ID';
+	return $columns;
+}
+
+add_action('manage_users_custom_column', 'pippin_show_user_id_column_content', 10, 3);
+function pippin_show_user_id_column_content($value, $column_name, $user_id)
+{
+	$user = get_userdata($user_id);
+	if ('user_id' == $column_name)
+		return $user_id;
+	return $value;
+}
+
+
+function stm_lms_offerta()
+{
+	//check_ajax_referer('stm_lms_add_to_cart', 'nonce');
+
+	$user_id = (get_current_user_id()) ? get_current_user_id() : null;
+	$accept = ($_REQUEST['accept']) ? sanitize_text_field($_REQUEST['accept']) : null;
+	$selected_javoblar = ($_REQUEST['selected_javoblar']) ? json_decode($_REQUEST['selected_javoblar']) : null;
+	print_r ($selected_javoblar);
+	update_user_meta($user_id, 'accept', $accept);
+	$user_info = get_user_meta($user_id);
+	foreach ($selected_javoblar as $key=>$javoblar) {
+		echo $key;
+		echo $javoblar;
+		update_user_meta($user_id, $key, $javoblar);
+	}
+	wp_send_json(['userid' => $user_id, 'userinfo' => $user_info, 'post' => $_POST]);
+}
+
+add_action('wp_ajax_stm_lms_offerta', 'stm_lms_offerta');
+add_action('wp_ajax_nopriv_stm_lms_offerta', 'stm_lms_offerta');
+
+
+function load_oferta_ajax()
+{
+
+	check_ajax_referer('stm_lms_add_to_cart', 'nonce');
+
+	if (empty($_GET['modal'])) die;
+	$r = array();
+
+	$modal = 'modals/' . sanitize_text_field($_GET['modal']);
+	$params = (!empty($_GET['params'])) ? json_decode(stripslashes_deep($_GET['params']), true) : array();
+	$r['params'] = $params;
+	$r['modal'] = STM_LMS_Templates::load_lms_template($modal, $params);
+
+	wp_send_json($r);
 
 }
+
+add_action('wp_ajax_load_oferta_ajax', 'load_oferta_ajax');
+add_action('wp_ajax_nopriv_load_oferta_ajax', 'load_oferta_ajax');
