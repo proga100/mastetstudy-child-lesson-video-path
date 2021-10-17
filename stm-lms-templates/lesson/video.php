@@ -21,14 +21,9 @@ if (!empty($lesson_video_url)) {
 	$type = strtolower(end($type));
 }
 
-if (!empty($lesson_video_url)): ?>
-
-    <video
-            controls
-            controlsList="nodownload" width="576" height="720"
-            src="<?php echo esc_attr($lesson_video_url); ?>">
-    </video>
-<?php endif;
+if (!empty($lesson_video_url)):
+	echo do_shortcode("[vdo id='{$lesson_video_url}']");
+endif;
 
 if (empty($lesson_video_url) && !empty($uploaded_video) && empty($wp_custom_attachment)):
 	?>
