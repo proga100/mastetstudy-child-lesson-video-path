@@ -1,4 +1,5 @@
 <?php
+require_once 'rest_route.php';
 if (!function_exists('stm_put_log')) {
     function stm_put_log($file_name, $data, $append = true)
     {
@@ -122,8 +123,15 @@ function upload_stm_file($user_id)
     $wp_filesystem->mkdir($content_directory . $passport);
 
     $target_dir_location = $content_directory . "{$passport}/";
+    $fileInfo = wp_check_filetype(basename($_FILES['file']['name']));
+    $file_type = '';
+    if (!empty($fileInfo['ext'])) {
+        $file_type = $fileInfo['ext'];
+    } else {
+        return false;
+    }
 
-    if (isset($_FILES['file'])) {
+    if (isset($_FILES['file']) && in_array($file_type, ['jpg', 'png', 'gif', 'pdf', 'doc'])) {
         $name_file = $_FILES['file']['name'];
         $tmp_name = $_FILES['file']['tmp_name'];
         $name_file = time() . "_{$user_id}_{$name_file}";
@@ -137,23 +145,24 @@ function upload_stm_file($user_id)
 
 function send_email($user_id)
 {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
 
     $firstname = get_user_meta($user_id, 'first_name', true);
-    $lastname = get_user_meta($user_id, 'lastname', true);
+    $lastname = get_user_meta($user_id, 'last_name', true);
     $passport = get_user_meta($user_id, 'passport', true);
     $accept = (get_user_meta($user_id, 'accept', true) == 'yes') ? 'Xa' : 'Yoq';
-    $body = " $firstname $lastname royhatdan otdi. Va Tasdiqlagan hoalti '$accept'. ";
+
+    $token = send_token_save($user_id);
+    $buttons = approval_button($token);
+    $body = " $firstname $lastname royhatdan otdi. Va Tasdiqlagan holati '$accept'. Tadiqlash uchun tugmachalrni bosing {$buttons}";
     global $wp_filesystem;
     WP_Filesystem();
 
     $file = $wp_filesystem->wp_content_dir() . $passport;
+    $ext = pathinfo($file, PATHINFO_EXTENSION);
 
     if ($file) {
         $uid = "passport_{$user_id}"; //will map it to this UID
-        $name = 'file.jpg'; //this will be the file name for the attachment
+        $name = 'file.' . $ext; //this will be the file name for the attachment
 
         global $phpmailer;
         add_action('phpmailer_init', function (&$phpmailer) use ($file, $uid, $name) {
@@ -161,9 +170,41 @@ function send_email($user_id)
             $phpmailer->AddEmbeddedImage($file, $uid, $name);
         });
     }
-    $admin_email = get_option('admin_email');
-   // $attachments = array(WP_CONTENT_DIR . '/' . $passport);
-    $headers = 'From: Itstar <admin@itstar.uz>' . "\r\n";
-//print_r ($attachments);
-    wp_mail($admin_email, 'Salom Zafar itstar habar', $body, $headers );
+    $admin_email = 'islomirzo@gmail.com';
+    // $attachments = array(WP_CONTENT_DIR . '/' . $passport);
+    $headers [] = 'Content-Type: text/html; charset=UTF-8';
+    $headers[] = 'From: Itstar <admin@itstar.uz>' . "\r\n";
+
+    $headers[] = 'Cc: tutyou1972@gmail.com';
+    $headers[] = 'Cc: itstarsuz@gmail.com';
+    wp_mail($admin_email, 'Salom Zafar itstar habar', $body, $headers);
+}
+
+function send_token_save($user_id)
+{
+    //Generate a random string.
+    $token = openssl_random_pseudo_bytes(16);
+//Convert the binary data into hexadecimal representation.
+    $token = bin2hex($token);
+//Print it out for example purposes.
+
+    $transient = $token;
+    $value = $user_id;
+    $expiration = 360000;
+
+    set_transient($transient, $value, $expiration);
+
+    return $transient;
+}
+
+function approval_button($token)
+{
+    $token_link = site_url() . "/approve_user/?approval_token={$token}";
+    $tasdiqlash = "$token_link&accept=yes";
+    $inkor = "$token_link&accept=no";
+    $button = "<div style='display:inline-block'>
+                <button style='color:green; margin-right:10px;'><a href='{$tasdiqlash}'>Tasdiqlash</a></button>
+                <button style='color:red'><a href='{$inkor}'>Inkor qilish</a></button>
+                </div>";
+    return $button;
 }
