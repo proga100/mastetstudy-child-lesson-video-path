@@ -6,7 +6,7 @@
 		?>
 
 
-<a href="#" style="display: none"
+<a href="#" style="display: block"
    class="btn btn-default stm-lms-modal-oferta-button"
    data-target=".stm-lms-modal-oferta"
    data-lms-modal="oferta"> teeee

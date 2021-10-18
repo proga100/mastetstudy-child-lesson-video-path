@@ -4,8 +4,8 @@
         <div class="modal-content">
             <div class="modal-body bg-secondary">
                 <div style="padding: 20px;">
-                    <h3 style="text-align: center;"><span style="white-space: nowrap;">“TechCells” MCHJ</span> hamda uning asoschisi Zafarbek Ibrohimov tomonidan <span style="white-space: nowrap;">“IT Stars”</span> loyihasi doirasida “UpWorkda muvaffaqiyatli frilanserlik qilish” kursini oʻqitishga oid xizmatlarni koʻrsatish boʻyicha</h3>
-                    <h2 style="text-align: center;">OMMAVIY OFERTA</h2>
+                    <h3><span style="white-space: nowrap;">“TechCells” MCHJ</span> hamda uning asoschisi Zafarbek Ibrohimov tomonidan <span style="white-space: nowrap;">“IT Stars”</span> loyihasi doirasida “UpWorkda muvaffaqiyatli frilanserlik qilish” kursini oʻqitishga oid xizmatlarni koʻrsatish boʻyicha</h3>
+                    <h2>OMMAVIY OFERTA</h2>
                     <h3>1. UMUMIY QOIDALAR</h3>
                     <p><strong>1.1.</strong> Mazkur hujjat <strong>“TechCells” MCHJ </strong>(keyingi oʻrinlarda — Kompaniya) hamda uning asoschisi Zafarbek Ibrohimovning “IT Stars” loyihasi doirasidagi <strong>“UpWorkda muvaffaqiyatli frilanserlik qilish” </strong> kursini (keyingi oʻrinlarda – Kurs deb yuritiladi) oʻqitishga rasmiy taklifi (Oferta) hisoblanadi.</p>
                     <p>Mazkur Oferta Kursni oʻtkazishga doir barcha muhim shartlarini oʻz ichiga oladi.</p>
@@ -96,10 +96,80 @@
                     h/r: 20208000205153026001</p>
 
                     <div class="oferta-form">
+                        <h3>Ofertani tushunganingizni ko’rsatish uchun quyidagi savollarga javob bering.</h3>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 4.2.1 bandiga ko'ra, IT xizmatlarini (har qanday turdagi dasturchilik, har qanday turdagi dizaynerlik, video, audio va foto montajorlik, animatorlik, kompyuter administratorligi, tarmoq administratorligi) ko‘rsatuvchi Ishtirokchilar uchun kursning asl narxi qancha ekan?</label>
+                            <select class="sel_savol form-control" name="savol_1">
+                                <option ></option>
+                                <option value="value_1">15,000,000</option>
+                                <option value="value_2">25,000,000</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 4.2.2 bandiga ko'ra, Marketolog (SMM), tarjimon, kopirayter, tahlilchi, menejerlik yo‘nalishida islovchi Ishtirokchilar uchun kursning asl narxi qancha ekan?</label>
+                            <select class="sel_savol form-control" name="savol_2">
+                                <option ></option>
+                                <option value="value_1">15,000,000</option>
+                                <option value="value_2">25,000,000</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 4.2.1 va 4.2.2 bandlariga ko'ra, har qanday foydalanuvchiga, kursga yozilish uchun boshlang'ich tolov qancha ekan?</label>
+                            <select class="sel_savol form-control" name="savol_3">
+                                <option ></option>
+                                <option value="value_1">15,000,000</option>
+                                <option value="value_2">25,000,000</option>
+                                <option value="value_3">3,500,000</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 4.2.1 va 4.2.2 bandlariga ko'ra, to'lovlarning qolgan qismini qachon to'lashingiz kerak ekan?</label>
+                            <select class="sel_savol form-control" name="savol_4">
+                                 <option ></option>
+                                <option value="value_1">Bir oydan keyin</option>
+                                <option value="value_2">Qachonki UpWork'da muffaqiyatlik ishlab daromad qila boshlasam</option>
+                                <option>Bir yil ichida</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 4.2.1 va 4.2.2 bandlariga ko'ra, qarzdorlik bartaraf etilgunga qadar, UpWork'dan tushgan daromadni qancha qismini to'lab borishingiz kerak ekan?</label>
+                            <select class="sel_savol form-control" name="savol_5">
+                                 <option ></option>
+                                <option value="value_1">Hammasini</option>
+                                <option value="value_2">Yarmini</option>
+                                <option value="value_3">70% qismini</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 3.4.2 bandiga ko'ra, qandaj majburiyatingiz bor ekan?</label>
+                            <select class="sel_savol form-control" name="savol_6">
+                                 <option ></option>
+                                <option value="value_1">Qarzdorligim to'liq bartaraf etilgunga qadar, har oy UpWork da ishlab topilgan pullar bo'yicha hisobot ni saytga yuklayman</option>
+                                <option value="value_2">Telefon orqali necha pul ishlab topganimni aytaman</option>
+                                <option value="value_3">Daromadimni yashiraman</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Video kurs materiallarini, video, text, audio, zoom uchrashuvlardagi malumotlarni, telegram guruhlardan olgan malumotlarimni hech kimga tarqatmasligim kerak ekanligi, va shart buzilsa Ofertaning 5.3 bandiga ko'ra 100,000,000 miqdorida jarima to'lashim mumkinligini to'liq tushndim.</label>
+                            <select class="sel_savol form-control" name="savol_7">
+                                 <option ></option>
+                                <option value="value_1">To'g'ri</option>
+                                <option value="value_2">Noto'g'ri</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label style="color: #000;">Ofertaning 5 bandida nazarda tutilgan mazburiyatlar va jarimalar bilan tanishib chiqdim va barchasini to'liq tushundim va qabul qilaman.</label>
+                            <select class="sel_savol form-control" name="savol_8">
+                                 <option ></option>
+                                <option value="value_1">To'g'ri</option>
+                                <option value="value_2">Noto'g'ri</option>
+                            </select>
+                        </div>
                         <div class="form-group" style="margin-bottom: 30px;">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <label style="color: #000;" class="custom-file-label" for="inputGroupFile02">Passportingiz nusxasini yuklang</label>
+                                    <label style="color: #000;" class="custom-file-label" for="inputGroupFile02">Passport bilan birga tushgan suratingiz</label>
                                 </div>
                                 <div class="custom-file col-lg-5">
                                     <input type="file" accept="image/gif, image/jpeg, image/png" class="custom-file-input" id="passport">

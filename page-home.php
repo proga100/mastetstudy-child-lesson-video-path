@@ -1,17 +1,13 @@
-<?php /* Template Name: Page Home (Landing) */
-stm_lms_wp_head();
-
-stm_lms_nonces();
-?>
-
-
+<?php /* Template Name: Page Home (Landing) */ ?>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IT Stars</title>
+	<link rel="icon" href="<?php the_field('favicon'); ?>">
+    <title>IT Stars - Yorqin karyera!</title>
     <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . '/assets/css/style.css'; ?>">
     <script>
         var TxtType = function(el, toRotate, period) {
@@ -400,7 +396,7 @@ stm_lms_nonces();
                     </div>
                     <?php if ( is_user_logged_in() ) : ?>
                         <div class="text-center text-lg-left">
-                            <a href="/courses" class="btn btn-purple btn-lg">Boshlash</a>
+                            <a href="/courses" class="btn btn-purple shimmer-animation">Boshlash</a>
                         </div>
                     <?php else: ?>
     		            <?php $button = $section_about['rows']['button'];
@@ -738,13 +734,26 @@ stm_lms_nonces();
                 <div class="text-center">
                     <h3><?php echo $advice_modal['title'] ?></h3>
                     <p><?php echo $advice_modal['description'] ?></p>
-                    <?php $telegram_modal_button = $advice_modal['telegram_button'];
-                        if ( $telegram_modal_button ) : 
-                            $telegram_modal_button_url = $telegram_modal_button['url'];
-                            $telegram_modal_button_title = $telegram_modal_button['title'];
+    				
+                    <?php $call_button = $advice_modal['call_button'];
+                        if ( $call_button ) : 
+                            $call_button_url = $call_button['url'];
+                            $call_button_title = $call_button['title'];
                     ?>
-                        <a href="<?php echo $telegram_modal_button_url; ?>" target="_blank" class="btn btn-primary">
-                            <i class="icon icon-telegram fs-30 mr-4" style="vertical-align: -6px;"></i><?php echo $telegram_modal_button_title; ?>
+                        <h3>
+                            <a href="<?php echo $call_button_url; ?>" class="text-secondary">
+                                <?php echo $call_button_title; ?>
+                            </a>
+                        </h3>
+                    <?php endif; ?>
+                    <p>Yoki</p>
+                    <?php $telegram_button = $advice_modal['telegram_button'];
+                        if ( $telegram_button ) : 
+                            $telegram_button_url = $telegram_button['url'];
+                            $telegram_button_title = $telegram_button['title'];
+                    ?>
+                        <a href="<?php echo $telegram_button_url; ?>" target="_blank" class="btn btn-primary">
+                            <i class="icon icon-telegram fs-30 mr-4" style="vertical-align: -6px;"></i><?php echo $telegram_button_title; ?>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -752,19 +761,13 @@ stm_lms_nonces();
         </div>
     </div>
 </div>
-<a href="#"
-   class="btn btn-default"
-   data-target=".stm-lms-modal-oferta"
-   data-lms-modal="oferta">
-    <span><?php esc_html_e('A\'zo bo\'lish', 'masterstudy-lms-learning-management-system-pro'); ?></span>
-</a>
+
 <script src="//code-eu1.jivosite.com/widget/j6UFoCypKn" async></script>
     
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/jquery.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/bootstrap.bundle.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/owl.carousel.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/main.js'; ?>"></script>
-<script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/lms.js'; ?>"></script>
-<script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/lms-oferta.js'; ?>"></script>
+
 </body>
 </html>

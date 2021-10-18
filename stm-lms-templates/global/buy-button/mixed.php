@@ -135,9 +135,16 @@ if (!$is_affiliate):
 
 
 				?>
+
+
+            	<?php if( is_user_logged_in() ) : ?>
+
+
 				<?php
 				$payment_methods = STM_LMS_Options::get_option('payment_methods');
-				if (!empty($payment_methods)) :
+					$user_id = get_current_user_id();
+					$oferta = (get_user_meta($user_id, 'accept', true)) ? get_user_meta($user_id, 'accept', true) : false;
+				if (!empty($payment_methods && $oferta =='yes')) :
 
 					$payment_method_names = STM_LMS_Cart::payment_methods();
 					?>
@@ -163,7 +170,7 @@ if (!$is_affiliate):
 					endforeach;
 				endif; ?>
 				<?php if (!empty($price) or !empty($sale_price)): ?>
-                    <div class="tech__course-price">
+                    <div class="tech__course-price" style="text-align: center;">
                         <strong>
 							<?php if (!empty($price)): ?>
 								<?php echo STM_LMS_Helpers::display_price($price); ?>
@@ -176,6 +183,46 @@ if (!$is_affiliate):
                         </span>
                     </div>
 				<?php endif; ?>
+
+            	<?php else: ?>
+
+            <?php /* ?>
+<div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro">
+    <div class="container">
+        <div class="form-group">
+            <div class="btn btn-outline">
+                <span>Maslahat Olish</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php */ ?>
+
+<div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro">
+    <div class="container">
+        <div class="form-group">
+            <div class="btn btn-default" data-text="Log in" data-target=".stm-lms-modal-login" data-lms-modal="login">
+                <span>Ro'yxatdan O'tish</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php /* ?>
+<div class="modal fade stm-lms-modal-advice" tabindex="-1" data-keyboard="false" data-backdrop="static" role="dialog"
+ aria-labelledby="stm-lms-modal-oferta">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body bg-secondary">
+                Maslahat Olish
+            </div>
+        </div>
+    </div>
+</div>
+<?php */ ?>
+
+            	<?php endif; ?>
 
                 <div class="stm_lms_mixed_button__list">
 
