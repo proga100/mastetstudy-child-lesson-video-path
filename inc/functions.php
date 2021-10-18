@@ -56,26 +56,28 @@ function pippin_show_user_id_column_content($value, $column_name, $user_id)
 function stm_lms_offerta()
 {
 	//check_ajax_referer('stm_lms_add_to_cart', 'nonce');
-
 	$user_id = (get_current_user_id()) ? get_current_user_id() : null;
 	$accept = ($_REQUEST['accept']) ? sanitize_text_field($_REQUEST['accept']) : null;
-	$selected_javoblar = ($_REQUEST['selected_javoblar']) ? $_REQUEST['selected_javoblar'] : null;
+	$selected_javoblar = ($_REQUEST['selected_javoblar']) ? (array)json_decode(str_replace("\\", "",$_REQUEST['selected_javoblar'])) : null;
 
 	update_user_meta($user_id, 'accept', $accept);
 	$user_info = get_user_meta($user_id);
 	foreach ($selected_javoblar as $key => $javoblar) {
+		$javoblar = (array)$javoblar;
 		update_user_meta($user_id, $key, $javoblar);
 	}
 	$redirect_url = '';
+
 	if ($accept == 'no') {
 		wp_logout();
 		$redirect_url = site_url();
 	}
+	
 	wp_send_json([
 		'userid' => $user_id,
 		'userinfo' => $user_info,
 		'redirect_url' => $redirect_url,
-		'accept'=> $accept
+		'accept' => $accept
 	]);
 }
 
@@ -102,3 +104,25 @@ function load_oferta_ajax()
 
 add_action('wp_ajax_load_oferta_ajax', 'load_oferta_ajax');
 add_action('wp_ajax_nopriv_load_oferta_ajax', 'load_oferta_ajax');
+
+
+
+function upload_stm_file()
+{
+	global $wp_filesystem;
+	WP_Filesystem();
+	$content_directory = $wp_filesystem->wp_content_dir() . 'uploads/';
+	$wp_filesystem->mkdir($content_directory . 'passports');
+
+	$target_dir_location = $content_directory . 'passports/';
+
+	if (isset($_FILES['file'])) {
+		$name_file = $_FILES['file']['name'];
+		$tmp_name = $_FILES['file']['tmp_name'];
+		if (move_uploaded_file($tmp_name, $target_dir_location . $name_file)) {
+			echo "File was successfully uploaded";
+		} else {
+			echo "The file was not uploaded";
+		}
+	}
+}

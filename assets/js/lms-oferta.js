@@ -59,7 +59,7 @@
 
             $('body').on('click', '.offerta-accept', function (e) {
                 e.preventDefault();
-                
+
                 let userid = $(this).data('userid');
                 let accept = $(this).data('accept');
                 let select = $(this).parents('.stm-lms-modal-oferta').find('select');
@@ -72,28 +72,33 @@
                         'user_meta_key_label': $(value).find('option:selected').text()
                     }
                 });
+
+                fd = new FormData();
+                fd.append('file', $("#passport").get(0).files[0]);
+                fd.append('action', 'stm_lms_offerta');
+                fd.append('nonce', stm_lms_nonces['load_modal']);
+                fd.append('userid', userid);
+                fd.append('accept', accept);
+                fd.append('selected_javoblar', JSON.stringify(selected_savol));
+
                 $.ajax({
                     url: stm_lms_ajaxurl,
-                    dataType: 'json',
-                    context: this,
-                    data: {
-                        action: 'stm_lms_offerta',
-                        nonce: stm_lms_nonces['load_modal'],
-                        userid: userid,
-                        accept: accept,
-                        selected_javoblar: selected_savol
-                    },
+                    type: "POST",
+                    data: fd,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
                     beforeSend: function beforeSend() {
                         $(this).addClass('loading');
                     },
                     complete: function complete(data) {
                         data = data['responseJSON'];
                         $(this).removeClass('loading');
-                         location.href = data['redirect_url'];
+                        location.href = data['redirect_url'];
                         if (data['accept'] == 'no') {
                             location.href = data['redirect_url'];
-                        }else{
-                            document.location.reload();
+                        } else {
+                            //document.location.reload();
                         }
                     }
                 });
