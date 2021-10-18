@@ -98,7 +98,7 @@
                         if (data['accept'] == 'no') {
                             location.href = data['redirect_url'];
                         } else {
-                            //document.location.reload();
+                            document.location.reload();
                         }
                     }
                 });
