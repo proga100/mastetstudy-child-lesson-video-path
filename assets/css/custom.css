@@ -178,3 +178,24 @@ html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_account_dropdown .d
 html.stm_lms_type_video body .stm_lms_account_dropdown .dropdown button i {
 	color: #385bce !important;
 }
+
+/* Contact Page */
+body.page-id-413 .icon .fa-telegram-plane {
+    width: 35px;
+    height: 35px;
+    background-size: 35px;
+    background-repeat: no-repeat;
+    background-position: center;
+	background-image: url('https://itstars.uz/wp-content/themes/masterstudy-child/images/telegram-o.svg');
+}
+body.page-id-413 .icon .fa-telegram-plane:before {
+    display: none;
+}
+
+.stm_lms_course_sticky_panel.is-visible {
+	display: none !important;
+}
+
+.stm-curriculum-item {
+	flex-wrap: nowrap !important;
+}

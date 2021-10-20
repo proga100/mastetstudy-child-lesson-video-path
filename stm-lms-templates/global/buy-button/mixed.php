@@ -203,7 +203,7 @@ if (!$is_affiliate):
     <div class="container">
         <div class="form-group">
             <div class="btn btn-default" data-text="Log in" data-target=".stm-lms-modal-login" data-lms-modal="login">
-                <span>Ro'yxatdan O'tish</span>
+                <span>Kursga yozilish</span>
             </div>
         </div>
     </div>

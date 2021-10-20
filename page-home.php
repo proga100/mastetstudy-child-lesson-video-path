@@ -6,67 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta property="og:title" content="IT Stars - Yorqin karyera!" />
+<meta property="og:url" content="https://itstars.uz/" />
+<meta property="og:image" content="https://itstars.uz/wp-content/uploads/2021/07/logo.svg" />
 	<link rel="icon" href="<?php the_field('favicon'); ?>">
     <title>IT Stars - Yorqin karyera!</title>
     <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri() . '/assets/css/style.css'; ?>">
-    <script>
-        var TxtType = function(el, toRotate, period) {
-            this.toRotate = toRotate;
-            this.el = el;
-            this.loopNum = 0;
-            this.period = parseInt(period, 10) || 2000;
-            this.txt = '';
-            this.tick();
-            this.isDeleting = false;
-        };
-
-        TxtType.prototype.tick = function() {
-            var i = this.loopNum % this.toRotate.length;
-            var fullTxt = this.toRotate[i];
-
-            if (this.isDeleting) {
-                this.txt = fullTxt.substring(0, this.txt.length - 1);
-            } else {
-                this.txt = fullTxt.substring(0, this.txt.length + 1);
-            }
-
-            this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
-
-            var that = this;
-            var delta = 100 - Math.random() * 100;
-
-            if (this.isDeleting) { delta /= 2; }
-
-            if (!this.isDeleting && this.txt === fullTxt) {
-                delta = this.period;
-                this.isDeleting = true;
-            } else if (this.isDeleting && this.txt === '') {
-                this.isDeleting = false;
-                this.loopNum++;
-                delta = 500;
-            }
-
-            setTimeout(function() {
-                that.tick();
-            }, delta);
-        };
-
-        window.onload = function() {
-            var elements = document.getElementsByClassName('typewrite');
-            for (var i=0; i<elements.length; i++) {
-                var toRotate = elements[i].getAttribute('data-type');
-                var period = elements[i].getAttribute('data-period');
-                if (toRotate) {
-                    new TxtType(elements[i], JSON.parse(toRotate), period);
-                }
-            }
-            // INJECT CSS
-            // var css = document.createElement("style");
-            // css.type = "text/css";
-            // css.innerHTML = ".typewrite > .wrap { border-right: 2px solid #2EC097}";
-            // document.body.appendChild(css);
-        };
-    </script>
 </head>
 <body>
 
@@ -138,24 +83,22 @@
                             }
                         ?>
                         <?php if ( !empty($intro_subtitles) ): ?>
-                            <h2 class="typewrite-wrapper">
-                                <div class="typewrite" data-period="4000" data-type='<?php echo json_encode($intro_subtitles); ?>'>
-                                    <span class="wrap"></span>
-                                </div>
-                            </h2>
-                        <?php endif ?>
+                            <div class="type-wrap">
+                                <span id="typed" class="typed"></span>
+                            </div>
+                        <?php endif; ?>
                         <p><?php echo $section_intro['description']; ?></p>
                     </div>
-                    <div class="text-center text-lg-left">
+                    <div class="d-flex justify-content-center justify-content-xl-start flex-column flex-md-row align-items-center align-items-md-start">
                         <?php if ( is_user_logged_in() ) : ?>
-                            <a href="/courses" class="btn btn-purple px-5 mr-2 shimmer-animation animated">Boshlash</a>
+                            <a href="/courses" class="btn btn-purple shimmer-animation animated px-md-5 mb-4 mb-md-0 mr-md-4">Boshlash</a>
                         <?php else: ?>
                             <?php $intro_button = $section_intro['button'];
                                 if ( $intro_button ) : 
                                     $intro_button_url = $intro_button['url'];
                                     $intro_button_title = $intro_button['title'];
                             ?>
-                                <a href="<?php echo $intro_button_url; ?>" class="btn btn-purple px-5 mr-2 shimmer-animation animated">
+                                <a href="<?php echo $intro_button_url; ?>" class="btn btn-purple shimmer-animation animated px-md-5 mb-4 mb-md-0 mr-md-4">
                                     <?php echo $intro_button_title; ?>
                                 </a>
                             <?php endif; ?>
@@ -165,7 +108,7 @@
                                 $advice_modal_button_url = $advice_modal_button['url'];
                                 $advice_modal_button_title = $advice_modal_button['title'];
                         ?>
-                            <a href="javascript:;" class="btn btn-primary px-5" data-toggle="modal" data-target="<?php echo $advice_modal_button_url; ?>">
+                            <a href="javascript:;" class="btn btn-primary px-md-5" data-toggle="modal" data-target="<?php echo $advice_modal_button_url; ?>">
                                 <?php echo $advice_modal_button_title; ?>
                             </a>
                         <?php endif; ?>
@@ -226,21 +169,21 @@
                 <p><?php echo $section_mission['description']; ?></p>
             </div>
             <div class="row mission__row">
-                <div class="col-sm-6 col-lg-4 mission__col-1">
+                <div class="col-md-6 col-lg-4 mission__col-1">
                     <div class="mission__item">
                     	<?php echo $section_mission['mission_1']['icon']; ?>
                         <strong><?php echo $section_mission['mission_1']['title']; ?></strong>
                         <p><?php echo $section_mission['mission_1']['description']; ?></p>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-4 mission__col-2">
+                <div class="col-md-6 col-lg-4 mission__col-2">
                     <div class="mission__item">
                     	<?php echo $section_mission['mission_2']['icon']; ?>
                         <strong><?php echo $section_mission['mission_2']['title']; ?></strong>
                         <p><?php echo $section_mission['mission_2']['description']; ?></p>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-4 mission__col-3">
+                <div class="col-md-6 col-lg-4 mission__col-3">
                     <div class="mission__item">
                     	<?php echo $section_mission['mission_3']['icon']; ?>
                         <strong><?php echo $section_mission['mission_3']['title']; ?></strong>
@@ -730,7 +673,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span class="icon icon-remove"></span>
             </button>
-            <div class="modal-body p-10">
+            <div class="modal-body px-6 py-6 px-sm-10 py-sm-10">
                 <div class="text-center">
                     <h3><?php echo $advice_modal['title'] ?></h3>
                     <p><?php echo $advice_modal['description'] ?></p>
@@ -752,8 +695,8 @@
                             $telegram_button_url = $telegram_button['url'];
                             $telegram_button_title = $telegram_button['title'];
                     ?>
-                        <a href="<?php echo $telegram_button_url; ?>" target="_blank" class="btn btn-primary">
-                            <i class="icon icon-telegram fs-30 mr-4" style="vertical-align: -6px;"></i><?php echo $telegram_button_title; ?>
+                        <a href="<?php echo $telegram_button_url; ?>" target="_blank" class="btn btn-primary px-4 px-sm-14">
+                            <i class="icon icon-telegram fs-30 mr-2 mr-sm-4" style="vertical-align: -6px;"></i><?php echo $telegram_button_title; ?>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -767,7 +710,22 @@
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/jquery.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/bootstrap.bundle.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/owl.carousel.js'; ?>"></script>
+<script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/typed.min.js'; ?>"></script>
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/js/main.js'; ?>"></script>
 
+<?php if ( !empty($intro_subtitles) ): ?>
+<script async>
+    $("#typed").typed({
+        strings: <?php echo json_encode($intro_subtitles); ?>,
+        typeSpeed: 0,
+        startDelay: 0,
+        backSpeed: 0,
+        backDelay: 3000,
+        loop: true,
+        cursorChar: "|",
+        contentType: 'html'
+    });
+</script>
+<?php endif; ?>
 </body>
 </html>
