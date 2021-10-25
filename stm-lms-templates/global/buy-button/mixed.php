@@ -137,56 +137,70 @@ if (!$is_affiliate):
 				?>
 
 
-            	<?php if( is_user_logged_in() ) : ?>
+				<?php if (is_user_logged_in()) : ?>
 
 
-				<?php
-				$payment_methods = STM_LMS_Options::get_option('payment_methods');
+					<?php
+					$payment_methods = STM_LMS_Options::get_option('payment_methods');
 					$user_id = get_current_user_id();
 					$oferta = (get_user_meta($user_id, 'accept', true)) ? get_user_meta($user_id, 'accept', true) : false;
-				if (!empty($payment_methods && $oferta =='yes')) :
+					if (!empty($payment_methods && $oferta == 'yes')) :
 
-					$payment_method_names = STM_LMS_Cart::payment_methods();
-					?>
-                    <div class="stm_lms_form_html"></div>
-					<?php
-					foreach ($payment_methods as $payment_method_code => $payment_method):
-						if (!empty($payment_method['enabled'])):
-							?>
-
-                            <div data-payment-method="<?php echo $payment_method_code ?>"
-                                 class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro" <?php if (!$dropdown_enabled) echo implode(' ', apply_filters('stm_lms_buy_button_auth', $attributes, $course_id)); ?>>
-                                <div class="container">
-                                    <div class="form-group">
-                                        <div class="btn btn-default <?php echo $payment_method_code ?>-payment">
-                                            <span><?php echo $payment_method_names[$payment_method_code] ?></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+						$payment_method_names = STM_LMS_Cart::payment_methods();
+						?>
+                        <div class="stm_lms_form_html"></div>
 						<?php
-						endif;
-					endforeach;
-				endif; ?>
-				<?php if (!empty($price) or !empty($sale_price)): ?>
-                    <div class="tech__course-price" style="text-align: center;">
-                        <strong>
-							<?php if (!empty($price)): ?>
-								<?php echo STM_LMS_Helpers::display_price($price); ?>
-							<?php endif; ?>
-                        </strong>
-                        <span>
+						foreach ($payment_methods as $payment_method_code => $payment_method):
+							if (!empty($payment_method['enabled'])):
+								?>
+
+                                <div data-payment-method="<?php echo $payment_method_code ?>"
+                                     class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro" <?php if (!$dropdown_enabled) echo implode(' ', apply_filters('stm_lms_buy_button_auth', $attributes, $course_id)); ?>>
+                                    <div class="container">
+                                        <div class="form-group">
+                                            <div class="btn btn-default <?php echo $payment_method_code ?>-payment">
+                                                <span><?php echo $payment_method_names[$payment_method_code] ?></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+							<?php
+							else:
+							endif;
+						endforeach;
+					else:
+						?>
+                        <div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro">
+                            <a href="https://itstars.uz/contact-us/">
+                                <div class="form-group">
+                                    <div class="btn btn-default stm-advise">
+                                        <span>Maslaxat olish</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+					<?php
+					endif; ?>
+					<?php
+					if ((!empty($price) or !empty($sale_price)) && $oferta == 'yes'): ?>
+                        <div class="tech__course-price" style="text-align: center;">
+                            <strong>
+								<?php if (!empty($price)): ?>
+									<?php echo STM_LMS_Helpers::display_price($price); ?>
+								<?php endif; ?>
+                            </strong>
+                            <span>
                             <?php if (!empty($sale_price)): ?>
 								<?php echo STM_LMS_Helpers::display_price($sale_price); ?>
 							<?php endif; ?>
                         </span>
-                    </div>
-				<?php endif; ?>
+                        </div>
+					<?php endif; ?>
 
-            	<?php else: ?>
+				<?php else: ?>
 
-            <?php /* ?>
+					<?php /* ?>
 <div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro">
     <div class="container">
         <div class="form-group">
@@ -199,17 +213,18 @@ if (!$is_affiliate):
 
 <?php */ ?>
 
-<div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro">
-    <div class="container">
-        <div class="form-group">
-            <div class="btn btn-default" data-text="Log in" data-target=".stm-lms-modal-login" data-lms-modal="login">
-                <span>Kursga yozilish</span>
-            </div>
-        </div>
-    </div>
-</div>
+                    <div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro">
+                        <div class="container">
+                            <div class="form-group">
+                                <div class="btn btn-default" data-text="Log in" data-target=".stm-lms-modal-login"
+                                     data-lms-modal="login">
+                                    <span>Kursga yozilish</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<?php /* ?>
+					<?php /* ?>
 <div class="modal fade stm-lms-modal-advice" tabindex="-1" data-keyboard="false" data-backdrop="static" role="dialog"
  aria-labelledby="stm-lms-modal-oferta">
     <div class="modal-dialog modal-lg" role="document">
@@ -222,7 +237,7 @@ if (!$is_affiliate):
 </div>
 <?php */ ?>
 
-            	<?php endif; ?>
+				<?php endif; ?>
 
                 <div class="stm_lms_mixed_button__list">
 

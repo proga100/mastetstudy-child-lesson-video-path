@@ -1,3 +1,4 @@
+
 /* Theme override (start classes with: ----- body.itstars ----- ) */
 
 body.itstars .header_6 .header_main_menu_wrapper {
@@ -30,13 +31,50 @@ body.itstars .start-course {
     padding: 10px 0;
 }
 
-.tech__stm_lms_lesson_header__row {
-    display: flex;
-    align-items: center;
+@media (min-width: 992px) {
+
+    .tech__stm_lms_lesson_header__row {
+        display: flex;
+        align-items: center;
+    }
 }
 
-.tech__stm_lms_lesson_header .stm_lms_lesson_header__right {
-    justify-content: flex-end;
+
+@media (max-width: 767px) {
+
+    .container-fluid--tech__lesson-wrapper {
+        padding: 0;
+    }
+
+    .container-fluid--tech__lesson {
+        padding: 0 !important;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .tech__stm_lms_lesson_header .stm_lms_lesson_header__right {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 1024px) {
+
+    .tech__stm_lms_lesson_header .stm_lms_lesson_header__right {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .tech__stm_lms_lesson_header .stm_lms_lesson_header__right {
+        margin-top: 20px;
+    }
+
+    .tech__stm_lms_lesson_header .stm_lms_lesson_header__right .stm_lms_account_dropdown .dropdown-menu {
+        left: 0 !important;
+        right: auto !important;
+    }
 }
 
 .tech__stm_lms_lesson_header .stm_lms_lesson_header__right .stm_lms_wishlist_button {
@@ -162,6 +200,20 @@ html.stm_lms_type_video body .stm_lms_lesson_header__right a {
 	opacity: 1;
 }
 
+@media (max-width: 1024px) {
+
+    html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_lesson_header__center {
+        text-align: left;
+    }
+}
+
+@media (max-width: 550px) {
+
+    html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_lesson_header__center {
+        margin: 0;
+    }
+}
+
 html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_lesson_header__center a {
     color: #273044;
 }
@@ -198,4 +250,35 @@ body.page-id-413 .icon .fa-telegram-plane:before {
 
 .stm-curriculum-item {
 	flex-wrap: nowrap !important;
+}
+
+/* Registration form */
+
+form.stm_lms_register_wrapper {
+    position: relative;
+}
+
+form.stm_lms_register_wrapper > .row:first-child > .col-md-6:nth-child(3) {
+    width: calc(100% - 70px);
+    position: absolute;
+    bottom: 95px;
+    left: 35px;
+}
+
+form.stm_lms_register_wrapper > .row:last-child {
+    margin-top: 190px;
+}
+
+/* Registration form ends */
+
+.stm-lms-modal-enterprise .stm_lms_enterprise_wrapper {
+    background-color: #FFF;
+}
+
+.stm-lms-modal-enterprise .modal-body .close {
+    color: black !important;
+}
+
+.stm-lms-modal-enterprise .modal-body .btn {
+    font-size: 20px;
 }
