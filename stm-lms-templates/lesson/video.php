@@ -3,6 +3,7 @@
  *
  * @var $id
  */
+user_video_timer::set_user_timer($id);
 
 $lesson_video_poster = get_post_meta($id, 'lesson_video_poster', true);
 $lesson_video_url = get_post_meta($id, 'lesson_video_url', true);
