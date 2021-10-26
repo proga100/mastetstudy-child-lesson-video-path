@@ -11,8 +11,10 @@
             fd.append('nonce', stm_lms_nonces['stm_lms_add_to_cart']);
             fd.append('userid', userid);
             fd.append('accept', accept);
-            $(this).text('Loading...');
 
+            let button_text = $(this).text();
+            $(this).text('Loading...');
+            let vm = this;
             $.ajax({
                 url: stm_lms_ajaxurl,
                 type: "POST",
@@ -21,13 +23,14 @@
                 processData: false,
                 contentType: false,
                 beforeSend: function beforeSend() {
-                    $(this).addClass('user-stm-loader');
+                  //  $(vm).addClass('user-stm-loader');
 
                 },
                 complete: function complete(data) {
                     data = data['responseJSON'];
-                    $(this).removeClass('user-stm-loader');
-                 $('#user_stm_id_'+userid).parents('.user-stm-button').html(data['button'])
+                  //  $(vm).removeClass('user-stm-loader');
+                    $(vm).text(button_text);
+                    $('tr#user-' + userid).find('td.status.column-status').html(data['button'])
                 }
             });
         });
