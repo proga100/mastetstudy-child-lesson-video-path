@@ -8,11 +8,19 @@
     color: #fff;
 }
 
+.user-yellow{
+    background: yellow;
+    color: black;
+}
+
 .user-admin-button {
-    width: 100%;
+  width: 80px;
     cursor: pointer;
-    padding: 10px;
+    padding: 3px;
     margin-top: 20px;
+    display: inline-block;
+    margin-right: 5px;
+    text-align: center;
 }
 
 .user-stm-loader {
@@ -34,5 +42,9 @@
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
   100% { -webkit-transform: rotate(360deg); }
+}
+
+th#accept {
+    width: 300px;
 }
 

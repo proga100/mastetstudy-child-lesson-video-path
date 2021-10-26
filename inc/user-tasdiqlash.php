@@ -34,15 +34,12 @@ class user_accept
 	}
 
 	function get_button($user_id, $accept)
-	{
+    {
+        $button = '<span id="user_stm_id_' . $user_id . '"  class="user-accept user-red user-admin-button" data-userid="' . $user_id . '" data-accept="no">Rad etish</span>';
+        $button .= '<span id="user_stm_id_' . $user_id . '"  class="user-accept user-green user-admin-button" data-userid="' . $user_id . '" data-accept="yes">Tasdiqlash</span>';
+        $button .= '<span id="user_stm_id_' . $user_id . '"  class="user-accept user-yellow user-admin-button" data-userid="' . $user_id . '" data-accept="pending">Pending</span>';
 
-
-		if ($accept == 'yes') {
-			$button = '<span id="user_stm_id_' . $user_id . '"  class="user-accept user-red user-admin-button" data-userid="' . $user_id . '" data-accept="no">Tasdiqdan Ochirish</span>';
-		} else {
-			$button = '<span id="user_stm_id_' . $user_id . '"  class="user-accept user-green user-admin-button" data-userid="' . $user_id . '" data-accept="yes">Tasdiqlash</span>';
-		}
-		return $button;
+        return $button;
 	}
 
 	function send_user_adminstudent_email($user_id)
@@ -61,23 +58,28 @@ class user_accept
 
 	function new_modify_user_table($column)
 	{
+	    $column['status'] = 'Tasdiqlangan Holati';
 		$column['accept'] = 'Tasdiqlash';
 
 		return $column;
 	}
 
 
-	function new_modify_user_table_row($val, $column_name, $user_id)
-	{
-		switch ($column_name) {
-			case 'accept' :
-				$accept = get_the_author_meta('accept', $user_id);
-				$button = $this->get_button($user_id, $accept);
-				return "<span class='user-stm-button'>$button</span>";
-			default:
-		}
-		return $val;
-	}
+    function new_modify_user_table_row($val, $column_name, $user_id)
+    {
+        switch ($column_name) {
+            case 'accept' :
+                $accept = get_the_author_meta('accept', $user_id);
+                $button = $this->get_button($user_id, $accept);
+                return "<span class='user-stm-button'>$button</span>";
+            case 'status' :
+                $accept = get_the_author_meta('accept', $user_id);
+                $accept = ($accept == 'yes') ? 'Xa' : 'Yoq';
+                return "$accept";
+            default:
+        }
+        return $val;
+    }
 
 
 	function suedsicht_theme_add_editor_assets()
