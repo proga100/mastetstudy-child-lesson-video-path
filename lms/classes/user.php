@@ -9,12 +9,13 @@ class STM_LMS_User_Child
     {
 
         add_filter('stm_lms_float_menu_items', 'STM_LMS_User_Child::stm_lms_float_menu_items', 20, 4);
+		add_filter('stm_lms_custom_routes_config', 'STM_LMS_User_Child::stm_lms_custom_routes_config');
 
     }
 
     public static function stm_lms_float_menu_items($menus, $current_user, $lms_template_current, $object_id)
     {
-echo $lms_template_current;
+
         $menus[] = array(
             'order' => 250,
             'current_user' => $current_user,
@@ -22,9 +23,25 @@ echo $lms_template_current;
             'lms_template' => 'stm-lms-user-payments',
             'menu_title' => esc_html__('To\'lovlar', 'masterstudy-child'),
             'menu_icon' => 'fa-shopping-basket',
-            'menu_url' => STM_LMS_User::login_page_url().'my-payments/',
+            'menu_url' => STM_LMS_User_Child::url(),
         );
 
         return $menus;
+    }
+
+	 public static function stm_lms_custom_routes_config($routes)
+	 {
+		 $routes['user_url']['sub_pages']['my_payments_url'] = array(
+			 'template' => 'stm-lms-user-payments',
+			 'protected' => true,
+			 'url' => 'my-payments',
+		 );
+		 return $routes;
+	 }
+	 public static function url()
+    {
+        $pages_config = STM_LMS_Page_Router::pages_config();
+
+        return STM_LMS_User::login_page_url() . $pages_config['user_url']['sub_pages']['my_payments_url']['url'];
     }
 }
