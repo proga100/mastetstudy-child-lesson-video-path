@@ -26,6 +26,16 @@ class STM_LMS_User_Child
             'menu_url' => STM_LMS_User_Child::url(),
         );
 
+           $menus[] = array(
+            'order' => 350,
+            'current_user' => $current_user,
+            'lms_template_current' => $lms_template_current,
+            'lms_template' => 'stm-lms-user-reports',
+            'menu_title' => esc_html__('Xisobotlar', 'masterstudy-child'),
+            'menu_icon' => 'fa-shopping-basket',
+            'menu_url' => STM_LMS_User_Child::report_url(),
+        );
+
         return $menus;
     }
 
@@ -36,6 +46,12 @@ class STM_LMS_User_Child
 			 'protected' => true,
 			 'url' => 'my-payments',
 		 );
+
+		 $routes['user_url']['sub_pages']['my_reports_url'] = array(
+			 'template' => 'stm-lms-user-reports',
+			 'protected' => true,
+			 'url' => 'my-reports',
+		 );
 		 return $routes;
 	 }
 	 public static function url()
@@ -43,5 +59,12 @@ class STM_LMS_User_Child
         $pages_config = STM_LMS_Page_Router::pages_config();
 
         return STM_LMS_User::login_page_url() . $pages_config['user_url']['sub_pages']['my_payments_url']['url'];
+    }
+
+    public static function report_url()
+    {
+        $pages_config = STM_LMS_Page_Router::pages_config();
+
+        return STM_LMS_User::login_page_url() . $pages_config['user_url']['sub_pages']['my_reports_url']['url'];
     }
 }

@@ -1,4 +1,3 @@
-
 /* Theme override (start classes with: ----- body.itstars ----- ) */
 
 body.itstars .header_6 .header_main_menu_wrapper {
@@ -281,4 +280,8 @@ form.stm_lms_register_wrapper > .row:last-child {
 
 .stm-lms-modal-enterprise .modal-body .btn {
     font-size: 20px;
+}
+
+.stm-curriculum-item.lms-active .heading_font {
+    color: #00c691 !important;
 }
