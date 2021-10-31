@@ -42,7 +42,7 @@ $dirs = (get_user_meta($user_id, 'reports', true)) ? get_user_meta($user_id, 're
                                 <div class="report_saved input-group control-group">
 
                                     <a class="form-control"
-                                       href="<?php echo $dir['path'] ?>"><?php echo basename($dir['path']) ?></a>
+                                       href="<?php echo site_url().'/wp-content/'.$dir['path'] ?>"><?php echo basename($dir['path']) ?></a>
                                     <input type="hidden" name="lms_reports[xisobot_saved][]"
                                            value="<?php echo $dir['path']  ?>">
                                     <input type="hidden" disabled name="lms_reports[xisobot_date][]"

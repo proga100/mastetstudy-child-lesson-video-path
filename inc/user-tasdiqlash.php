@@ -56,28 +56,35 @@ class user_accept
         wp_mail($user_email, 'itstars.uz dan sizga Habar bor', $body, $headers);
     }
 
-    function new_modify_user_table($column)
-    {
-        $column['status'] = 'Tasdiqlangan Holati';
-        $column['accept'] = 'Tasdiqlash';
-
-        return $column;
-    }
+	function new_modify_user_table($column)
+	{
+		$column['status'] = 'Tasdiqlangan Holati';
+		$column['accept'] = 'Tasdiqlash';
+		$column['tolovlar'] = 'To\'lovlar';
+		$column['report'] = 'Upwork Xisobotlar';
+		return $column;
+	}
 
 
     function new_modify_user_table_row($val, $column_name, $user_id)
     {
-        switch ($column_name) {
-            case 'accept' :
-                $accept = get_the_author_meta('accept', $user_id);
-                $button = $this->get_button($user_id, $accept);
-                return "<span class='user-stm-button'>$button</span>";
-            case 'status' :
-                return $this->get_status($user_id);
-            default:
-        }
-        return $val;
-    }
+		$admin_url = admin_url('admin.php?page=my-custom-submenu-page&user_id=' . $user_id . '');
+		$admin_url_report = admin_url('admin.php?page=user-report-page&user_id=' . $user_id . '');
+			switch ($column_name) {
+			case 'accept' :
+				$accept = get_the_author_meta('accept', $user_id);
+				$button = $this->get_button($user_id, $accept);
+				return "<span class='user-stm-button'>$button</span>";
+			case 'status' :
+				return $this->get_status($user_id);
+			case 'tolovlar' :
+				return '<a href="' . $admin_url . ' " >To\'lov Sahifasi</a>';
+			case 'report' :
+				return '<a href="' . $admin_url_report . ' " >Xisobot Sahifasi</a>';
+			default:
+		}
+		return $val;
+	}
 
 
     function suedsicht_theme_add_editor_assets()
