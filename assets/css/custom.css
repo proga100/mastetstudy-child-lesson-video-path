@@ -82,11 +82,11 @@ body.itstars .start-course {
 
 .stm_lms_account_dropdown .lnr.lnr-user {
     font-size: 20px;
-	vertical-align: -3px;
+    vertical-align: -3px;
 }
 
 .stm_lms_account_dropdown .login_name {
-	display: none !important;
+    display: none !important;
 }
 
 .tech__course-price {
@@ -174,7 +174,7 @@ body.itstars .start-course {
 
 .tech__course-single-rating-price .stm_lms_courses__single--price strong {
     font-size: 20px;
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 .tech__course-single-rating {
@@ -183,11 +183,11 @@ body.itstars .start-course {
 
 /* Video lesson page background changes */
 html.stm_lms_type_video body {
-	color: #273044;
+    color: #273044;
 }
 
 html.stm_lms_type_video body {
- 	background: none; 
+    background: none;
 }
 
 html.stm_lms_type_video body .stm_lms_lesson_header {
@@ -195,8 +195,8 @@ html.stm_lms_type_video body .stm_lms_lesson_header {
 }
 
 html.stm_lms_type_video body .stm_lms_lesson_header__right a {
-	color: #00c691;
-	opacity: 1;
+    color: #00c691;
+    opacity: 1;
 }
 
 @media (max-width: 1024px) {
@@ -222,12 +222,12 @@ html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_lesson_header__cent
 }
 
 html.stm_lms_type_video body .stm_lms_lesson_header .stm_lms_account_dropdown .dropdown button {
-	background-color: #f0f4fa;
-	border: 1px solid #f0f4fa;
+    background-color: #f0f4fa;
+    border: 1px solid #f0f4fa;
 }
 
 html.stm_lms_type_video body .stm_lms_account_dropdown .dropdown button i {
-	color: #385bce !important;
+    color: #385bce !important;
 }
 
 /* Contact Page */
@@ -237,18 +237,19 @@ body.page-id-413 .icon .fa-telegram-plane {
     background-size: 35px;
     background-repeat: no-repeat;
     background-position: center;
-	background-image: url('https://itstars.uz/wp-content/themes/masterstudy-child/images/telegram-o.svg');
+    background-image: url('https://itstars.uz/wp-content/themes/masterstudy-child/images/telegram-o.svg');
 }
+
 body.page-id-413 .icon .fa-telegram-plane:before {
     display: none;
 }
 
 .stm_lms_course_sticky_panel.is-visible {
-	display: none !important;
+    display: none !important;
 }
 
 .stm-curriculum-item {
-	flex-wrap: nowrap !important;
+    flex-wrap: nowrap !important;
 }
 
 /* Registration form */
@@ -285,3 +286,339 @@ form.stm_lms_register_wrapper > .row:last-child {
 .stm-curriculum-item.lms-active .heading_font {
     color: #00c691 !important;
 }
+
+/* PRICE LIST PAGE */
+.price-list-desktop {
+    background-color: #FFF;
+    border: 1px solid #E0E4E9;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+@media (max-width: 991.98px) {
+    .price-list-desktop__wrapper {
+        display: none;
+    }
+}
+
+.price-list-desktop table {
+    margin: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.price-list-desktop table tr:first-child td {
+    vertical-align: top;
+    padding-top: 50px;
+    padding-bottom: 40px;
+    font-weight: normal;
+}
+
+.price-list-desktop table tr:first-child td h3 {
+    position: relative;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    font-size: 30px;
+    color: #484848;
+    font-weight: 500;
+    line-height: 42px;
+}
+
+@media (max-width: 1199.98px) {
+    .price-list-desktop table tr:first-child td h3 {
+        font-size: 24px;
+        line-height: normal;
+    }
+}
+
+.price-list-desktop table tr:first-child td h3:after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 40px);
+    bottom: 0;
+    width: 80px;
+    height: 5px;
+    background-color: #E0E4E9;
+}
+
+.price-list-desktop table tr:first-child td h4 {
+    font-size: 38px;
+    color: #484848;
+    font-weight: 500;
+    line-height: 46px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 1199.98px) {
+    .price-list-desktop table tr:first-child td h4 {
+        font-size: 24px;
+        line-height: normal;
+    }
+}
+
+.price-list-desktop table tr:first-child td h4 small {
+    font-weight: 500;
+}
+
+.price-list-desktop table tr:first-child td p {
+    font-size: 14px;
+}
+
+.price-list-desktop table tr:not(:first-child):not(:last-child) td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+.price-list-desktop table td {
+    vertical-align: middle;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    height: 80px;
+    border-width: 1px;
+    padding: 8px 30px;
+    border-color: #E0E4E9;
+}
+
+.price-list-desktop table td:last-child {
+    background-color: #F6F7F8;
+}
+
+.price-list-desktop table tr:last-child td {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.price-list-desktop table td:not(:last-child) {
+    border-right: 1px solid #E0E4E9;
+}
+
+.price-list-desktop table tr:not(:last-child) td {
+    border-bottom: 1px solid #E0E4E9;
+}
+
+.price-list-desktop .btn {
+    padding: 10px 50px;
+    font-weight: normal;
+    text-transform: none;
+    border-radius: 15px;
+}
+
+.price-list-desktop .icon {
+    font-size: 16px;
+    color: #484848;
+}
+
+@media (min-width: 992px) {
+    .price-list-mobile {
+        display: none;
+    }
+}
+
+.price-list-mobile .price-list {
+    background-color: #FFF;
+    border: 1px solid #E0E4E9;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 30px;
+    padding-top: 60px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.price-list-mobile .price-list h3 {
+    position: relative;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    font-size: 30px;
+    color: #484848;
+    font-weight: 500;
+    line-height: 42px;
+}
+
+.price-list-mobile .price-list h3:after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 40px);
+    bottom: 0;
+    width: 80px;
+    height: 5px;
+    background-color: #E0E4E9;
+}
+
+.price-list-mobile .price-list h4 {
+    font-size: 38px;
+    color: #484848;
+    font-weight: 500;
+    line-height: 46px;
+    margin-bottom: 10px;
+}
+
+.price-list-mobile .price-list h4 small {
+    font-weight: 500;
+}
+
+.price-list-mobile .price-list p {
+    font-size: 15px;
+}
+
+.price-list-mobile .price-list__details {
+    text-align: left;
+    margin-top: 30px;
+}
+
+@media (min-width: 768px) {
+    .price-list-mobile .price-list__details {
+        column-count: 2;
+        column-gap: 30px;
+    }
+}
+
+.price-list-mobile .price-list__details p {
+    margin: 10px 0 0 0;
+}
+
+.price-list-mobile .price-list__details p .icon, .price-list-mobile .price-list__details p .fas {
+    font-size: 14px;
+    margin-right: 15px;
+}
+
+.warranty-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 130px;
+    height: 40px;
+    padding: 5px 0;
+    position: absolute;
+    top: 26px;
+    right: -19px;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #2EC097;
+    transform: rotate(45deg);
+}
+
+.warranty-label:before, .warranty-label:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.warranty-label:before {
+    left: -40px;
+    border-width: 0 0 40px 40px;
+    border-color: transparent transparent #2EC097 transparent;
+}
+
+.warranty-label:after {
+    right: -40px;
+    border-width: 40px 0 0 40px;
+    border-color: transparent transparent transparent #2EC097;
+}
+
+.warranty-label span:before, .warranty-label span:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    bottom: -20px;
+}
+
+.warranty-label span:before {
+    left: -40px;
+    border-width: 20px 20px 0 0;
+    border-color: #1a6e56 transparent transparent transparent;
+}
+
+.warranty-label span:after {
+    right: -40px;
+    border-width: 0 20px 20px 0;
+    border-color: transparent #1a6e56 transparent transparent;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.price-list-desktop table tr {
+    border: 0;
+}
+
+.price-list-desktop table tr:first-child td {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn-theme, .price-list-desktop .btn,
+.price-list-mobile .btn {
+    padding: 15px 50px;
+    font-size: 18px;
+    border-radius: 15px;
+    outline: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-theme, .price-list-desktop .btn,
+    .price-list-mobile .btn {
+        transition: none;
+    }
+}
+
+.btn-theme.btn-primary, .price-list-desktop .btn-primary.btn,
+.price-list-mobile .btn-primary.btn {
+    color: #FFF;
+    background-color: #2EC097;
+}
+
+.btn-theme.btn-primary:hover, .price-list-desktop .btn-primary.btn:hover,
+.price-list-mobile .btn-primary.btn:hover {
+    border-color: #2EC097;
+    background-color: #29ab87;
+}
+
+.btn-theme.btn-primary:focus, .price-list-desktop .btn-primary.btn:focus,
+.price-list-mobile .btn-primary.btn:focus {
+    outline: none;
+}
+
+.btn-theme.btn-outline-primary, .price-list-desktop .btn-outline-primary.btn,
+.price-list-mobile .btn-outline-primary.btn {
+    color: #2EC097;
+    border-color: #2EC097;
+    background-color: transparent;
+}
+
+.btn-theme.btn-outline-primary:hover, .price-list-desktop .btn-outline-primary.btn:hover,
+.price-list-mobile .btn-outline-primary.btn:hover {
+    outline: none;
+    color: #FFF;
+    border-color: #2EC097;
+    background-color: #2EC097;
+}
+
+.btn-theme.btn-outline-primary:focus, .price-list-desktop .btn-outline-primary.btn:focus,
+.price-list-mobile .btn-outline-primary.btn:focus {
+    outline: none;
+}
+
+
+.price-list-desktop__wrapper button.btn.btn-outline-primary.payme-payment {
+    background: white !important;
+    color: #2EC097;
+}
+.price-list-desktop__wrapper button.btn.btn-outline-primary.payme-payment:hover {
+    background: #2EC097 !important;
+    color: white;
+}
+
+/* PRICE LIST PAGE styled end */

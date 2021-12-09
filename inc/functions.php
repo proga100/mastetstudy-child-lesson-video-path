@@ -2,7 +2,6 @@
 require_once 'rest_route.php';
 require_once 'user-tasdiqlash.php';
 require_once 'user-video-timer.php';
-
 if (!function_exists('stm_put_log')) {
 	function stm_put_log($file_name, $data, $append = true)
 	{
@@ -12,7 +11,6 @@ if (!function_exists('stm_put_log')) {
 		else file_put_contents($file, $data);
 	}
 }
-
 function add_init_lms()
 {
 	wp_dequeue_script('stm-lms-lms');
@@ -29,7 +27,6 @@ add_action('wp_enqueue_scripts', 'add_init_lms', 11);
 $data = $payload = json_decode(file_get_contents('php://input'), true);
 //stm_put_log('all_request', $data);
 add_action('init', 'load_modal_oferta');
-
 function load_modal_oferta($modal = 'oferta', $params = [])
 {
 	$user_id = get_current_user_id();
@@ -56,16 +53,13 @@ function pippin_show_user_id_column_content($value, $column_name, $user_id)
 	return $value;
 }
 
-
 function stm_lms_offerta()
 {
 	//check_ajax_referer('stm_lms_add_to_cart', 'nonce');
 	$user_id = (get_current_user_id()) ? get_current_user_id() : null;
 	$accept = ($_REQUEST['accept']) ? sanitize_text_field($_REQUEST['accept']) : null;
 	$selected_javoblar = ($_REQUEST['selected_javoblar']) ? (array)json_decode(str_replace("\\", "", $_REQUEST['selected_javoblar'])) : null;
-
 	$passport = upload_stm_file($user_id);
-
 	update_user_meta($user_id, 'accept', $accept);
 	$user_info = get_user_meta($user_id);
 	foreach ($selected_javoblar as $key => $javoblar) {
@@ -87,35 +81,27 @@ function stm_lms_offerta()
 		'redirect_url' => $redirect_url,
 		'accept' => $accept
 	];
-
 	wp_send_json($response);
 }
 
 add_action('wp_ajax_stm_lms_offerta', 'stm_lms_offerta');
 add_action('wp_ajax_nopriv_stm_lms_offerta', 'stm_lms_offerta');
-
-
 function load_oferta_ajax()
 {
 
 	check_ajax_referer('stm_lms_add_to_cart', 'nonce');
-
 	if (empty($_GET['modal'])) die;
 	$r = array();
-
 	$modal = 'modals/' . sanitize_text_field($_GET['modal']);
 	$params = (!empty($_GET['params'])) ? json_decode(stripslashes_deep($_GET['params']), true) : array();
 	$r['params'] = $params;
 	$r['modal'] = STM_LMS_Templates::load_lms_template($modal, $params);
-
 	wp_send_json($r);
 
 }
 
 add_action('wp_ajax_load_oferta_ajax', 'load_oferta_ajax');
 add_action('wp_ajax_nopriv_load_oferta_ajax', 'load_oferta_ajax');
-
-
 function upload_stm_file($user_id)
 {
 	global $wp_filesystem;
@@ -124,7 +110,6 @@ function upload_stm_file($user_id)
 	$passport = 'passports';
 	$content_directory = $wp_filesystem->wp_content_dir() . $upload;
 	$wp_filesystem->mkdir($content_directory . $passport);
-
 	$target_dir_location = $content_directory . "{$passport}/";
 	$fileInfo = wp_check_filetype(basename($_FILES['file']['name']));
 	$file_type = '';
@@ -133,7 +118,6 @@ function upload_stm_file($user_id)
 	} else {
 		return false;
 	}
-
 	if (isset($_FILES['file']) && in_array($file_type, ['jpg', 'png', 'gif', 'pdf', 'doc'])) {
 		$name_file = $_FILES['file']['name'];
 		$tmp_name = $_FILES['file']['tmp_name'];
@@ -153,20 +137,16 @@ function send_email($user_id)
 	$lastname = get_user_meta($user_id, 'last_name', true);
 	$passport = get_user_meta($user_id, 'passport', true);
 	$accept = (get_user_meta($user_id, 'accept', true) == 'yes') ? 'Xa' : 'Yoq';
-
 	$token = send_token_save($user_id);
 	$buttons = approval_button($token);
 	$body = " $firstname $lastname royhatdan otdi. Va Tasdiqlagan holati '$accept'. Tadiqlash uchun tugmachalrni bosing {$buttons}";
 	global $wp_filesystem;
 	WP_Filesystem();
-
 	$file = $wp_filesystem->wp_content_dir() . $passport;
 	$ext = pathinfo($file, PATHINFO_EXTENSION);
-
 	if ($file) {
 		$uid = "passport_{$user_id}"; //will map it to this UID
 		$name = 'file.' . $ext; //this will be the file name for the attachment
-
 		global $phpmailer;
 		add_action('phpmailer_init', function (&$phpmailer) use ($file, $uid, $name) {
 			$phpmailer->SMTPKeepAlive = true;
@@ -177,7 +157,6 @@ function send_email($user_id)
 	// $attachments = array(WP_CONTENT_DIR . '/' . $passport);
 	$headers [] = 'Content-Type: text/html; charset=UTF-8';
 	$headers[] = 'From: Itstar <admin@itstar.uz>' . "\r\n";
-
 	$headers[] = 'Cc: tutyou1972@gmail.com';
 	$headers[] = 'Cc: itstarsuz@gmail.com';
 	wp_mail($admin_email, 'Salom Zafar itstar habar', $body, $headers);
@@ -190,13 +169,10 @@ function send_token_save($user_id)
 //Convert the binary data into hexadecimal representation.
 	$token = bin2hex($token);
 //Print it out for example purposes.
-
 	$transient = $token;
 	$value = $user_id;
 	$expiration = 360000;
-
 	set_transient($transient, $value, $expiration);
-
 	return $transient;
 }
 
@@ -210,4 +186,40 @@ function approval_button($token)
                 <button style='color:red'><a href='{$inkor}'>Inkor qilish</a></button>
                 </div>";
 	return $button;
+}
+
+function buy_button($course_id, $plan_id)
+{
+
+	?>
+    <div class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro sssss dssssssssss">
+        <div class="stm_lms_mixed_button subscription_disabled">
+            <div class="stm_lms_form_html"></div>
+        </div>
+		<?php if (is_user_logged_in()) : ?>
+            <div data-payment-method="payme"
+                 class="stm-lms-buy-buttons stm-lms-buy-buttons-mixed stm-lms-buy-buttons-mixed-pro"
+                 data-buy-course="<?php echo $course_id ?>"
+                 data-buy-plan="<?php echo $plan_id ?>"
+            >
+                <div class="container">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-outline-primary payme-payment">
+                            <span>Sotib olish</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+		<?php else: ?>
+<div class="btn btn-default"
+                                     data-text="Log in"
+                                     data-target=".stm-lms-modal-login"
+                                     data-lms-modal="login">
+                                    <span>Kursga yozilish</span>
+                                </div>
+		<?php endif; ?>
+    </div>
+
+	<?php
 }

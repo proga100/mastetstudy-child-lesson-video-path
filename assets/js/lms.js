@@ -69,6 +69,7 @@
         $('[data-buy-course]').on('click', function (e) {
             var item_id = $(this).attr('data-buy-course');
             let payment_method = $(this).attr('data-payment-method');
+             let plan_id = $(this).attr('data-buy-plan');
             if (typeof item_id === 'undefined') {
                 window.location = $(this).attr('href');
                 return false;
@@ -82,7 +83,9 @@
                     action: 'stm_lms_add_to_cart',
                     nonce: stm_lms_nonces['stm_lms_add_to_cart'],
                     item_id: item_id,
-                    payment_code: payment_method
+                    payment_code: payment_method,
+                    plan_id: plan_id
+
                 },
                 beforeSend: function beforeSend() {
                     $(this).addClass('loading');
@@ -212,3 +215,16 @@ function stmLmsExternalInitProgress() {
         }, 2000);
     }
 }
+
+(function ($) {
+
+    $(document).ready(function () {
+        $('body').on('click', '#redirect_price_list', function (e) {
+            e.preventDefault();
+            let url = $(this).data('href');
+            window.location.replace(url);
+        });
+
+    });
+
+})(jQuery);

@@ -7,7 +7,6 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 	{
 		add_filter('stm-lms-payment-methods', 'STM_Custom_LMS_Cart::stm_lms_payment_methods');
 		add_filter('wpcfto_field_payments', 'STM_Custom_LMS_Cart::stm_lms_settings_payment_methods');
-
 		remove_action('wp_ajax_stm_lms_add_to_cart', 'STM_LMS_Cart::add_to_cart');
 		remove_action('wp_ajax_nopriv_stm_lms_add_to_cart', 'STM_LMS_Cart::add_to_cart');
 		add_action('wp_ajax_stm_lms_add_to_cart', 'STM_Custom_LMS_Cart::stm_add_to_cart');
@@ -30,14 +29,13 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 	{
 
 		check_ajax_referer('stm_lms_add_to_cart', 'nonce');
-
 		if (!is_user_logged_in() or empty($_GET['item_id'])) die;
-
 		$item_id = intval($_GET['item_id']);
+		$plan_id = intval($_GET['plan_id']);
 		$user = STM_LMS_User::get_current_user();
 		$user_id = $user['id'];
- 		stm_lms_get_delete_cart_items($user_id);
-		$r = self::_add_to_cart($item_id, $user_id);
+		stm_lms_get_delete_cart_items($user_id);
+		$r = STM_Custom_LMS_Cart::_add_to_cart($item_id, $user_id, $plan_id);
 		$payment_method = (!empty($_REQUEST['payment_code'])) ? sanitize_text_field($_REQUEST['payment_code']) : false;
 		if ($payment_method) {
 			$r = self::payment_processing($payment_method);
@@ -54,13 +52,10 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 		$user = STM_LMS_User::get_current_user();
 		if (empty($user['id'])) die;
 		$user_id = $user['id'];
-
 		$payment_code = (!empty($_GET['payment_code'])) ? sanitize_text_field($_GET['payment_code']) : '';
-
 		$r = array(
 			'status' => 'success'
 		);
-
 		if (empty($payment_code)) {
 			$r = array(
 				'status' => 'error',
@@ -68,11 +63,9 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			);
 			return $r;
 		}
-
 		$cart_items = stm_lms_get_cart_items($user_id, apply_filters('stm_lms_cart_items_fields', array('item_id', 'price')));
 		$cart_total = STM_LMS_Cart::get_cart_totals($cart_items);
 		$symbol = STM_LMS_Options::get_option('currency_symbol', 'none');
-
 		/*Create ORDER*/
 		$invoice = STM_LMS_Order::create_order([
 			"user_id" => $user_id,
@@ -81,9 +74,7 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			"_order_total" => $cart_total['total'],
 			"_order_currency" => $symbol
 		], true);
-
 		do_action('order_created', $user_id, $cart_items, $payment_code, $invoice);
-
 		/*If Paypal*/
 		if ($payment_code == 'paypal') {
 			$r = self::paypal_payment($cart_total, $invoice, $user_id, $user);
@@ -103,6 +94,45 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 		$r['text'] = $r['message'];
 		return $r;
 	}
+
+	static function _add_to_cart($item_id, $user_id, $plan_id=null)
+	{
+
+		$r = array();
+		$not_salebale = get_post_meta($item_id, 'not_single_sale', true);
+		if ($not_salebale) die;
+		$item_meta = STM_LMS_Helpers::parse_meta_field($item_id);
+		$quantity = 1;
+		$prices_by_plan[1] = 1500000;
+		$prices_by_plan[2] = 1900000;
+		$item_meta['price']=(!empty($prices_by_plan[$plan_id]))?$prices_by_plan[$plan_id]:$item_meta['price'];
+		$price = STM_Custom_LMS_Cart::get_course_price($item_meta, $plan_id);
+		$is_woocommerce = STM_LMS_Cart::woocommerce_checkout_enabled();
+		$item_added = count(stm_lms_get_item_in_cart($user_id, $item_id, array('user_cart_id')));
+		if (!$item_added) {
+			stm_lms_add_user_cart(compact('user_id', 'item_id', 'quantity', 'price'));
+		}
+		if (!$is_woocommerce) {
+			$r['text'] = esc_html__('Go to Cart', 'masterstudy-lms-learning-management-system');
+			$r['cart_url'] = esc_url(STM_LMS_Cart::checkout_url());
+		} else {
+			$r['added'] = STM_LMS_Woocommerce::add_to_cart($item_id);
+			$r['text'] = esc_html__('Go to Cart', 'masterstudy-lms-learning-management-system');
+			$r['cart_url'] = esc_url(wc_get_cart_url());
+		}
+		$r['redirect'] = STM_LMS_Options::get_option('redirect_after_purchase', false);
+		return apply_filters('stm_lms_add_to_cart_r', $r, $item_id);
+	}
+
+	public static function get_course_price($course_meta, $plan_id = null)
+    {
+        $price = 0;
+        if (!empty($course_meta['price'])) $price = $course_meta['price'];
+        if (!empty($course_meta['sale_price'])) {
+            $price = apply_filters('stm_lms_sale_price_meta', $course_meta['sale_price'], $course_meta, $price);
+        }
+        return apply_filters('stm_lms_get_course_price_in_meta', $price, $course_meta);
+    }
 
 	public static function paypal_payment($cart_total, $invoice, $user_id, $user)
 	{
@@ -128,28 +158,21 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 				or empty($payment['stripe']['fields'])
 				or empty($payment['stripe']['fields']['secret_key'])
 			) die;
-
 			$sk_key = $payment['stripe']['fields']['secret_key'];
-
 			$headers = array(
 				'Authorization' => 'Bearer ' . $sk_key,
 			);
-
 			$currency = (!empty($payment['stripe']['fields']['currency'])) ? $payment['stripe']['fields']['currency'] : 'usd';
-
 			$increment = apply_filters('masterstudy_payment_increment', 100);
-
 			$args = array(
 				'source' => $_GET['token_id'],
 				'amount' => floatval($cart_total['total']) * $increment,
 				'description' => sprintf(esc_html__('%s. Order key: %s', 'masterstudy-lms-learning-management-system'), $cart_total['item_name'], get_the_title($invoice)),
 				'currency' => $currency,
 			);
-
 			$req = wp_remote_post($url, array('headers' => $headers, 'body' => $args));
 			$req = wp_remote_retrieve_body($req);
 			$req = json_decode($req, true);
-
 			/*Check if paid*/
 			$r['message'] = esc_html__('Tolovga otish', 'masterstudy-lms-learning-management-system');
 			if (!empty($req['paid']) and !empty($req['amount']) and $req['amount'] == $cart_total['total'] * $increment) {
@@ -196,7 +219,6 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 			'user_email' => $user['email'],
 			'phone' => $user['phone']
 		];
-
 		$form = apply_filters('get_click_form', $cart_total['total'], $invoice, $cart_total['item_name'], $user['email'], $user['phone']);
 		$r['form_html'] = $form;
 		$r['message'] = esc_html__("Tolovga otish", 'masterstudy-child');
@@ -240,7 +262,6 @@ class STM_Custom_LMS_Cart extends STM_LMS_Cart
 				$order[$meta_key] = get_post_meta($order_id, $meta_key, true);
 			}
 		}
-
 		return $order;
 	}
 

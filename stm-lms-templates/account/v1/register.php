@@ -86,9 +86,12 @@ endif;
                 </div>
             </div>
         </div>
-        <div class="row additional-fields" v-if="additionalRegisterFields.length"
+        <div class="row additional-fields"  :class="field.label == 'Tajribam' || field.label == 'Ingliz tili darajasi' ? field.label  == 'Ingliz tili darajasi' ? 'col-md-6 col-md-6i' : 'col-md-6' : ''"
+
+             v-if="additionalRegisterFields.length"
              v-for="(field, index) in additionalRegisterFields">
-            <div class="col-md-12">
+
+            <div  :class="field.label == 'Tajribam' || field.label == 'Ingliz tili darajasi' ? 'cols-h' : 'col-md-12'">
                 <div class="form-group">
                     <label class="heading_font" v-if="typeof field.label !== 'undefined'" v-html="field.label"></label>
 
